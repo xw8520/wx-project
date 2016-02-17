@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com"/>
+    <!--<context:property-placeholder location="classpath:jdbc.properties"/>-->
+    <!--<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"-->
+          <!--destroy-method="close">-->
+        <!--<property name="driverClassName" value="${jdbc.driver}"/>-->
+        <!--<property name="url" value="${jdbc.url}"/>-->
+        <!--<property name="username" value="${jdbc.username}"/>-->
+        <!--<property name="password" value="${jdbc.password}"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--<property name="mapperLocations"-->
+                  <!--value="classpath:Mappers/*Mapper.xml"/>-->
+        <!--<property name="typeAliasesPackage" value="com.domain"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="blogMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--<property name="mapperInterface"-->
+                  <!--value="com.data.BlogMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
+        <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 引用ehCache的配置 &ndash;&gt;-->
+    <!--<bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+        <!--<property name="configLocation">-->
+            <!--<value>classpath:ehcache.xml</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 定义ehCache的工厂，并设置所使用的Cache name &ndash;&gt;-->
+    <!--<bean id="ehCache" class="com.cache.impl.EhCacheManagerImpl">-->
+        <!--<property name="cacheManager">-->
+            <!--<ref local="defaultCacheManager"/>-->
+        <!--</property>-->
+        <!--<property name="cacheName">-->
+            <!--<value>localCache</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+</beans>
