@@ -22,7 +22,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations"
-                  value="classpath:Mappers/*Mapper.xml"/>
+                  value="classpath:Mappers/blogMapper.xml"/>
         <property name="typeAliasesPackage" value="com.domain"/>
     </bean>
 
@@ -31,9 +31,9 @@
                   value="com.data.BlogMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-    <!--<bean id="blogService" class="com.service.BlogServiceImpl">-->
-        <!--<property name=""></property>-->
-    <!--</bean>-->
+    <bean id="blogService" class="com.service.BlogServiceImpl">
+        <property name="blogMapper" ref="blogMapper"></property>
+    </bean>
     <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
         <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
     <!--</bean>-->

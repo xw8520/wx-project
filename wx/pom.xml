@@ -17,6 +17,7 @@
         <module>wx-domain</module>
         <module>wx-dto</module>
         <module>wx-core</module>
+        <module>wx-test</module>
     </modules>
     <properties>
         <project.build.jdkVersion>1.8</project.build.jdkVersion>
