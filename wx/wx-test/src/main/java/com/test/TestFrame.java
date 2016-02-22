@@ -1,6 +1,6 @@
 package com.test;
 
-import com.dto.token.AccessToken;
+import com.dto.token.TokenDto;
 import com.service.AccessTokenService;
 import junit.framework.TestCase;
 import org.apache.http.HttpEntity;
@@ -31,8 +31,8 @@ public class TestFrame extends TestCase {
     public void testMybatis() throws IOException {
 
         AccessTokenService blogService = (AccessTokenService) context.getBean("accessTokenService");
-        AccessToken token = blogService.getAccessToken(1);
-        System.out.println("AccessToken:" + token.getAccess_token());
+        TokenDto token = blogService.getAccessToken(1);
+        System.out.println("TokenDto:" + token.getAccess_token());
     }
 
     public void testPostBlog() throws IOException {

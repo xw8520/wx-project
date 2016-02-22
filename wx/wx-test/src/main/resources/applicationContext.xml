@@ -37,40 +37,46 @@
                   value="com.data.AccountMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+    <bean id="accessTokenMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.AccessTokenMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
     <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
     <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
     <!--</bean>-->
-    <!--&lt;!&ndash; 引用ehCache的配置 &ndash;&gt;-->
-    <!--<bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
-    <!--<property name="configLocation">-->
-    <!--<value>classpath:ehcache.xml</value>-->
-    <!--</property>-->
-    <!--</bean>-->
-    <!--&lt;!&ndash; 定义ehCache的工厂，并设置所使用的Cache name &ndash;&gt;-->
-    <!--<bean id="ehCache" class="com.cache.impl.EhCacheManagerImpl">-->
-    <!--<property name="cacheManager">-->
-    <!--<ref local="defaultCacheManager"/>-->
-    <!--</property>-->
-    <!--<property name="cacheName">-->
-    <!--<value>localCache</value>-->
-    <!--</property>-->
-    <!--</bean>-->
+    <!-- 引用ehCache的配置 -->
+    <bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation">
+            <value>classpath:ehcache.xml</value>
+        </property>
+    </bean>
+    <!-- 定义ehCache的工厂，并设置所使用的Cache name -->
+    <bean id="ehCacheManager" class="com.cache.impl.EhCacheManagerImpl">
+        <property name="cacheManager">
+            <ref local="defaultCacheManager"/>
+        </property>
+        <property name="cacheName">
+            <value>localCache</value>
+        </property>
+    </bean>
 
-    <!--<bean id="helloword" class="com.service.webservice.RestTestServiceImpl"></bean>-->
-    <!--<jaxrs:server id="logisticsApiServiceContainer">-->
-        <!--<jaxrs:serviceBeans>-->
-            <!--<ref bean="helloword"/>-->
-        <!--</jaxrs:serviceBeans>-->
-        <!--<jaxrs:providers>-->
-            <!--<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"></bean>-->
-        <!--</jaxrs:providers>-->
-        <!--<jaxrs:extensionMappings>-->
-            <!--<entry key="json" value="application/json"/>-->
-            <!--<entry key="xml" value="application/xml"/>-->
-        <!--</jaxrs:extensionMappings>-->
+    <bean id="wxbind" class="com.impl.WxBindServiceImpl"></bean>
+    <bean id="accessToken" class="com.impl.AccessTokenServiceImpl"/>
+    <jaxrs:server id="logisticsApiServiceContainer">
+        <jaxrs:serviceBeans>
+            <ref bean="wxbind"/>
+            <ref bean="accessToken"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"></bean>
+        </jaxrs:providers>
+        <jaxrs:extensionMappings>
+            <entry key="json" value="application/json"/>
+            <entry key="xml" value="application/xml"/>
+        </jaxrs:extensionMappings>
 
-        <!--<jaxrs:languageMappings>-->
-            <!--<entry key="cn" value="cn-ZH" />-->
-        <!--</jaxrs:languageMappings>-->
-    <!--</jaxrs:server>-->
+        <jaxrs:languageMappings>
+            <entry key="cn" value="cn-ZH"/>
+        </jaxrs:languageMappings>
+    </jaxrs:server>
 </beans>

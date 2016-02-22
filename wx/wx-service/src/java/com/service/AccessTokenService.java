@@ -1,6 +1,6 @@
 package com.service;
 
-import com.dto.token.AccessToken;
+import com.dto.token.TokenDto;
 
 import java.io.IOException;
 
@@ -13,5 +13,5 @@ public interface AccessTokenService {
      * @param account
      * @return
      */
-    AccessToken getAccessToken(int account) throws IOException;
+    TokenDto getAccessToken(int account) throws IOException;
 }

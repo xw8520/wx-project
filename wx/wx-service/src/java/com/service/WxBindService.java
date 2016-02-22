@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Admin on 2016/2/21.
@@ -16,5 +17,5 @@ public interface WxBindService {
     String Reply(@QueryParam("signature") String signature,
                  @QueryParam("timestamp") String timestamp,
                  @QueryParam("nonce")String nonce,
-                 @QueryParam("echostr") String echostr);
+                 @QueryParam("echostr") String echostr) throws NoSuchAlgorithmException;
 }
