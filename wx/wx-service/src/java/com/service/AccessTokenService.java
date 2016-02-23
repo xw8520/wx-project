@@ -1,6 +1,6 @@
 package com.service;
 
-import com.dto.token.TokenDto;
+import com.dto.wx.TokenDto;
 
 import java.io.IOException;
 

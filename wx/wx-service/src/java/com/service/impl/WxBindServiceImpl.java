@@ -1,4 +1,4 @@
-package com.impl;
+package com.service.impl;
 
 import com.service.WxBindService;
 import com.utils.SHA1;

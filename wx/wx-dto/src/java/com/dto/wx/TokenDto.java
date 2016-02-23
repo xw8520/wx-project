@@ -1,4 +1,4 @@
-package com.dto.token;
+package com.dto.wx;
 
 /**
  * Created by Admin on 2016/2/21.

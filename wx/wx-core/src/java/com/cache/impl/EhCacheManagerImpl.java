@@ -10,7 +10,7 @@ import net.sf.ehcache.Element;
  */
 public class EhCacheManagerImpl implements EhCacheManager {
 
-    private CacheManager cacheManager;
+    private net.sf.ehcache.CacheManager cacheManager;
 
     public String getCacheName() {
         return cacheName;

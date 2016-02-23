@@ -1,19 +1,26 @@
 package com.test;
 
-import com.dto.token.TokenDto;
+import com.dto.wx.TokenDto;
 import com.service.AccessTokenService;
+import com.service.WxServerIpService;
 import junit.framework.TestCase;
 import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Admin on 2016/2/18.
@@ -22,9 +29,9 @@ public class TestFrame extends TestCase {
     ClassPathXmlApplicationContext context = null;
 
     public void setUp() {
-        context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        context.start();
+//        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//
+//        context.start();
     }
 
 
@@ -35,12 +42,21 @@ public class TestFrame extends TestCase {
         System.out.println("TokenDto:" + token.getAccess_token());
     }
 
-    public void testPostBlog() throws IOException {
-        String url = "http://192.168.1.102:8080/services/postBlog?id=2&_type=json";
+    public void testWxServiceIps() throws IOException {
+
+        WxServerIpService wxServerIpService = (WxServerIpService) context.getBean("wxServerIpService");
+        wxServerIpService.getWxServerIp(1);
+    }
+
+    public void testPost() throws IOException {
+        String url = "http://tdlz68zf6v.proxy.qqbrowser.cc/WeChatService/Reply";
         HttpClient client = HttpClients.createDefault();
 
         HttpPost post = new HttpPost(url);
-        StringEntity param = new StringEntity("");
+//        StringEntity param = new StringEntity("<xml>1123456</xml>");
+        List<NameValuePair> kv = new ArrayList<NameValuePair>();
+        kv.add(new BasicNameValuePair("name", "value"));
+        HttpEntity param = new UrlEncodedFormEntity(kv);
         post.setEntity(param);
 //        post.addHeader("Accept", "application/json");
         CloseableHttpResponse response = (CloseableHttpResponse)
@@ -52,7 +68,7 @@ public class TestFrame extends TestCase {
         }
     }
 
-    public void testGetBlog() throws IOException {
+    public void testGet() throws IOException {
         HttpClient client = HttpClients.createDefault();
 
         HttpGet get = new HttpGet("http://192.168.1.102:8080/services/getBlog?id=1");

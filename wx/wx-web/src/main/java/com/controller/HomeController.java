@@ -1,7 +1,6 @@
 package com.controller;
 
 
-import com.dto.token.TokenDto;
 import com.service.AccessTokenService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ public class HomeController {
 
     @RequestMapping(value = {"index.html", "home/index.html"})
     public ModelAndView index() throws IOException {
-        TokenDto dto = accessTokenService.getAccessToken(1);
+//        TokenDto dto = accessTokenService.getAccessToken(1);
         ModelAndView view = new ModelAndView("home/index");
         return view;
     }
