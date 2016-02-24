@@ -13,7 +13,6 @@ public class QrCode implements Serializable {
     private Date createtime;
     private Date expiredtime;
     private String ticket;
-    private String url;
 
     public String getTicket() {
         return ticket;
@@ -21,14 +20,6 @@ public class QrCode implements Serializable {
 
     public void setTicket(String ticket) {
         this.ticket = ticket;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public int getId() {

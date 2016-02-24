@@ -36,7 +36,7 @@ public class WxMessageServiceImpl implements WxMessageService {
         return body;
     }
 
-    @Override
+
     public String reply(String signature, String timestamp, String nonce, String echostr)
             throws NoSuchAlgorithmException {
         System.out.println("signature:" + signature);
@@ -48,9 +48,9 @@ public class WxMessageServiceImpl implements WxMessageService {
         return "";
     }
 
-    @Override
+
     public List<String> getWxServerIp(int accountId) throws IOException {
-        String url = WxConfig.getWxConfig("wx.wxserveripservice");
+        String url = WxConfig.getInstance().getWxConfig("wx.wxserveripservice");
         TokenDto token = accessTokenService.getAccessToken(accountId);
         url = String.format(url, token.getAccess_token());
         String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
@@ -61,16 +61,17 @@ public class WxMessageServiceImpl implements WxMessageService {
                 : new ArrayList<String>();
     }
 
-    @Override
+
     public String getQrCode(String param, int expireTime, int accountId) throws Exception {
         if (StringUtils.isEmpty(param)) return "";
         QrCode code = qrCodeMapper.getCodeByParam(param);
-        String qrcodeUrl = WxConfig.getWxConfig("wx.getqrcode");
+        String qrcodeUrl = WxConfig.getInstance().getWxConfig("wx.getqrcode");
         if (code != null && code.getExpiredtime().after(new Date())) {
             return String.format(qrcodeUrl, code.getTicket());
         }
-        String ticketUrl = WxConfig.getWxConfig("wx.createticket");
-        ticketUrl = String.format(ticketUrl, accessTokenService.getAccessToken(accountId));
+        String ticketUrl = WxConfig.getInstance().getWxConfig("wx.createticket");
+        TokenDto token = accessTokenService.getAccessToken(accountId);
+        ticketUrl = String.format(ticketUrl, token.getAccess_token());
         int p = 0;
         String ticket = "";
         try {

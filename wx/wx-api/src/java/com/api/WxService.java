@@ -11,8 +11,7 @@ public interface WxService {
 
     @POST
     @Path("/reply")
-    @Consumes("application/x-www-form-urlencoded")
-    String reply(@FormParam("name") String name);
+    String reply(String body);
 
     @GET
     @Path("/reply")
