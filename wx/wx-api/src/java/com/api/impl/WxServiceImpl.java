@@ -1,9 +1,10 @@
 package com.api.impl;
 
 import com.api.WxService;
-import com.service.WxMsgService;
+import com.service.WxMessageService;
 
 import javax.annotation.Resource;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Admin on 2016/2/23.
@@ -11,10 +12,15 @@ import javax.annotation.Resource;
 public class WxServiceImpl implements WxService {
 
     @Resource
-    WxMsgService wxMsgService;
+    WxMessageService wxMsgService;
 
 
-    public String Reply(String body) {
-        return wxMsgService.Reply(body);
+    public String reply(String body) {
+        return wxMsgService.reply(body);
+    }
+
+    @Override
+    public String reply(String signature, String timestamp, String nonce, String echostr) throws NoSuchAlgorithmException {
+        return wxMsgService.reply(signature, timestamp, nonce, echostr);
     }
 }

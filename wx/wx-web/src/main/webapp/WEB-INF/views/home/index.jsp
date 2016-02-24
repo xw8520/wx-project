@@ -13,5 +13,6 @@
 </head>
 <body>
 title111
+${requestScope.code}
 </body>
 </html>

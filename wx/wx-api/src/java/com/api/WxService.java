@@ -1,7 +1,7 @@
 package com.api;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.MultivaluedMap;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Admin on 2016/2/23.
@@ -10,7 +10,15 @@ import javax.ws.rs.core.MultivaluedMap;
 public interface WxService {
 
     @POST
-    @Path("/Reply")
+    @Path("/reply")
     @Consumes("application/x-www-form-urlencoded")
-    String Reply(@FormParam("name") String name);
+    String reply(@FormParam("name") String name);
+
+    @GET
+    @Path("/reply")
+    @Produces("text/plain")
+    String reply(@QueryParam("signature") String signature,
+                 @QueryParam("timestamp") String timestamp,
+                 @QueryParam("nonce") String nonce,
+                 @QueryParam("echostr") String echostr) throws NoSuchAlgorithmException;
 }
