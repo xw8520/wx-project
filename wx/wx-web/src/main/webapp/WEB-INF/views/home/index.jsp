@@ -9,10 +9,10 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>首页</title>
 </head>
 <body>
-title111
-${requestScope.code}
+<img src="${requestScope.code}"/>
+<a href="share.html">微信分享页面</a>
 </body>
 </html>

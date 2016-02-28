@@ -1,0 +1,51 @@
+package com.wxconfig;
+
+import com.utils.SHA1;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * Created by Admin on 2016/2/28.
+ */
+public class WxUtils {
+
+    public static Map<String, String> sign(String jsapi_ticket, String url) {
+        Map<String, String> ret = new HashMap<String, String>();
+        String nonce_str = create_nonce_str();
+        String timestamp = create_timestamp();
+        String string1;
+        String signature = "";
+
+        //注意这里参数名必须全部小写，且必须有序
+        string1 = "jsapi_ticket=" + jsapi_ticket +
+                "&noncestr=" + nonce_str +
+                "&timestamp=" + timestamp +
+                "&url=" + url;
+        System.out.println(string1);
+
+        try {
+            signature = SHA1.genStr(string1);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        ret.put("nonceStr", nonce_str);
+        ret.put("timestamp", timestamp);
+        ret.put("signature", signature);
+
+        return ret;
+    }
+
+    private static String create_nonce_str() {
+        return UUID.randomUUID().toString();
+    }
+
+    private static String create_timestamp() {
+        return Long.toString(System.currentTimeMillis() / 1000);
+    }
+}

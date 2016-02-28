@@ -1,7 +1,12 @@
 package com.service.impl;
 
+import com.data.AccountMapper;
+import com.data.JsapiticketMapper;
 import com.data.QrCodeMapper;
+import com.domain.wx.Account;
+import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
+import com.dto.wx.JsapiticketDto;
 import com.dto.wx.QrCodeTicketRespDto;
 import com.dto.wx.TokenDto;
 import com.dto.wx.WxServiceIpsDto;
@@ -12,8 +17,10 @@ import com.utils.HttpUtils;
 import com.utils.JsonUtils;
 import com.utils.SHA1;
 import com.wxconfig.WxConfig;
+import com.wxconfig.WxUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import sun.util.resources.cldr.aa.CalendarData_aa_ER;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -30,6 +37,10 @@ public class WxMessageServiceImpl implements WxMessageService {
     AccessTokenService accessTokenService;
     @Resource
     QrCodeMapper qrCodeMapper;
+    @Resource
+    AccountMapper accountMapper;
+    @Resource
+    JsapiticketMapper jsapiticketMapper;
 
     public String reply(String body) {
         System.out.println(body);
@@ -48,9 +59,8 @@ public class WxMessageServiceImpl implements WxMessageService {
         return "";
     }
 
-
     public List<String> getWxServerIp(int accountId) throws IOException {
-        String url = WxConfig.getInstance().getWxConfig("wx.wxserveripservice");
+        String url = WxConfig.getInstance().getWxserveripservice();
         TokenDto token = accessTokenService.getAccessToken(accountId);
         url = String.format(url, token.getAccess_token());
         String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
@@ -61,15 +71,14 @@ public class WxMessageServiceImpl implements WxMessageService {
                 : new ArrayList<String>();
     }
 
-
     public String getQrCode(String param, int expireTime, int accountId) throws Exception {
         if (StringUtils.isEmpty(param)) return "";
         QrCode code = qrCodeMapper.getCodeByParam(param);
-        String qrcodeUrl = WxConfig.getInstance().getWxConfig("wx.getqrcode");
+        String qrcodeUrl = WxConfig.getInstance().getQrcode();
         if (code != null && code.getExpiredtime().after(new Date())) {
             return String.format(qrcodeUrl, code.getTicket());
         }
-        String ticketUrl = WxConfig.getInstance().getWxConfig("wx.createticket");
+        String ticketUrl = WxConfig.getInstance().getQrticket();
         TokenDto token = accessTokenService.getAccessToken(accountId);
         ticketUrl = String.format(ticketUrl, token.getAccess_token());
         int p = 0;
@@ -83,9 +92,9 @@ public class WxMessageServiceImpl implements WxMessageService {
             p = -1;
         }
         if (p == -1) {
-            ticket = getTicket(p, expireTime, ticketUrl);
+            ticket = getTicket(p, expireTime, ticketUrl, accountId);
         } else {
-            ticket = getTicket(param, ticketUrl);
+            ticket = getTicket(param, ticketUrl, accountId);
         }
         if (StringUtils.isEmpty(ticket)) {
             throw new Exception("获取ticket失败");
@@ -93,8 +102,47 @@ public class WxMessageServiceImpl implements WxMessageService {
         return String.format(qrcodeUrl, ticket);
     }
 
+    public String getJsapiticket(int accountId) throws Exception {
 
-    private String getTicket(int param, int expireTime, String url) throws Exception {
+        Jsapiticket ticket = jsapiticketMapper.getTicketByAccount(accountId);
+        if (ticket != null && ticket.getExpiredtime().after(new Date())) {
+            return ticket.getTicket();
+        }
+
+        Account account = accountMapper.getAccountById(accountId);
+        if (account == null) {
+            throw new Exception("获取微信账户失败");
+        }
+        TokenDto token = accessTokenService.getAccessToken(accountId);
+        if (token == null || !StringUtils.isEmpty(token.getErrcode())) {
+            throw new Exception("获取token失败");
+        }
+        String url = WxConfig.getInstance().getJsapiticket();
+        url = String.format(url, token.getAccess_token());
+        String str = HttpUtils.doGet(url, AcceptTypeEnum.json);
+        JsapiticketDto dto = JsonUtils.Deserialize(str, JsapiticketDto.class);
+        if (dto == null || dto.getErrcode() != 0) {
+            throw new Exception("ticket");
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, dto.getExpires_in());
+        ticket = new Jsapiticket(accountId, dto.getTicket(), calendar.getTime());
+        jsapiticketMapper.addTicket(ticket);
+        return ticket.getTicket();
+    }
+
+    public Map<String, String> getJsapiSignPackage(int accountid, String url) throws Exception {
+        String ticket = getJsapiticket(accountid);
+        if (StringUtils.isEmpty(ticket)) {
+            throw new Exception("获取ticket失败");
+        }
+        Map<String, String> map = WxUtils.sign(ticket, url);
+        Account account = accountMapper.getAccountById(accountid);
+        map.put("appid", account.getAppid());
+        return map;
+    }
+
+    private String getTicket(int param, int expireTime, String url, int accountid) throws Exception {
         String str;
         //永久二维码
         if (expireTime == 0) {
@@ -122,13 +170,14 @@ public class WxMessageServiceImpl implements WxMessageService {
             code.setExpiredtime(calendar.getTime());
             code.setTicket(result.getTicket());
             code.setCreatetime(new Date());
+            code.setAccountid(accountid);
             qrCodeMapper.addQrCode(code);
         }
 
         return result.getTicket();
     }
 
-    private String getTicket(String param, String url) throws Exception {
+    private String getTicket(String param, String url, int accountid) throws Exception {
         String str = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"" + param + "\"}}}";
         String json = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
         QrCodeTicketRespDto result = JsonUtils.Deserialize(json, QrCodeTicketRespDto.class);

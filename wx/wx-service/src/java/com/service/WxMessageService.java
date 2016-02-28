@@ -3,6 +3,7 @@ package com.service;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Admin on 2016/2/23.
@@ -40,4 +41,19 @@ public interface WxMessageService {
      * @return
      */
     String getQrCode(String param,int expireTime,int accountId) throws Exception;
+
+    /**
+     * 获取jsspi的通行证
+     * @param accountId
+     * @return
+     */
+    String getJsapiticket(int accountId) throws Exception;
+
+    /**
+     * 获取jsapi签名包
+     * @param accountid
+     * @param url
+     * @return
+     */
+    Map<String, String> getJsapiSignPackage(int accountid,String url) throws Exception;
 }

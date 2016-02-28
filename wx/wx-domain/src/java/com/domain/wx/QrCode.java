@@ -13,6 +13,15 @@ public class QrCode implements Serializable {
     private Date createtime;
     private Date expiredtime;
     private String ticket;
+    private int accountid;
+
+    public int getAccountid() {
+        return accountid;
+    }
+
+    public void setAccountid(int accountid) {
+        this.accountid = accountid;
+    }
 
     public String getTicket() {
         return ticket;

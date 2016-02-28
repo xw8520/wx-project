@@ -58,7 +58,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             return dto;
         }
         Account account = accountMapper.getAccountById(accountid);
-        String url = WxConfig.getInstance().getWxConfig("wx.accesstoken");
+        String url = WxConfig.getInstance().getAccesstoken();
         if (!StringUtils.isEmpty(url)) {
             url = String.format(url, account.getAppid(), account.getSecret());
             System.out.println("url:" + url);
