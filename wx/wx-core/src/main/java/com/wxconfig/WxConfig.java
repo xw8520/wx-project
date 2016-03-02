@@ -3,9 +3,7 @@ package com.wxconfig;
 
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInput;
 import java.util.Properties;
 
 /**
@@ -61,5 +59,13 @@ public class WxConfig {
 
     public String getJsapiticket(){
         return getValue("wx.jsapiticket");
+    }
+
+    public String getUserInfo(){
+        return getValue("wx.userinfo");
+    }
+
+    public String getUserinfoBatch(){
+        return getValue("wx.batchgetuserinfo");
     }
 }

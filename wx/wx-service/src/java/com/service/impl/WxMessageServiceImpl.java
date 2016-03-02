@@ -6,10 +6,7 @@ import com.data.QrCodeMapper;
 import com.domain.wx.Account;
 import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
-import com.dto.wx.JsapiticketDto;
-import com.dto.wx.QrCodeTicketRespDto;
-import com.dto.wx.TokenDto;
-import com.dto.wx.WxServiceIpsDto;
+import com.dto.wx.*;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
 import com.utils.AcceptTypeEnum;
@@ -20,7 +17,6 @@ import com.wxconfig.WxConfig;
 import com.wxconfig.WxUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import sun.util.resources.cldr.aa.CalendarData_aa_ER;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -140,6 +136,54 @@ public class WxMessageServiceImpl implements WxMessageService {
         Account account = accountMapper.getAccountById(accountid);
         map.put("appid", account.getAppid());
         return map;
+    }
+
+    @Override
+    public UserInfoDto getUserInfo(int accountid, String openid) throws Exception {
+        String url = WxConfig.getInstance().getUserInfo();
+        if (StringUtils.isEmpty(url)) {
+            throw new Exception("url未初始化");
+        }
+        TokenDto token = accessTokenService.getAccessToken(accountid);
+        if (token == null) {
+            throw new Exception("获取token失败");
+        }
+        String t = token.getAccess_token();
+        url = String.format(url, t, openid);
+        String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
+        if (StringUtils.isEmpty(json)) {
+            throw new Exception("获取用户信息失败");
+        }
+        UserInfoDto dto = JsonUtils.Deserialize(json, UserInfoDto.class);
+        return dto;
+    }
+
+    @Override
+    public List<UserInfoDto> getUserInfoBatch(int accountid, List<String> openids) throws Exception {
+        String url = WxConfig.getInstance().getUserInfo();
+        if (StringUtils.isEmpty(url)) {
+            throw new Exception("url未初始化");
+        }
+        TokenDto token = accessTokenService.getAccessToken(accountid);
+        if (token == null) {
+            throw new Exception("获取token失败");
+        }
+        String t = token.getAccess_token();
+        url = String.format(url, t);
+        GetUserInfoArgs args = new GetUserInfoArgs();
+        GetUserInfoArgs.UserInfoArg ui;
+        for (String item : openids) {
+            ui = args.new UserInfoArg(item, "zh-CN");
+            args.addUserInfoArg(ui);
+        }
+        String param = JsonUtils.Serialize(args);
+        String json = HttpUtils.doPost(url, param, AcceptTypeEnum.json);
+        if (StringUtils.isEmpty(json) || json.contains("errcode")) {
+            throw new Exception(json);
+        }
+        UserInfoListDto dto = JsonUtils.Deserialize(json, UserInfoListDto.class);
+
+        return dto != null ? dto.getUser_info_list() : new ArrayList<>();
     }
 
     private String getTicket(int param, int expireTime, String url, int accountid) throws Exception {

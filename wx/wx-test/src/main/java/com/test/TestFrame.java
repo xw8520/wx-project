@@ -1,8 +1,10 @@
 package com.test;
 
 import com.dto.wx.TokenDto;
+import com.dto.wx.UserInfoListDto;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
+import com.utils.JsonUtils;
 import junit.framework.TestCase;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -78,5 +80,11 @@ public class TestFrame extends TestCase {
             String json = EntityUtils.toString(entity, "UTF-8");
             System.out.println(json);
         }
+    }
+
+    public void testJsonDeSeralize() throws IOException {
+        String json = "{\"user_info_list\": [{\"subscribe\": 1,\"openid\": \"otvxTs4dckWG7imySrJd6jSi0CWE\",\"nickname\": \"iWithery\",\"sex\": 1,\"language\": \"zh_CN\",\"city\": \"Jieyang\",\"province\": \"Guangdong\",\"country\": \"China\",\"headimgurl\": \"http://wx.qlogo.cn/mmopen/xbIQx1GRqdvyqkMMhEaGOX802l1CyqMJNgUzKP8MeAeHFicRDSnZH7FY4XB7p8XHXIf6uJA2SCunTPicGKezDC4saKISzRj3nz/0\",\"subscribe_time\": 1434093047,\"unionid\": \"oR5GjjgEhCMJFyzaVZdrxZ2zRRF4\",\"remark\": \"\",\"groupid\": 0},{\"subscribe\": 0,\"openid\": \"otvxTs_JZ6SEiP0imdhpi50fuSZg\",\"unionid\": \"oR5GjjjrbqBZbrnPwwmSxFukE41U\"}]}";
+        UserInfoListDto dto = JsonUtils.Deserialize(json, UserInfoListDto.class);
+        System.out.println(dto != null);
     }
 }
