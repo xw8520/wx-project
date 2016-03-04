@@ -80,14 +80,14 @@ public class WxMessageServiceImpl implements WxMessageService {
         int p = 0;
         String ticket = "";
         try {
-            Integer.valueOf(param);
+            p = Integer.valueOf(param);
         } catch (Exception ex) {
             if (expireTime == 0) {
                 throw new Exception("参数错误");
             }
             p = -1;
         }
-        if (p == -1) {
+        if (expireTime != 0 && p != -1) {
             ticket = getTicket(p, expireTime, ticketUrl, accountId);
         } else {
             ticket = getTicket(param, ticketUrl, accountId);
