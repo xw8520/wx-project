@@ -1,6 +1,7 @@
 package com.controller;
 
 
+import com.dto.wx.UserInfoDto;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,9 +31,16 @@ public class HomeController {
 
     @RequestMapping(value = {"index.html", "home/index.html"})
     public ModelAndView index() throws Exception {
-        String code = wxMessageService.getQrCode("100",0, 1);
+        String code = wxMessageService.getQrCode("100", 0, 1);
         ModelAndView view = new ModelAndView("home/index");
         view.addObject("code", code);
+        UserInfoDto userInfo = wxMessageService.getUserInfo(1, "o8MXrsrWROJQIfXa2QH6jSKjnTj8");
+        view.addObject("userInfo", userInfo);
+        List<String> openids = new ArrayList<String>();
+        openids.add("o8MXrsrWROJQIfXa2QH6jSKjnTj8");
+        openids.add("o8MXrshC0FbiGaUidy2w6N9o0D5M");
+        List<UserInfoDto> list = wxMessageService.getUserInfoBatch(1, openids);
+        view.addObject("list", list);
         return view;
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 public class GetUserInfoArgs implements Serializable {
 
     public  GetUserInfoArgs(){
-        user_list=new ArrayList<>();
+        user_list=new ArrayList<UserInfoArg>();
     }
 
     public List<UserInfoArg> getUser_list() {

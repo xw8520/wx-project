@@ -87,7 +87,7 @@ public class HttpUtils {
             response = client.execute(get);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                return EntityUtils.toString(entity);
+                return EntityUtils.toString(entity, "UTF-8");
             }
         } catch (Exception ex) {
             ex.printStackTrace();

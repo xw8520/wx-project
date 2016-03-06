@@ -1,6 +1,9 @@
 package com.api;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -11,6 +14,7 @@ public interface WxService {
 
     @POST
     @Path("/reply")
+    @Produces("application/xml")
     String reply(String body);
 
     @GET

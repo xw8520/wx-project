@@ -9,16 +9,17 @@ import com.domain.wx.QrCode;
 import com.dto.wx.*;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
-import com.utils.AcceptTypeEnum;
-import com.utils.HttpUtils;
-import com.utils.JsonUtils;
-import com.utils.SHA1;
+import com.utils.*;
 import com.wxconfig.WxConfig;
 import com.wxconfig.WxUtils;
+import org.dom4j.Document;
+import org.dom4j.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -39,10 +40,24 @@ public class WxMessageServiceImpl implements WxMessageService {
     JsapiticketMapper jsapiticketMapper;
 
     public String reply(String body) {
-        System.out.println(body);
-        return body;
-    }
 
+        Document doc;
+        try {
+            if(StringUtils.isEmpty(body)){
+                return "";
+            }
+            doc= XmlParseUtils.getDocumentByXML(body);
+            String msgType=XmlParseUtils.getDocElementTextByPath(doc,"xml/MsgType");
+            if(msgType=="text"){
+                return "hello 自定义回复";
+            }
+        }
+        catch (Exception ex){
+
+        }
+
+        return "";
+    }
 
     public String reply(String signature, String timestamp, String nonce, String echostr)
             throws NoSuchAlgorithmException {
@@ -138,7 +153,6 @@ public class WxMessageServiceImpl implements WxMessageService {
         return map;
     }
 
-    @Override
     public UserInfoDto getUserInfo(int accountid, String openid) throws Exception {
         String url = WxConfig.getInstance().getUserInfo();
         if (StringUtils.isEmpty(url)) {
@@ -158,9 +172,8 @@ public class WxMessageServiceImpl implements WxMessageService {
         return dto;
     }
 
-    @Override
     public List<UserInfoDto> getUserInfoBatch(int accountid, List<String> openids) throws Exception {
-        String url = WxConfig.getInstance().getUserInfo();
+        String url = WxConfig.getInstance().getUserinfoBatch();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }
@@ -183,7 +196,7 @@ public class WxMessageServiceImpl implements WxMessageService {
         }
         UserInfoListDto dto = JsonUtils.Deserialize(json, UserInfoListDto.class);
 
-        return dto != null ? dto.getUser_info_list() : new ArrayList<>();
+        return dto != null ? dto.getUser_info_list() : new ArrayList<UserInfoDto>();
     }
 
     private String getTicket(int param, int expireTime, String url, int accountid) throws Exception {
