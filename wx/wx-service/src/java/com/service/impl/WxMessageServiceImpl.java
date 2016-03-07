@@ -43,16 +43,26 @@ public class WxMessageServiceImpl implements WxMessageService {
 
         Document doc;
         try {
-            if(StringUtils.isEmpty(body)){
+            if (StringUtils.isEmpty(body)) {
                 return "";
             }
-            doc= XmlParseUtils.getDocumentByXML(body);
-            String msgType=XmlParseUtils.getDocElementTextByPath(doc,"xml/MsgType");
-            if(msgType=="text"){
-                return "hello 自定义回复";
+            doc = XmlParseUtils.getDocumentByXML(body);
+            String msgType = XmlParseUtils.getDocElementTextByPath(doc, "xml/MsgType");
+            if (msgType.equals("text")) {
+                String from = XmlParseUtils.getDocElementTextByPath(doc, "xml/FromUserName");
+                String to = XmlParseUtils.getDocElementTextByPath(doc, "xml/ToUserName");
+                Long time = Calendar.getInstance().getTimeInMillis();
+                String msg = "<xml>\n" +
+                        "<ToUserName><![CDATA[%s]]></ToUserName>\n" +
+                        "<FromUserName><![CDATA[%s]]></FromUserName>\n" +
+                        "<CreateTime>%d</CreateTime>\n" +
+                        "<MsgType><![CDATA[text]]></MsgType>\n" +
+                        "<Content><![CDATA[你好]]></Content>\n" +
+                        "</xml>";
+                msg = String.format(msg, from, to, time);
+                return msg;
             }
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
 
         }
 

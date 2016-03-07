@@ -14,7 +14,7 @@ public interface WxService {
 
     @POST
     @Path("/reply")
-    @Produces("application/xml")
+//    @Produces("application/xml")
     String reply(String body);
 
     @GET
