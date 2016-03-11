@@ -8,6 +8,7 @@ import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
 import com.dto.wx.*;
 import com.service.AccessTokenService;
+import com.service.TextMessageService;
 import com.service.WxMessageService;
 import com.utils.*;
 import com.wxconfig.WxConfig;
@@ -38,6 +39,8 @@ public class WxMessageServiceImpl implements WxMessageService {
     AccountMapper accountMapper;
     @Resource
     JsapiticketMapper jsapiticketMapper;
+    @Resource
+    TextMessageService textMessageService;
 
     public String reply(String body) {
 
@@ -47,23 +50,14 @@ public class WxMessageServiceImpl implements WxMessageService {
                 return "";
             }
             doc = XmlParseUtils.getDocumentByXML(body);
-            String msgType = XmlParseUtils.getDocElementTextByPath(doc, "xml/MsgType");
+            ReceiveDto receive = new ReceiveDto(doc);
+            String msgType = receive.getMsgType();
             if (msgType.equals("text")) {
-                String from = XmlParseUtils.getDocElementTextByPath(doc, "xml/FromUserName");
-                String to = XmlParseUtils.getDocElementTextByPath(doc, "xml/ToUserName");
-                Long time = Calendar.getInstance().getTimeInMillis();
-                String msg = "<xml>\n" +
-                        "<ToUserName><![CDATA[%s]]></ToUserName>\n" +
-                        "<FromUserName><![CDATA[%s]]></FromUserName>\n" +
-                        "<CreateTime>%d</CreateTime>\n" +
-                        "<MsgType><![CDATA[text]]></MsgType>\n" +
-                        "<Content><![CDATA[你好]]></Content>\n" +
-                        "</xml>";
-                msg = String.format(msg, from, to, time);
+                String msg = textMessageService.getSimpleText(receive);
                 return msg;
             }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
 
         return "";

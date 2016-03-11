@@ -30,7 +30,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CXFService</servlet-name>
-        <url-pattern>/WeChatService/*</url-pattern>
+        <url-pattern>/WeChat/*</url-pattern>
     </servlet-mapping>
 
     <context-param>
