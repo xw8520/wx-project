@@ -6,12 +6,12 @@ import com.dto.wx.ReceiveDto;
  * Created by Admin on 2016/3/11.
  * 文本消息
  */
-public interface TextMessageService {
+public interface ReplyMessageService {
 
     /**
      * 回复普通文本消息
      * @param receive
      * @return
      */
-     String getSimpleText(ReceiveDto receive);
+     String getReplyMessage(ReceiveDto receive);
 }

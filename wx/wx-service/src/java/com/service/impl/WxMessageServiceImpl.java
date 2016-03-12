@@ -8,19 +8,16 @@ import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
 import com.dto.wx.*;
 import com.service.AccessTokenService;
-import com.service.TextMessageService;
+import com.service.WxMessageContext;
 import com.service.WxMessageService;
 import com.utils.*;
 import com.wxconfig.WxConfig;
 import com.wxconfig.WxUtils;
 import org.dom4j.Document;
-import org.dom4j.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -39,8 +36,6 @@ public class WxMessageServiceImpl implements WxMessageService {
     AccountMapper accountMapper;
     @Resource
     JsapiticketMapper jsapiticketMapper;
-    @Resource
-    TextMessageService textMessageService;
 
     public String reply(String body) {
 
@@ -52,8 +47,14 @@ public class WxMessageServiceImpl implements WxMessageService {
             doc = XmlParseUtils.getDocumentByXML(body);
             ReceiveDto receive = new ReceiveDto(doc);
             String msgType = receive.getMsgType();
+            //文本消息
             if (msgType.equals("text")) {
-                String msg = textMessageService.getSimpleText(receive);
+                String msg=new WxMessageContext(new TextMessageServiceImpl()).getReplyMessage(receive);
+                return msg;
+            }
+            //图片消息
+            if(msgType.equals("image")){
+                String msg=new WxMessageContext(new ImageMessageServiceImpl()).getReplyMessage(receive);
                 return msg;
             }
         } catch (Exception ex) {
