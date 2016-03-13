@@ -13,7 +13,7 @@ public class WxMessageContext {
         this.msgService = msgService;
     }
 
-    public String getReplyMessage(ReceiveDto receive) {
+    public String getReplyMessage(ReceiveDto receive) throws Exception {
         return msgService.getReplyMessage(receive);
     }
 }

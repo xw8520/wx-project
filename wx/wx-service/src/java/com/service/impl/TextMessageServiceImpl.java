@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 /**
  * Created by Admin on 2016/3/11.
- *文本消息
+ * 文本消息
  */
 public class TextMessageServiceImpl implements ReplyMessageService {
 
@@ -16,18 +16,12 @@ public class TextMessageServiceImpl implements ReplyMessageService {
     public String getReplyMessage(ReceiveDto receive) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
-        String msg = getTextMessage(from, to, "收到你的消息了");
+        String msg = formatReplyMessage(from, to, "收到你的消息了");
         return msg;
     }
 
-    /**
-     * 获取文本消息
-     * @param from
-     * @param to
-     * @param msg
-     * @return
-     */
-    public String getTextMessage(String from, String to, String msg) {
+    @Override
+    public String formatReplyMessage(String from, String to, Object obj) {
         String str = "<xml>\n" +
                 "<ToUserName><![CDATA[{0}]]></ToUserName>\n" +
                 "<FromUserName><![CDATA[{1}]]></FromUserName>\n" +
@@ -37,8 +31,7 @@ public class TextMessageServiceImpl implements ReplyMessageService {
                 "</xml>";
 
         Long time = Calendar.getInstance().getTimeInMillis();
-        MessageFormat format = new MessageFormat(str);
-        str = format.format(str, from, to, time, msg);
+        str = MessageFormat.format(str, from, to, time, obj);
         return str;
     }
 }

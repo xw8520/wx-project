@@ -47,16 +47,20 @@ public class WxMessageServiceImpl implements WxMessageService {
             doc = XmlParseUtils.getDocumentByXML(body);
             ReceiveDto receive = new ReceiveDto(doc);
             String msgType = receive.getMsgType();
-            //文本消息
-            if (msgType.equals("text")) {
-                String msg=new WxMessageContext(new TextMessageServiceImpl()).getReplyMessage(receive);
-                return msg;
-            }
-            //图片消息
-            if(msgType.equals("image")){
-                String msg=new WxMessageContext(new ImageMessageServiceImpl()).getReplyMessage(receive);
-                return msg;
-            }
+//            //文本消息
+//            if (msgType.equals("text")) {
+//                String msg=new WxMessageContext(new TextMessageServiceImpl()).getReplyMessage(receive);
+//                return msg;
+//            }
+//            //图片消息
+//            if(msgType.equals("image")){
+//                String msg=new WxMessageContext(new ImageMessageServiceImpl()).getReplyMessage(receive);
+//                return msg;
+//            }
+//            if(msgType.equals("news")){
+            String msg = new WxMessageContext(new NewsMessageServiceImpl()).getReplyMessage(receive);
+            return msg;
+//            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

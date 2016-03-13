@@ -3,6 +3,7 @@ package com.service.impl;
 import com.dto.wx.ReceiveDto;
 import com.service.ReplyMessageService;
 
+import java.text.MessageFormat;
 import java.util.Calendar;
 
 /**
@@ -13,30 +14,23 @@ public class ImageMessageServiceImpl implements ReplyMessageService {
     public String getReplyMessage(ReceiveDto receive) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
-        String msg = getImageMessage(to, from, 001);
+        String msg = formatReplyMessage(to, from, 001);
         return msg;
     }
 
-    /**
-     * 获取图片消息
-     *
-     * @param from
-     * @param to
-     * @param id
-     * @return
-     */
-    public String getImageMessage(String from, String to, int id) {
+    @Override
+    public String formatReplyMessage(String from, String to, Object obj) {
         String str = "<xml>\n" +
-                "<ToUserName><![CDATA[%s]]></ToUserName>\n" +
-                "<FromUserName><![CDATA[%s]]></FromUserName>\n" +
-                "<CreateTime>%d</CreateTime>\n" +
+                "<ToUserName><![CDATA[{0}]]></ToUserName>\n" +
+                "<FromUserName><![CDATA[{1}]]></FromUserName>\n" +
+                "<CreateTime>{2}</CreateTime>\n" +
                 "<MsgType><![CDATA[image]]></MsgType>\n" +
                 "<Image>\n" +
-                "<MediaId><![CDATA[%d]]></MediaId>\n" +
+                "<MediaId><![CDATA[{3}]]></MediaId>\n" +
                 "</Image>\n" +
                 "</xml>";
         Long time = Calendar.getInstance().getTimeInMillis();
-        str = String.format(str, from, to, time, id);
+        str =    MessageFormat.format(str, to, from, obj);
         return str;
     }
 }

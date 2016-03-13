@@ -13,5 +13,7 @@ public interface ReplyMessageService {
      * @param receive
      * @return
      */
-     String getReplyMessage(ReceiveDto receive);
+     String getReplyMessage(ReceiveDto receive) throws Exception;
+
+    String formatReplyMessage(String from, String to, Object obj) throws Exception;
 }

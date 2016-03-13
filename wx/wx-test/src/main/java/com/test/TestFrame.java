@@ -1,5 +1,6 @@
 package com.test;
 
+import com.dto.wx.NewsMessageItemDto;
 import com.dto.wx.TokenDto;
 import com.dto.wx.UserInfoListDto;
 import com.service.AccessTokenService;
@@ -21,7 +22,9 @@ import org.dom4j.Document;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -102,5 +105,40 @@ public class TestFrame extends TestCase {
         Document doc = XmlParseUtils.getDocumentByXML(xml);
         String msgType = XmlParseUtils.getDocElementTextByPath(doc, "xml/MsgType");
         System.out.println();
+    }
+
+    public void testStringFormate() {
+        List<NewsMessageItemDto> items = new ArrayList<>();
+        items.add(new NewsMessageItemDto("测试标题", "测试图文消息的描述",
+                "http://wxtest963.tunnel.qydev.com/static/image/news-big.jpg",
+                "http://wxtest963.tunnel.qydev.com/"));
+        items.add(new NewsMessageItemDto("测试标题", "测试图文消息的描述",
+                "http://wxtest963.tunnel.qydev.com/static/image/pic-small.jpg",
+                "http://wxtest963.tunnel.qydev.com/"));
+        int count = items.size();
+
+        String msg = "<xml>\n" +
+                "<ToUserName><![CDATA[{0}]]></ToUserName>\n" +
+                "<FromUserName><![CDATA[{1}]]></FromUserName>\n" +
+                "<CreateTime>{2}</CreateTime>\n" +
+                "<MsgType><![CDATA[news]]></MsgType>\n" +
+                "<ArticleCount>{3}</ArticleCount>\n" +
+                "<Articles>{4}" +
+                "</Articles>" +
+                "</xml> ";
+
+        String item = "<item>\n" +
+                "<Title><![CDATA[{%s]]></Title> \n" +
+                "<Description><![CDATA[{%s]]></Description>\n" +
+                "<PicUrl><![CDATA[{%s]]></PicUrl>\n" +
+                "<Url><![CDATA[%s]]></Url>\n" +
+                "</item>";
+        StringBuffer buffer = new StringBuffer();
+        for (NewsMessageItemDto s : items) {
+            buffer.append(String.format(item, s.getTitle(), s.getDesc(), s.getPicUrl(), s.getUrl()));
+        }
+        Long time = Calendar.getInstance().getTimeInMillis();
+        msg = MessageFormat.format(msg, "to", "from", time, count, buffer.toString());
+        System.out.println(msg);
     }
 }
