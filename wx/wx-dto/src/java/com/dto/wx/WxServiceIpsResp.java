@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Admin on 2016/2/23.
  */
-public class WxServiceIpsDto implements Serializable {
+public class WxServiceIpsResp implements Serializable {
     private String[] ip_list;
 
     public String[] getIp_list() {

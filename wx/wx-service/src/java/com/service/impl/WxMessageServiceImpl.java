@@ -45,7 +45,7 @@ public class WxMessageServiceImpl implements WxMessageService {
                 return "";
             }
             doc = XmlParseUtils.getDocumentByXML(body);
-            ReceiveDto receive = new ReceiveDto(doc);
+            ReceiveMsg receive = new ReceiveMsg(doc);
             String msgType = receive.getMsgType();
 //            //文本消息
 //            if (msgType.equals("text")) {
@@ -81,10 +81,10 @@ public class WxMessageServiceImpl implements WxMessageService {
 
     public List<String> getWxServerIp(int accountId) throws IOException {
         String url = WxConfig.getInstance().getWxserveripservice();
-        TokenDto token = accessTokenService.getAccessToken(accountId);
+        TokenResp token = accessTokenService.getAccessToken(accountId);
         url = String.format(url, token.getAccess_token());
         String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
-        WxServiceIpsDto ips = JsonUtils.Deserialize(json, WxServiceIpsDto.class);
+        WxServiceIpsResp ips = JsonUtils.Deserialize(json, WxServiceIpsResp.class);
 
         return ips != null && ips.getIp_list() != null
                 ? Arrays.asList(ips.getIp_list())
@@ -99,7 +99,7 @@ public class WxMessageServiceImpl implements WxMessageService {
             return String.format(qrcodeUrl, code.getTicket());
         }
         String ticketUrl = WxConfig.getInstance().getQrticket();
-        TokenDto token = accessTokenService.getAccessToken(accountId);
+        TokenResp token = accessTokenService.getAccessToken(accountId);
         ticketUrl = String.format(ticketUrl, token.getAccess_token());
         int p = 0;
         String ticket = "";
@@ -133,14 +133,14 @@ public class WxMessageServiceImpl implements WxMessageService {
         if (account == null) {
             throw new Exception("获取微信账户失败");
         }
-        TokenDto token = accessTokenService.getAccessToken(accountId);
+        TokenResp token = accessTokenService.getAccessToken(accountId);
         if (token == null || !StringUtils.isEmpty(token.getErrcode())) {
             throw new Exception("获取token失败");
         }
         String url = WxConfig.getInstance().getJsapiticket();
         url = String.format(url, token.getAccess_token());
         String str = HttpUtils.doGet(url, AcceptTypeEnum.json);
-        JsapiticketDto dto = JsonUtils.Deserialize(str, JsapiticketDto.class);
+        JsapiticketResp dto = JsonUtils.Deserialize(str, JsapiticketResp.class);
         if (dto == null || dto.getErrcode() != 0) {
             throw new Exception("ticket");
         }
@@ -162,12 +162,12 @@ public class WxMessageServiceImpl implements WxMessageService {
         return map;
     }
 
-    public UserInfoDto getUserInfo(int accountid, String openid) throws Exception {
+    public UserInfoResp getUserInfo(int accountid, String openid) throws Exception {
         String url = WxConfig.getInstance().getUserInfo();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }
-        TokenDto token = accessTokenService.getAccessToken(accountid);
+        TokenResp token = accessTokenService.getAccessToken(accountid);
         if (token == null) {
             throw new Exception("获取token失败");
         }
@@ -177,23 +177,23 @@ public class WxMessageServiceImpl implements WxMessageService {
         if (StringUtils.isEmpty(json)) {
             throw new Exception("获取用户信息失败");
         }
-        UserInfoDto dto = JsonUtils.Deserialize(json, UserInfoDto.class);
+        UserInfoResp dto = JsonUtils.Deserialize(json, UserInfoResp.class);
         return dto;
     }
 
-    public List<UserInfoDto> getUserInfoBatch(int accountid, List<String> openids) throws Exception {
+    public List<UserInfoResp> getUserInfoBatch(int accountid, List<String> openids) throws Exception {
         String url = WxConfig.getInstance().getUserinfoBatch();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }
-        TokenDto token = accessTokenService.getAccessToken(accountid);
+        TokenResp token = accessTokenService.getAccessToken(accountid);
         if (token == null) {
             throw new Exception("获取token失败");
         }
         String t = token.getAccess_token();
         url = String.format(url, t);
-        GetUserInfoArgs args = new GetUserInfoArgs();
-        GetUserInfoArgs.UserInfoArg ui;
+        GetUserInfoReq args = new GetUserInfoReq();
+        GetUserInfoReq.UserInfoArg ui;
         for (String item : openids) {
             ui = args.new UserInfoArg(item, "zh-CN");
             args.addUserInfoArg(ui);
@@ -203,9 +203,9 @@ public class WxMessageServiceImpl implements WxMessageService {
         if (StringUtils.isEmpty(json) || json.contains("errcode")) {
             throw new Exception(json);
         }
-        UserInfoListDto dto = JsonUtils.Deserialize(json, UserInfoListDto.class);
+        UserInfoListResp dto = JsonUtils.Deserialize(json, UserInfoListResp.class);
 
-        return dto != null ? dto.getUser_info_list() : new ArrayList<UserInfoDto>();
+        return dto != null ? dto.getUser_info_list() : new ArrayList<UserInfoResp>();
     }
 
     private String getTicket(int param, int expireTime, String url, int accountid) throws Exception {
@@ -217,7 +217,7 @@ public class WxMessageServiceImpl implements WxMessageService {
             str = "{\"expire_seconds\": " + expireTime + ", \"action_name\": \"QR_SCENE\", \"action_info\": {\"scene\": {\"scene_id\": " + param + "}}}";
         }
         String json = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
-        QrCodeTicketRespDto result = JsonUtils.Deserialize(json, QrCodeTicketRespDto.class);
+        QrCodeTicketResp result = JsonUtils.Deserialize(json, QrCodeTicketResp.class);
         if (result == null) return "";
         if (!StringUtils.isEmpty(result.getErrcode())) {
             throw new Exception(result.getErrmsg());
@@ -246,7 +246,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     private String getTicket(String param, String url, int accountid) throws Exception {
         String str = "{\"action_name\": \"QR_LIMIT_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\": \"" + param + "\"}}}";
         String json = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
-        QrCodeTicketRespDto result = JsonUtils.Deserialize(json, QrCodeTicketRespDto.class);
+        QrCodeTicketResp result = JsonUtils.Deserialize(json, QrCodeTicketResp.class);
         if (result == null) return "";
         if (!StringUtils.isEmpty(result.getErrcode())) {
             throw new Exception(result.getErrmsg());

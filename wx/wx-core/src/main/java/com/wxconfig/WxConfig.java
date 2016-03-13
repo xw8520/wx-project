@@ -68,4 +68,12 @@ public class WxConfig {
     public String getUserinfoBatch(){
         return getValue("wx.batchgetuserinfo");
     }
+
+    /**
+     * 临时素材上传接口
+     * @return
+     */
+    public String getTmpMediaUpload(){
+        return getValue("wx.tmpmediaupload");
+    }
 }

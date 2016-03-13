@@ -6,7 +6,7 @@ import com.data.AccessTokenMapper;
 import com.data.AccountMapper;
 import com.domain.wx.AccessToken;
 import com.domain.wx.Account;
-import com.dto.wx.TokenDto;
+import com.dto.wx.TokenResp;
 import com.service.AccessTokenService;
 import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
@@ -39,23 +39,23 @@ public class AccessTokenServiceImpl implements AccessTokenService {
      * @return
      * @throws IOException
      */
-    public TokenDto getAccessToken(int accountid) throws IOException {
-        TokenDto dto;
+    public TokenResp getAccessToken(int accountid) throws IOException {
+        TokenResp tokenResp;
         String key = String.format(EhKeys.accessTokenKey, accountid);
         AccessToken token = ehCacheManager.get(key, AccessToken.class);
         if (token != null && token.getExpiredtime().after(new Date())) {
-            dto = new TokenDto();
-            dto.setAccess_token(token.getToken());
+            tokenResp = new TokenResp();
+            tokenResp.setAccess_token(token.getToken());
             System.out.println("get token by cache");
-            return dto;
+            return tokenResp;
         }
         token = accessTokenMapper.getAccessTokenByAccount(accountid);
         if (token != null && token.getExpiredtime().after(new Date())) {
-            dto = new TokenDto();
-            dto.setAccess_token(token.getToken());
+            tokenResp = new TokenResp();
+            tokenResp.setAccess_token(token.getToken());
             Long seconds = token.getExpiredtime().getTime() - new Date().getTime();
             ehCacheManager.put(key, token, (int) (seconds/1000));
-            return dto;
+            return tokenResp;
         }
         Account account = accountMapper.getAccountById(accountid);
         String url = WxConfig.getInstance().getAccesstoken();
@@ -63,22 +63,22 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             url = String.format(url, account.getAppid(), account.getSecret());
             System.out.println("url:" + url);
             String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
-            dto = JsonUtils.Deserialize(json, TokenDto.class);
-            if (StringUtils.isEmpty(dto.getErrcode())) {
-                token = getAccessTokenByDto(dto, accountid);
-                ehCacheManager.put(key, token, dto.getExpires_in());
+            tokenResp = JsonUtils.Deserialize(json, TokenResp.class);
+            if (StringUtils.isEmpty(tokenResp.getErrcode())) {
+                token = getAccessTokenByDto(tokenResp, accountid);
+                ehCacheManager.put(key, token, tokenResp.getExpires_in());
                 accessTokenMapper.addAccessToken(token);
-                return dto;
+                return tokenResp;
             }
         }
-        return new TokenDto();
+        return new TokenResp();
     }
 
     /**
      * @param dto
      * @return
      */
-    private AccessToken getAccessTokenByDto(TokenDto dto, int accountId) {
+    private AccessToken getAccessTokenByDto(TokenResp dto, int accountId) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, dto.getExpires_in());
         AccessToken token = new AccessToken(accountId, dto.getAccess_token(),

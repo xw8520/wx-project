@@ -1,6 +1,6 @@
 package com.service;
 
-import com.dto.wx.ReceiveDto;
+import com.dto.wx.ReceiveMsg;
 
 /**
  * Created by Admin on 2016/3/12.
@@ -13,7 +13,7 @@ public class WxMessageContext {
         this.msgService = msgService;
     }
 
-    public String getReplyMessage(ReceiveDto receive) throws Exception {
+    public String getReplyMessage(ReceiveMsg receive) throws Exception {
         return msgService.getReplyMessage(receive);
     }
 }

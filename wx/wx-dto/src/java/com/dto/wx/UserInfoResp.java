@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by wangqing on 2016/3/2.
  * 获取用户信息
  */
-public class UserInfoDto implements Serializable {
+public class UserInfoResp implements Serializable {
     private int subscribe;
     private String openid;
     private String nickname;

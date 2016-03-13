@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by wangqing on 2016/2/24.
  */
-public class QrCodeTicketRespDto implements Serializable {
+public class QrCodeTicketResp implements Serializable {
     private String ticket;
     private int expire_seconds;
     private String errcode;

@@ -4,7 +4,7 @@ package com.dto.wx;
  * Created by Admin on 2016/2/21.
  * 刷新accesstoken 报文
  */
-public class TokenDto {
+public class TokenResp {
     private String access_token;
     private int expires_in;
     private String errcode;

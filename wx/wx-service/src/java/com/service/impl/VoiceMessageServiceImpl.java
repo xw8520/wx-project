@@ -1,6 +1,6 @@
 package com.service.impl;
 
-import com.dto.wx.ReceiveDto;
+import com.dto.wx.ReceiveMsg;
 import com.service.ReplyMessageService;
 
 import java.text.MessageFormat;
@@ -12,7 +12,7 @@ import java.util.Calendar;
  */
 public class VoiceMessageServiceImpl implements ReplyMessageService {
     @Override
-    public String getReplyMessage(ReceiveDto receive) {
+    public String getReplyMessage(ReceiveMsg receive) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
         String msg = formatReplyMessage(from, to, 001);

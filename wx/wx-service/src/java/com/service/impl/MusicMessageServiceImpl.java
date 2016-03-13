@@ -1,6 +1,6 @@
 package com.service.impl;
 
-import com.dto.wx.ReceiveDto;
+import com.dto.wx.ReceiveMsg;
 import com.service.ReplyMessageService;
 
 /**
@@ -8,7 +8,7 @@ import com.service.ReplyMessageService;
  */
 public class MusicMessageServiceImpl implements ReplyMessageService {
     @Override
-    public String getReplyMessage(ReceiveDto receive) {
+    public String getReplyMessage(ReceiveMsg receive) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
         return null;

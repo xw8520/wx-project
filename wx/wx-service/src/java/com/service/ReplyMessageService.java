@@ -1,6 +1,6 @@
 package com.service;
 
-import com.dto.wx.ReceiveDto;
+import com.dto.wx.ReceiveMsg;
 
 /**
  * Created by Admin on 2016/3/11.
@@ -13,7 +13,7 @@ public interface ReplyMessageService {
      * @param receive
      * @return
      */
-     String getReplyMessage(ReceiveDto receive) throws Exception;
+     String getReplyMessage(ReceiveMsg receive) throws Exception;
 
     String formatReplyMessage(String from, String to, Object obj) throws Exception;
 }

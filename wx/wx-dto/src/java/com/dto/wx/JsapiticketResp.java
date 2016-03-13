@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Admin on 2016/2/28.
  */
-public class JsapiticketDto implements Serializable {
+public class JsapiticketResp implements Serializable {
     private int errcode;
     private String errmsg;
     private String ticket;

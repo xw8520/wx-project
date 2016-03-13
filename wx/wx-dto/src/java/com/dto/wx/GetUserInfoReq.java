@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * Created by wangqing on 2016/3/2.
  */
-public class GetUserInfoArgs implements Serializable {
+public class GetUserInfoReq implements Serializable {
 
-    public  GetUserInfoArgs(){
+    public GetUserInfoReq(){
         user_list=new ArrayList<UserInfoArg>();
     }
 

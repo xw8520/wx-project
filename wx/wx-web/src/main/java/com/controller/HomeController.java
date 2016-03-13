@@ -1,7 +1,7 @@
 package com.controller;
 
 
-import com.dto.wx.UserInfoDto;
+import com.dto.wx.UserInfoResp;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,12 @@ public class HomeController {
         String code = wxMessageService.getQrCode("100", 0, 1);
         ModelAndView view = new ModelAndView("home/index");
         view.addObject("code", code);
-        UserInfoDto userInfo = wxMessageService.getUserInfo(1, "o8MXrsrWROJQIfXa2QH6jSKjnTj8");
+        UserInfoResp userInfo = wxMessageService.getUserInfo(1, "o8MXrsrWROJQIfXa2QH6jSKjnTj8");
         view.addObject("userInfo", userInfo);
         List<String> openids = new ArrayList<String>();
         openids.add("o8MXrsrWROJQIfXa2QH6jSKjnTj8");
         openids.add("o8MXrshC0FbiGaUidy2w6N9o0D5M");
-        List<UserInfoDto> list = wxMessageService.getUserInfoBatch(1, openids);
+        List<UserInfoResp> list = wxMessageService.getUserInfoBatch(1, openids);
         view.addObject("list", list);
         return view;
     }

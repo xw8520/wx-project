@@ -1,8 +1,8 @@
 package com.test;
 
-import com.dto.wx.NewsMessageItemDto;
-import com.dto.wx.TokenDto;
-import com.dto.wx.UserInfoListDto;
+import com.dto.wx.NewsMessageItem;
+import com.dto.wx.TokenResp;
+import com.dto.wx.UserInfoListResp;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
 import com.utils.JsonUtils;
@@ -43,8 +43,8 @@ public class TestFrame extends TestCase {
     public void testMybatis() throws IOException {
 
         AccessTokenService blogService = (AccessTokenService) context.getBean("accessTokenService");
-        TokenDto token = blogService.getAccessToken(1);
-        System.out.println("TokenDto:" + token.getAccess_token());
+        TokenResp token = blogService.getAccessToken(1);
+        System.out.println("TokenResp:" + token.getAccess_token());
     }
 
     public void testWxServiceIps() throws IOException {
@@ -89,7 +89,7 @@ public class TestFrame extends TestCase {
 
     public void testJsonDeSeralize() throws IOException {
         String json = "{\"user_info_list\": [{\"subscribe\": 1,\"openid\": \"otvxTs4dckWG7imySrJd6jSi0CWE\",\"nickname\": \"iWithery\",\"sex\": 1,\"language\": \"zh_CN\",\"city\": \"Jieyang\",\"province\": \"Guangdong\",\"country\": \"China\",\"headimgurl\": \"http://wx.qlogo.cn/mmopen/xbIQx1GRqdvyqkMMhEaGOX802l1CyqMJNgUzKP8MeAeHFicRDSnZH7FY4XB7p8XHXIf6uJA2SCunTPicGKezDC4saKISzRj3nz/0\",\"subscribe_time\": 1434093047,\"unionid\": \"oR5GjjgEhCMJFyzaVZdrxZ2zRRF4\",\"remark\": \"\",\"groupid\": 0},{\"subscribe\": 0,\"openid\": \"otvxTs_JZ6SEiP0imdhpi50fuSZg\",\"unionid\": \"oR5GjjjrbqBZbrnPwwmSxFukE41U\"}]}";
-        UserInfoListDto dto = JsonUtils.Deserialize(json, UserInfoListDto.class);
+        UserInfoListResp dto = JsonUtils.Deserialize(json, UserInfoListResp.class);
         System.out.println(dto != null);
     }
 
@@ -108,11 +108,11 @@ public class TestFrame extends TestCase {
     }
 
     public void testStringFormate() {
-        List<NewsMessageItemDto> items = new ArrayList<>();
-        items.add(new NewsMessageItemDto("测试标题", "测试图文消息的描述",
+        List<NewsMessageItem> items = new ArrayList<>();
+        items.add(new NewsMessageItem("测试标题", "测试图文消息的描述",
                 "http://wxtest963.tunnel.qydev.com/static/image/news-big.jpg",
                 "http://wxtest963.tunnel.qydev.com/"));
-        items.add(new NewsMessageItemDto("测试标题", "测试图文消息的描述",
+        items.add(new NewsMessageItem("测试标题", "测试图文消息的描述",
                 "http://wxtest963.tunnel.qydev.com/static/image/pic-small.jpg",
                 "http://wxtest963.tunnel.qydev.com/"));
         int count = items.size();
@@ -134,7 +134,7 @@ public class TestFrame extends TestCase {
                 "<Url><![CDATA[%s]]></Url>\n" +
                 "</item>";
         StringBuffer buffer = new StringBuffer();
-        for (NewsMessageItemDto s : items) {
+        for (NewsMessageItem s : items) {
             buffer.append(String.format(item, s.getTitle(), s.getDesc(), s.getPicUrl(), s.getUrl()));
         }
         Long time = Calendar.getInstance().getTimeInMillis();

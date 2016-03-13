@@ -9,9 +9,9 @@ import java.io.Serializable;
  * Created by Admin on 2016/3/6.
  * 公众号消息报文
  */
-public class ReceiveDto implements Serializable {
+public class ReceiveMsg implements Serializable {
     private Document doc;
-    public ReceiveDto(Document doc){
+    public ReceiveMsg(Document doc){
         this.doc=doc;
     }
 

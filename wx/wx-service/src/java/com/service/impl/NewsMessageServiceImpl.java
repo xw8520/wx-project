@@ -1,7 +1,7 @@
 package com.service.impl;
 
-import com.dto.wx.NewsMessageItemDto;
-import com.dto.wx.ReceiveDto;
+import com.dto.wx.NewsMessageItem;
+import com.dto.wx.ReceiveMsg;
 import com.service.ReplyMessageService;
 
 import java.text.MessageFormat;
@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class NewsMessageServiceImpl implements ReplyMessageService {
     @Override
-    public String getReplyMessage(ReceiveDto receive) throws Exception {
+    public String getReplyMessage(ReceiveMsg receive) throws Exception {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
-        List<NewsMessageItemDto> items = new ArrayList<>();
-        items.add(new NewsMessageItemDto("测试标题", "测试图文消息的描述",
+        List<NewsMessageItem> items = new ArrayList<>();
+        items.add(new NewsMessageItem("测试标题", "测试图文消息的描述",
                 "http://wxtest963.tunnel.qydev.com/static/image/news-big.jpg",
                 "http://wxtest963.tunnel.qydev.com/"));
-        items.add(new NewsMessageItemDto("测试标题", "测试图文消息的描述",
+        items.add(new NewsMessageItem("测试标题", "测试图文消息的描述",
                 "http://wxtest963.tunnel.qydev.com/static/image/pic-small.jpg",
                 "http://wxtest963.tunnel.qydev.com/"));
         String msg = formatReplyMessage(to, from, items);
@@ -33,7 +33,7 @@ public class NewsMessageServiceImpl implements ReplyMessageService {
         if (obj == null) {
             throw new Exception("图文消息参数为空");
         }
-        List<NewsMessageItemDto> list = (ArrayList<NewsMessageItemDto>) obj;
+        List<NewsMessageItem> list = (ArrayList<NewsMessageItem>) obj;
         int count = list.size();
 
         String msg = "<xml>\n" +
@@ -53,7 +53,7 @@ public class NewsMessageServiceImpl implements ReplyMessageService {
                 "<Url><![CDATA[%s]]></Url>\n" +
                 "</item>";
         StringBuffer buffer = new StringBuffer();
-        for (NewsMessageItemDto s : list) {
+        for (NewsMessageItem s : list) {
             buffer.append(String.format(item, s.getTitle(), s.getDesc(), s.getPicUrl(), s.getUrl()));
         }
         Long time = Calendar.getInstance().getTimeInMillis();
