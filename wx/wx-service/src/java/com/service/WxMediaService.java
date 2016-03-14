@@ -1,7 +1,9 @@
 package com.service;
 
 import com.dto.wx.enums.TmpMediaType;
-import com.dto.wx.media.UploadTmpMediaRespDto;
+import com.dto.wx.media.UploadTmpMediaResp;
+
+import java.io.IOException;
 
 /**
  * Created by Admin on 2016/3/13.
@@ -14,5 +16,5 @@ public interface WxMediaService {
      * @param path
      * @return
      */
-    UploadTmpMediaRespDto uploadTmpMedia(TmpMediaType mediaType,String path);
+    UploadTmpMediaResp uploadTmpMedia(TmpMediaType mediaType, String path) throws Exception;
 }

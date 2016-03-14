@@ -7,11 +7,16 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,6 +39,7 @@ public class HttpUtils {
             httppost.setHeader("Accept", acceptType.getType());
             UrlEncodedFormEntity uefEntity;
             uefEntity = new UrlEncodedFormEntity(param, "UTF-8");
+
             httppost.setEntity(uefEntity);
             CloseableHttpResponse response = (CloseableHttpResponse) client.execute(httppost);
             HttpEntity entity = response.getEntity();
@@ -106,4 +112,37 @@ public class HttpUtils {
         return "";
     }
 
+    /**
+     * 上传文件
+     * @param url
+     * @param path
+     * @param param
+     * @return
+     */
+    public static String doPost(String url, String path, List<NameValuePair> param) {
+        CloseableHttpClient client = null;
+        CloseableHttpResponse response = null;
+        try {
+            client = HttpClients.createDefault();
+            HttpPost post = new HttpPost(url);
+            FileBody fileBody = new FileBody(new File(path));
+
+            MultipartEntity entity = new MultipartEntity();
+            entity.addPart("media", fileBody);
+            post.setEntity(entity);
+            response = client.execute(post);
+            HttpEntity resEntity = response.getEntity();
+            String str = EntityUtils.toString(resEntity, "utf-8");
+            return str;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                response.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
+    }
 }

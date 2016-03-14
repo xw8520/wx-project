@@ -1,8 +1,11 @@
 package com.controller;
 
 import com.dto.web.UploadFileResp;
+import com.dto.wx.enums.TmpMediaType;
+import com.service.WxMediaService;
 import org.springframework.jdbc.object.UpdatableSqlQuery;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +23,9 @@ import java.io.IOException;
  */
 @Controller
 public class FileUploadController {
+
+    @Resource
+    WxMediaService wxMediaService;
 
     @RequestMapping(value = "/fileupload.html")
     public ModelAndView fileupload() {
@@ -39,13 +46,17 @@ public class FileUploadController {
                 //创建目录
                 newFile.mkdir();
             }
-            FileCopyUtils.copy(file.getBytes(), new File(path + "/"
-                    + file.getOriginalFilename()));
+            path = path + "/" + file.getOriginalFilename();
+            FileCopyUtils.copy(file.getBytes(), new File(path));
+
+            wxMediaService.uploadTmpMedia(TmpMediaType.image, path);
             resp.setSuccess(true);
         } catch (IOException e) {
             e.printStackTrace();
             resp.setSuccess(false);
             resp.setErrorMsg(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return resp;
     }

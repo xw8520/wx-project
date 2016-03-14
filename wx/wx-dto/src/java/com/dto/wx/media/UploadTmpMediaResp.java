@@ -4,7 +4,7 @@ package com.dto.wx.media;
  * Created by Admin on 2016/3/13.
  * 上传临时素材返回报文
  */
-public class UploadTmpMediaRespDto {
+public class UploadTmpMediaResp {
     private int errcode;
     private String errmsg;
     private String type;
