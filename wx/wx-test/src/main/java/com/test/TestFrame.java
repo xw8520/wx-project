@@ -3,8 +3,10 @@ package com.test;
 import com.dto.wx.NewsMessageItem;
 import com.dto.wx.TokenResp;
 import com.dto.wx.UserInfoListResp;
+import com.dto.wx.enums.TmpMediaType;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
+import com.service.impl.WxMediaServiceImpl;
 import com.utils.JsonUtils;
 import com.utils.XmlParseUtils;
 import junit.framework.TestCase;
@@ -140,5 +142,12 @@ public class TestFrame extends TestCase {
         Long time = Calendar.getInstance().getTimeInMillis();
         msg = MessageFormat.format(msg, "to", "from", time, count, buffer.toString());
         System.out.println(msg);
+    }
+
+    public void testPattern() {
+        WxMediaServiceImpl pattern = new WxMediaServiceImpl();
+        String fileName="E:\\git\\wx-project\\123.mp4";
+        TmpMediaType media = pattern.getMediaType(fileName);
+        System.out.println(media);
     }
 }

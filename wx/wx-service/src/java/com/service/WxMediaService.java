@@ -12,9 +12,8 @@ import java.io.IOException;
 public interface WxMediaService {
     /**
      * 上传临时素材
-     * @param mediaType
      * @param path
      * @return
      */
-    UploadTmpMediaResp uploadTmpMedia(TmpMediaType mediaType, String path) throws Exception;
+    UploadTmpMediaResp uploadTmpMedia(String path) throws Exception;
 }

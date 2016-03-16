@@ -49,7 +49,7 @@ public class FileUploadController {
             path = path + "/" + file.getOriginalFilename();
             FileCopyUtils.copy(file.getBytes(), new File(path));
 
-            wxMediaService.uploadTmpMedia(TmpMediaType.image, path);
+            wxMediaService.uploadTmpMedia(path);
             resp.setSuccess(true);
         } catch (IOException e) {
             e.printStackTrace();

@@ -8,5 +8,6 @@ public enum TmpMediaType {
     image,
     voice,
     video,
-    thumb
+    thumb,
+    unknow
 }
