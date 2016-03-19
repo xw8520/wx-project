@@ -8,7 +8,6 @@ import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
 import com.dto.wx.*;
 import com.service.AccessTokenService;
-import com.service.WxMessageContext;
 import com.service.WxMessageService;
 import com.utils.*;
 import com.wxconfig.WxConfig;
@@ -47,20 +46,7 @@ public class WxMessageServiceImpl implements WxMessageService {
             doc = XmlParseUtils.getDocumentByXML(body);
             ReceiveMsg receive = new ReceiveMsg(doc);
             String msgType = receive.getMsgType();
-//            //文本消息
-//            if (msgType.equals("text")) {
-//                String msg=new WxMessageContext(new TextMessageServiceImpl()).getReplyMessage(receive);
-//                return msg;
-//            }
-//            //图片消息
-//            if(msgType.equals("image")){
-//                String msg=new WxMessageContext(new ImageMessageServiceImpl()).getReplyMessage(receive);
-//                return msg;
-//            }
-//            if(msgType.equals("news")){
-            String msg = new WxMessageContext(new NewsMessageServiceImpl()).getReplyMessage(receive);
-            return msg;
-//            }
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

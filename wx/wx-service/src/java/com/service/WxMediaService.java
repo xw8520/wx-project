@@ -1,9 +1,12 @@
 package com.service;
 
-import com.dto.wx.enums.TmpMediaType;
+import com.dto.wx.enums.WxMediaType;
+import com.dto.wx.media.ArticleItem;
 import com.dto.wx.media.UploadTmpMediaResp;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -37,5 +40,32 @@ public interface WxMediaService {
      * @param fileName
      * @return
      */
-    TmpMediaType getMediaType(String fileName);
+    WxMediaType getMediaType(String fileName);
+
+    /**
+     * 图文消息图片上传
+     *本接口所上传的图片不占用公众号的素材库中图片数量的5000个的限制。图片仅支持jpg/png格式，大小必须在1MB以下
+     * @param path
+     * @param accountId
+     * @return
+     */
+    String uploadImage(String path, int accountId) throws Exception;
+
+    /**
+     * 上传图文消息
+     *
+     * @param list
+     * @param accountId
+     * @return
+     */
+    String uploadNews(List<ArticleItem> list, int accountId) throws Exception;
+
+    /**
+     * 上传永久素材
+     *
+     * @param path
+     * @param accountId
+     * @return
+     */
+    String addMaterial(String path, int accountId) throws Exception;
 }

@@ -3,11 +3,8 @@ package com.controller;
 import com.data.WxMediaMapper;
 import com.domain.wx.WxMedia;
 import com.dto.web.UploadFileResp;
-import com.dto.wx.enums.TmpMediaType;
 import com.service.WxMediaService;
-import org.springframework.jdbc.object.UpdatableSqlQuery;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +50,8 @@ public class FileUploadController {
             path = path + "\\" + file.getOriginalFilename();
             FileCopyUtils.copy(file.getBytes(), new File(path));
 
-            wxMediaService.uploadTmpMedia(path, 1, "title", "remark");
+//            wxMediaService.uploadTmpMedia(path, 1, "title", "remark");
+            wxMediaService.addMaterial(path, 1);
             resp.setSuccess(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,7 +69,7 @@ public class FileUploadController {
         WxMedia media = wxMediaMapper.getMediaByMediaId(mediaid);
         File file = wxMediaService.downLoadTmpMedia(mediaid, 1, media.getFilename());
         resp.setContentType(req.getServletContext().getMimeType(media.getFilename()));
-        resp.setHeader("Content-Disposition", "attachment;filename=" + media.getFilename());
+        resp.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
         InputStream inputStream = new FileInputStream(file);
         OutputStream out = resp.getOutputStream();
         byte[] buffer = new byte[1024];

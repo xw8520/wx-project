@@ -3,7 +3,9 @@ package com.test;
 import com.dto.wx.NewsMessageItem;
 import com.dto.wx.TokenResp;
 import com.dto.wx.UserInfoListResp;
-import com.dto.wx.enums.TmpMediaType;
+import com.dto.wx.enums.WxMediaType;
+import com.dto.wx.media.ArticleItem;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
 import com.service.impl.WxMediaServiceImpl;
@@ -21,12 +23,15 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.dom4j.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -34,6 +39,7 @@ import java.util.List;
  */
 public class TestFrame extends TestCase {
     ClassPathXmlApplicationContext context = null;
+    Logger logger = LoggerFactory.getLogger(TestFrame.class);
 
     public void setUp() {
 //        context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -146,8 +152,22 @@ public class TestFrame extends TestCase {
 
     public void testPattern() {
         WxMediaServiceImpl pattern = new WxMediaServiceImpl();
-        String fileName="E:\\git\\wx-project\\123.mp4";
-        TmpMediaType media = pattern.getMediaType(fileName);
+        String fileName = "E:\\git\\wx-project\\123.mp4";
+        WxMediaType media = pattern.getMediaType(fileName);
         System.out.println(media);
+    }
+
+    public void testSerializeHash() throws JsonProcessingException {
+        List<ArticleItem> list = new ArrayList<>();
+        list.add(new ArticleItem());
+        Hashtable hash = new Hashtable();
+        hash.put("articles", list);
+
+        String param = JsonUtils.Serialize(hash);
+        System.out.println(param);
+    }
+
+    public void testLogger() {
+        logger.debug("logger this is a test", "this is a test");
     }
 }

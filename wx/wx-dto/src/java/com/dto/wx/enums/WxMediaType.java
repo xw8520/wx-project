@@ -4,7 +4,7 @@ package com.dto.wx.enums;
  * Created by Admin on 2016/3/13.
  * 临时素材类型
  */
-public enum TmpMediaType {
+public enum WxMediaType {
     image(0),
     voice(1),
     video(2),
@@ -13,7 +13,7 @@ public enum TmpMediaType {
 
     private byte val;
 
-    TmpMediaType(int val) {
+    WxMediaType(int val) {
         this.val = (byte) val;
     }
 

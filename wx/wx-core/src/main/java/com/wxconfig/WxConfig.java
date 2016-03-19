@@ -80,9 +80,55 @@ public class WxConfig {
 
     /**
      * 获取临时素材
+     *
      * @return
      */
     public String getTmpmedia() {
         return getValue("wx.gettmpmedia");
+    }
+
+    /**
+     * 获取视频
+     *
+     * @return
+     */
+    public String getTmpVedio() {
+        return getValue("wx.gettmpvedio");
+    }
+
+    /**
+     * 图文消息上传图片
+     *
+     * @return
+     */
+    public String getUploadimg() {
+        return getValue("wx.uploadimg");
+    }
+
+    /**
+     * 上传群发图文消息
+     *
+     * @return
+     */
+    public String getUploadNews() {
+        return getValue("wx.uploadnews");
+    }
+
+    /**
+     * 获取微信群发接口
+     *
+     * @return
+     */
+    public String getSendall() {
+        return getValue("wx.sendall");
+    }
+
+    /**
+     * 上传永久素材
+     *
+     * @return
+     */
+    public String getAddmaterial() {
+        return getValue("wx.addmaterial");
     }
 }
