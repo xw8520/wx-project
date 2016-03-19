@@ -29,5 +29,7 @@
     <input type="file" name="file"/>
     <input type="button" id="btnUpload" value="上传"/>
 </form>
+
+<a href="/download.html" target="_blank">文件下载</a>
 </body>
 </html>

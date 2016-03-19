@@ -5,9 +5,19 @@ package com.dto.wx.enums;
  * 临时素材类型
  */
 public enum TmpMediaType {
-    image,
-    voice,
-    video,
-    thumb,
-    unknow
+    image(0),
+    voice(1),
+    video(2),
+    thumb(3),
+    unknow(4);
+
+    private byte val;
+
+    TmpMediaType(int val) {
+        this.val = (byte) val;
+    }
+
+    public byte getValue() {
+        return val;
+    }
 }

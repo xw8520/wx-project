@@ -13,6 +13,41 @@ public class WxMedia implements Serializable {
     private String remark;
     private int accountid;
     private Byte mediatype;
+    private String filename;
+    private Date createtime;
+    private Boolean islong;
+    private String mediaid;
+
+    public WxMedia() {
+    }
+
+    public WxMedia(String title, String remark, int accountid, Byte mediatype,
+                   String filename, String mediaid, Boolean islong) {
+        this.title = title;
+        this.remark = remark;
+        this.accountid = accountid;
+        this.mediatype = mediatype;
+        this.mediaid = mediaid;
+        this.islong = islong;
+        this.filename = filename;
+        createtime = new Date();
+    }
+
+    public String getMediaid() {
+        return mediaid;
+    }
+
+    public void setMediaid(String mediaid) {
+        this.mediaid = mediaid;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public Boolean getIslong() {
         return islong;
@@ -22,7 +57,6 @@ public class WxMedia implements Serializable {
         this.islong = islong;
     }
 
-    private Boolean islong;
     public int getId() {
         return id;
     }
@@ -70,6 +104,4 @@ public class WxMedia implements Serializable {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
-
-    private Date createtime;
 }

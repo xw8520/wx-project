@@ -57,23 +57,32 @@ public class WxConfig {
         return getValue("wx.qrcode");
     }
 
-    public String getJsapiticket(){
+    public String getJsapiticket() {
         return getValue("wx.jsapiticket");
     }
 
-    public String getUserInfo(){
+    public String getUserInfo() {
         return getValue("wx.userinfo");
     }
 
-    public String getUserinfoBatch(){
+    public String getUserinfoBatch() {
         return getValue("wx.batchgetuserinfo");
     }
 
     /**
      * 临时素材上传接口
+     *
      * @return
      */
-    public String getTmpMediaUpload(){
-        return getValue("wx.tmpmediaupload");
+    public String getTmpMediaUpload() {
+        return getValue("wx.uploadtmpmedia");
+    }
+
+    /**
+     * 获取临时素材
+     * @return
+     */
+    public String getTmpmedia() {
+        return getValue("wx.gettmpmedia");
     }
 }

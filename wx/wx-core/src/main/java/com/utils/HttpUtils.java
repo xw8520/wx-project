@@ -1,14 +1,15 @@
 package com.utils;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
@@ -18,6 +19,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -114,6 +116,7 @@ public class HttpUtils {
 
     /**
      * 上传文件
+     *
      * @param url
      * @param path
      * @param param
@@ -144,5 +147,41 @@ public class HttpUtils {
             }
         }
         return "";
+    }
+
+    /**
+     * 文件下载
+     *
+     * @param url
+     * @return
+     */
+    public static InputStream doGet(String url) {
+        CloseableHttpClient client = null;
+        CloseableHttpResponse response = null;
+        try {
+            client = HttpClients.createDefault();
+            HttpGet get = new HttpGet(url);
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setSocketTimeout(4000)
+                    .setConnectTimeout(4000).build();//设置请求和传输超时时间
+            get.setConfig(requestConfig);
+            response = client.execute(get);
+            HttpEntity entity = response.getEntity();
+            String contentType = entity.getContentType().getValue();
+            if (contentType.contains("json") || contentType.contains("xml")) {
+                return null;
+            }
+
+            return entity.getContent();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+//            try {
+//                response.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        }
+        return null;
     }
 }
