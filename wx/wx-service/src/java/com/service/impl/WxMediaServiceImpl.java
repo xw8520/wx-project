@@ -16,6 +16,8 @@ import com.utils.StringUtils;
 import com.wxconfig.WxConfig;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -31,6 +33,7 @@ import java.util.regex.Pattern;
  */
 @Service("wxMediaService")
 public class WxMediaServiceImpl implements WxMediaService {
+    static Logger logger = LoggerFactory.getLogger(WxMediaServiceImpl.class);
     @Resource
     AccessTokenService accessTokenService;
 
@@ -167,6 +170,7 @@ public class WxMediaServiceImpl implements WxMediaService {
 
         Hashtable r = JsonUtils.Deserialize(json, Hashtable.class);
         if (r != null && r.containsKey("media_id")) {
+            logger.debug(r.get("media_id").toString());
             return r.get("media_id").toString();
         }
 

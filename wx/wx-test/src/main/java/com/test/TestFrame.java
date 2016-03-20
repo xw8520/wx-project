@@ -7,6 +7,7 @@ import com.dto.wx.enums.WxMediaType;
 import com.dto.wx.media.ArticleItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.AccessTokenService;
+import com.service.WxMediaService;
 import com.service.WxMessageService;
 import com.service.impl.WxMediaServiceImpl;
 import com.utils.JsonUtils;
@@ -25,8 +26,10 @@ import org.apache.http.util.EntityUtils;
 import org.dom4j.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -39,12 +42,13 @@ import java.util.List;
  */
 public class TestFrame extends TestCase {
     ClassPathXmlApplicationContext context = null;
-    Logger logger = LoggerFactory.getLogger(TestFrame.class);
+    static Logger log = LoggerFactory.getLogger(TestFrame.class);
+    WxMediaService wxMediaService;
 
     public void setUp() {
-//        context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//
-//        context.start();
+        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+        context.start();
     }
 
 
@@ -168,6 +172,27 @@ public class TestFrame extends TestCase {
     }
 
     public void testLogger() {
-        logger.debug("logger this is a test", "this is a test");
+//        logger.debug("debug","消息内容");
+        try {
+            log.info("info message", "info");
+            log.debug("debug message", "debug");
+            Object str = null;
+            str.toString();
+        } catch (Exception ex) {
+            log.error("error", ex);
+        }
+    }
+
+    public void testWxMedia() throws Exception {
+        wxMediaService = (WxMediaService) context.getBean("wxMediaService");
+        ArticleItem item1 = new ArticleItem("eFTC7PRZVf0W5qzzG6WCTdcoaKtfA8B6qhhkTHs9uuc", "小王",
+                "测试标题", " http://wxtest963.tunnel.qydev.com", "Content", "digest", "1");
+        ArticleItem item2 = new ArticleItem("eFTC7PRZVf0W5qzzG6WCTcGlHsIv5TleryRQwzCa_HM", "小李",
+                "测试标题1", " http://wxtest963.tunnel.qydev.com", "Content1", "digest1", "0");
+        List<ArticleItem> list = new ArrayList<>();
+        list.add(item1);
+        list.add(item2);
+        String mediaId = wxMediaService.uploadNews(list, 1);
+        log.debug(mediaId);
     }
 }

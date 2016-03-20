@@ -41,13 +41,25 @@
         <property name="mapperInterface" value="com.data.AccessTokenMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+    <bean id="qrCodeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.QrCodeMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="jsapiTicket" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.JsapiticketMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="wxMediaMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.WxMediaMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
     <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
     <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
     <!--</bean>-->
     <!-- 引用ehCache的配置 -->
     <bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:ehcache.xml"/>
-        <property name="shared" value="true"/>
+        <!--<property name="shared" value="true"/>-->
     </bean>
     <!-- 定义ehCache的工厂，并设置所使用的Cache name -->
     <bean id="ehCacheManager" class="com.cache.impl.EhCacheManagerImpl">
@@ -59,10 +71,10 @@
         </property>
     </bean>
 
-    <!--<bean id="wxbind" class="com.service.impl.WxBindServiceImpl"></bean>-->
+    <!--<bean id="wxservice" class="com.api.impl.WxServiceImpl"></bean>-->
     <!--<jaxrs:server id="logisticsApiServiceContainer">-->
         <!--<jaxrs:serviceBeans>-->
-            <!--<ref bean="wxbind"/>-->
+            <!--<ref bean="wxservice"/>-->
         <!--</jaxrs:serviceBeans>-->
         <!--<jaxrs:providers>-->
             <!--<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"></bean>-->

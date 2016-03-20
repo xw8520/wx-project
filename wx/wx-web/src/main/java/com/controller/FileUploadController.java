@@ -4,6 +4,8 @@ import com.data.WxMediaMapper;
 import com.domain.wx.WxMedia;
 import com.dto.web.UploadFileResp;
 import com.service.WxMediaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,7 @@ import java.io.*;
  */
 @Controller
 public class FileUploadController {
-
+    static Logger logger = LoggerFactory.getLogger(FileUploadController.class);
     @Resource
     WxMediaService wxMediaService;
     @Resource
@@ -30,6 +32,7 @@ public class FileUploadController {
 
     @RequestMapping(value = "/fileupload.html")
     public ModelAndView fileupload() {
+//        logger.debug("this is a debug log");
         ModelAndView view = new ModelAndView("/home/fileupload");
         return view;
     }
@@ -51,7 +54,7 @@ public class FileUploadController {
             FileCopyUtils.copy(file.getBytes(), new File(path));
 
 //            wxMediaService.uploadTmpMedia(path, 1, "title", "remark");
-            wxMediaService.addMaterial(path, 1);
+            wxMediaService.uploadImage(path, 1);
             resp.setSuccess(true);
         } catch (IOException e) {
             e.printStackTrace();

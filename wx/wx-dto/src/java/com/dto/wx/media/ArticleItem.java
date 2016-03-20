@@ -7,6 +7,19 @@ import java.io.Serializable;
  * 群发图文消息，图文项
  */
 public class ArticleItem implements Serializable {
+    public ArticleItem(){
+
+    }
+    public ArticleItem(String thumb_media_id,String author,String title,String content_source_url,
+                       String content,String digest,String show_cover_pic){
+        this.author=author;
+        this.content=content;
+        this.content_source_url=content_source_url;
+        this.digest=digest;
+        this.thumb_media_id=thumb_media_id;
+        this.title=title;
+        this.show_cover_pic=show_cover_pic;
+    }
     //图文消息缩略图的media_id，可以在基础支持-上传多媒体文件接口中获得
     private String thumb_media_id;
     //
