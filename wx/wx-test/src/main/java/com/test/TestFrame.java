@@ -6,6 +6,8 @@ import com.dto.wx.UserInfoListResp;
 import com.dto.wx.enums.WxMediaType;
 import com.dto.wx.media.ArticleItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.service.AccessTokenService;
 import com.service.WxMediaService;
 import com.service.WxMessageService;
@@ -194,5 +196,16 @@ public class TestFrame extends TestCase {
         list.add(item2);
         String mediaId = wxMediaService.uploadNews(list, 1);
         log.debug(mediaId);
+    }
+
+    public void testJsonSer() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("touser", "str");
+        node.put("msgtype", "text");
+        ObjectNode content = node.putObject("text");
+        content.put("content", "message");
+        String str = mapper.writeValueAsString(node);
+        log.debug(str);
     }
 }

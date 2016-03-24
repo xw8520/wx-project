@@ -1,79 +1,8 @@
-[INFO ] [2016-03-20 20:18:10] 
- Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@15bfd87: startup date [Sun Mar 20 20:18:10 CST 2016]; root of context hierarchy
-[INFO ] [2016-03-20 20:18:10] 
+[INFO ] [2016-03-24 20:48:08] 
+ Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@15bfd87: startup date [Thu Mar 24 20:48:08 CST 2016]; root of context hierarchy
+[INFO ] [2016-03-24 20:48:09] 
  Loading XML bean definitions from class path resource [applicationContext.xml]
-[INFO ] [2016-03-20 20:18:15] 
+[INFO ] [2016-03-24 20:48:12] 
  Loading properties file from class path resource [jdbc.properties]
-[WARN ] [2016-03-20 20:18:16] 
- Exception encountered during context initialization - cancelling refresh attempt
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'accessTokenService': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: com.cache.EhCacheManager com.service.impl.AccessTokenServiceImpl.ehCacheManager; nested exception is org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.api.impl.WxServiceImpl] for bean with name 'wxservice' defined in class path resource [applicationContext.xml]; nested exception is java.lang.ClassNotFoundException: com.api.impl.WxServiceImpl
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1210)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:537)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
-	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:755)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:757)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:480)
-	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
-	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:83)
-	at com.test.TestFrame.setUp(TestFrame.java:49)
-	at junit.framework.TestCase.runBare(TestCase.java:139)
-	at junit.framework.TestResult$1.protect(TestResult.java:122)
-	at junit.framework.TestResult.runProtected(TestResult.java:142)
-	at junit.framework.TestResult.run(TestResult.java:125)
-	at junit.framework.TestCase.run(TestCase.java:129)
-	at junit.framework.TestSuite.runTest(TestSuite.java:255)
-	at junit.framework.TestSuite.run(TestSuite.java:250)
-	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:84)
-	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
-	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:117)
-	at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:234)
-	at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:74)
-Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: com.cache.EhCacheManager com.service.impl.AccessTokenServiceImpl.ehCacheManager; nested exception is org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.api.impl.WxServiceImpl] for bean with name 'wxservice' defined in class path resource [applicationContext.xml]; nested exception is java.lang.ClassNotFoundException: com.api.impl.WxServiceImpl
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:561)
-	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
-	... 25 more
-Caused by: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.api.impl.WxServiceImpl] for bean with name 'wxservice' defined in class path resource [applicationContext.xml]; nested exception is java.lang.ClassNotFoundException: com.api.impl.WxServiceImpl
-	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveBeanClass(AbstractBeanFactory.java:1328)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:622)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:591)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.isFactoryBean(AbstractBeanFactory.java:1397)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:434)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:412)
-	at org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors(BeanFactoryUtils.java:186)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1105)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1044)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:942)
-	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:533)
-	... 27 more
-Caused by: java.lang.ClassNotFoundException: com.api.impl.WxServiceImpl
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
-	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
-	at org.springframework.util.ClassUtils.forName(ClassUtils.java:249)
-	at org.springframework.beans.factory.support.AbstractBeanDefinition.resolveBeanClass(AbstractBeanDefinition.java:395)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doResolveBeanClass(AbstractBeanFactory.java:1349)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveBeanClass(AbstractBeanFactory.java:1320)
-	... 37 more
-[INFO ] [2016-03-20 20:22:11] 
- Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@15bfd87: startup date [Sun Mar 20 20:22:11 CST 2016]; root of context hierarchy
-[INFO ] [2016-03-20 20:22:11] 
- Loading XML bean definitions from class path resource [applicationContext.xml]
-[INFO ] [2016-03-20 20:22:17] 
- Loading properties file from class path resource [jdbc.properties]
-[INFO ] [2016-03-20 20:22:17] 
- Initializing EhCache CacheManager
-[INFO ] [2016-03-20 20:30:11] 
- Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@15bfd87: startup date [Sun Mar 20 20:30:11 CST 2016]; root of context hierarchy
-[INFO ] [2016-03-20 20:30:11] 
- Loading XML bean definitions from class path resource [applicationContext.xml]
-[INFO ] [2016-03-20 20:30:15] 
- Loading properties file from class path resource [jdbc.properties]
-[INFO ] [2016-03-20 20:30:16] 
+[INFO ] [2016-03-24 20:48:13] 
  Initializing EhCache CacheManager

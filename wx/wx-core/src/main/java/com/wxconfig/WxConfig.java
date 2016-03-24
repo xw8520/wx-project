@@ -131,4 +131,12 @@ public class WxConfig {
     public String getAddmaterial() {
         return getValue("wx.addmaterial");
     }
+
+    /**
+     * 微信发送消息
+     * @return
+     */
+    public String getSendTextMsg(){
+        return getValue("wz.send");
+    }
 }

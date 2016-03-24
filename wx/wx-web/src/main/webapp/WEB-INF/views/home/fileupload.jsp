@@ -21,6 +21,23 @@
                 }
             });
         });
+
+        $('#btnSendMsg').click(function () {
+            var data = {};
+            data.message = $('#message').val();
+            $.ajax({
+                url: '/sendMsg.do',
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                success: function (resp) {
+                    alert(resp);
+                },
+                error: function (resp) {
+                    alert('error');
+                }
+            })
+        });
     });
 </script>
 <body>
@@ -31,5 +48,8 @@
 </form>
 
 <a href="/download.html" target="_blank">文件下载</a>
+
+<input type="text" id="message"/>
+<input type="button" id="btnSendMsg"/>
 </body>
 </html>

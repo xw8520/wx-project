@@ -2,17 +2,37 @@ package com.service.impl;
 
 import com.dto.wx.NewsMessageItem;
 import com.dto.wx.ReceiveMsg;
+import com.dto.wx.TokenResp;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.service.AccessTokenService;
 import com.service.WxMsgReplyService;
+import com.sun.javafx.tk.TKClipboard;
+import com.utils.AcceptTypeEnum;
+import com.utils.HttpUtils;
+import com.wxconfig.WxConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Admin on 2016/3/19.
  * 格式化微信消息
  */
+@Service("wxMsgReplyService")
 public class WxMsgReplyServiceImpl implements WxMsgReplyService {
+    @Resource
+    AccessTokenService accessTokenService;
+
+    static Logger log = LoggerFactory.getLogger(WxMsgReplyServiceImpl.class);
+
     @Override
     public String getTextMsg(ReceiveMsg receive, String msg) {
         String from = receive.getFromUserName();
@@ -130,5 +150,37 @@ public class WxMsgReplyServiceImpl implements WxMsgReplyService {
         Long time = Calendar.getInstance().getTimeInMillis();
         return MessageFormat.format(str, receive.getFromUserName(), receive.getToUserName(),
                 String.valueOf(time), title, desc, misucUrl, hqUrl, mediaId);
+    }
+
+    /**
+     * 发送文本消息
+     *
+     * @param to
+     * @param msg
+     * @return
+     */
+    @Override
+    public String getCustomTextMsg(String to, String msg, int accountid) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        ObjectNode node = mapper.createObjectNode();
+        node.put("touser", to);
+        node.put("msgtype", "text");
+        ObjectNode content = node.putObject("text");
+        content.put("content", msg);
+        String str = "";
+        try {
+            str = mapper.writeValueAsString(node);
+            String url = WxConfig.getInstance().getSendTextMsg();
+            TokenResp token = accessTokenService.getAccessToken(accountid);
+            url = String.format(url, token.getAccess_token());
+            String result = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
+            log.debug(result);
+
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return str;
     }
 }

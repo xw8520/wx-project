@@ -65,4 +65,12 @@ public interface WxMsgReplyService {
      */
     String getMusicMsg(ReceiveMsg receive, String mediaId, String title,
                        String desc, String misucUrl, String hqUrl);
+
+    /**
+     * 客服接口 -发送文本消息
+     * @param to
+     * @param msg
+     * @return
+     */
+    String getCustomTextMsg(String to, String msg, int accountid);
 }
