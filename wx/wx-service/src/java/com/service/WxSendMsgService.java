@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Admin on 2016/3/11.
  * 文本消息
  */
-public interface WxMsgReplyService {
+public interface WxSendMsgService {
 
     /**
      * 获取文本消息
@@ -72,5 +72,14 @@ public interface WxMsgReplyService {
      * @param msg
      * @return
      */
-    String getCustomTextMsg(String to, String msg, int accountid);
+    String sendCustomTextMsg(String to, String msg, int accountid);
+
+    /**
+     * 微信发送图片
+     * @param to
+     * @param mediaId
+     * @param accountid
+     * @return
+     */
+    String sendCustomImgMsg(String to,String mediaId, int accountid);
 }

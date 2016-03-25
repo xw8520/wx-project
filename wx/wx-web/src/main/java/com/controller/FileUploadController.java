@@ -4,7 +4,7 @@ import com.data.WxMediaMapper;
 import com.domain.wx.WxMedia;
 import com.dto.web.UploadFileResp;
 import com.service.WxMediaService;
-import com.service.WxMsgReplyService;
+import com.service.WxSendMsgService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.wsdl.Message;
 import java.io.*;
 
 /**
@@ -33,7 +32,7 @@ public class FileUploadController {
     @Resource
     WxMediaMapper wxMediaMapper;
     @Resource
-    WxMsgReplyService wxMsgReplyService;
+    WxSendMsgService wxSendMsgService;
 
     @RequestMapping(value = "/fileupload.html")
     public ModelAndView fileupload() {
@@ -59,7 +58,7 @@ public class FileUploadController {
             FileCopyUtils.copy(file.getBytes(), new File(path));
 
 //            wxMediaService.uploadTmpMedia(path, 1, "title", "remark");
-            wxMediaService.uploadImage(path, 1);
+            wxMediaService.addMaterial(path, 1);
             resp.setSuccess(true);
         } catch (IOException e) {
             e.printStackTrace();
@@ -91,7 +90,8 @@ public class FileUploadController {
     @ResponseBody
     @RequestMapping(value = "/sendMsg.do", method = RequestMethod.POST)
     public String sendMsg(@RequestParam("message") String message, HttpServletRequest req) {
-        String str = wxMsgReplyService.getCustomTextMsg("o8MXrsrWROJQIfXa2QH6jSKjnTj8", message, 1);
+//        String str = wxMsgReplyService.sendCustomTextMsg("o8MXrsrWROJQIfXa2QH6jSKjnTj8", message, 1);
+        String str=wxSendMsgService.sendCustomImgMsg("o8MXrsrWROJQIfXa2QH6jSKjnTj8","TUhaAIq1lzAqO4QwHzXtqIQHfvjTszrmJn-Tz3ukk4w",1);
         return str;
     }
 }

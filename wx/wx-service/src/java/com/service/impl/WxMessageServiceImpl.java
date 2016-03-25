@@ -9,7 +9,7 @@ import com.domain.wx.QrCode;
 import com.dto.wx.*;
 import com.service.AccessTokenService;
 import com.service.WxMessageService;
-import com.service.WxMsgReplyService;
+import com.service.WxSendMsgService;
 import com.utils.*;
 import com.wxconfig.WxConfig;
 import com.wxconfig.WxUtils;
@@ -37,7 +37,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     @Resource
     JsapiticketMapper jsapiticketMapper;
     @Resource
-    WxMsgReplyService wxMsgReplyService;
+    WxSendMsgService wxMsgReplyService;
 
     public String reply(String body) {
 

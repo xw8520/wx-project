@@ -5,10 +5,8 @@ import com.dto.wx.ReceiveMsg;
 import com.dto.wx.TokenResp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.service.AccessTokenService;
-import com.service.WxMsgReplyService;
-import com.sun.javafx.tk.TKClipboard;
+import com.service.WxSendMsgService;
 import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
 import com.wxconfig.WxConfig;
@@ -19,19 +17,18 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Admin on 2016/3/19.
  * 格式化微信消息
  */
-@Service("wxMsgReplyService")
-public class WxMsgReplyServiceImpl implements WxMsgReplyService {
+@Service("wxSendMsgService")
+public class WxSendMsgServiceImpl implements WxSendMsgService {
     @Resource
     AccessTokenService accessTokenService;
 
-    static Logger log = LoggerFactory.getLogger(WxMsgReplyServiceImpl.class);
+    static Logger log = LoggerFactory.getLogger(WxSendMsgServiceImpl.class);
 
     @Override
     public String getTextMsg(ReceiveMsg receive, String msg) {
@@ -160,7 +157,7 @@ public class WxMsgReplyServiceImpl implements WxMsgReplyService {
      * @return
      */
     @Override
-    public String getCustomTextMsg(String to, String msg, int accountid) {
+    public String sendCustomTextMsg(String to, String msg, int accountid) {
         ObjectMapper mapper = new ObjectMapper();
 
         ObjectNode node = mapper.createObjectNode();
@@ -182,5 +179,37 @@ public class WxMsgReplyServiceImpl implements WxMsgReplyService {
             ex.printStackTrace();
         }
         return str;
+    }
+
+    /**
+     * 微信发送图片消息
+     *
+     * @param to
+     * @param mediaId
+     * @param accountid
+     * @return
+     */
+    @Override
+    public String sendCustomImgMsg(String to, String mediaId, int accountid) {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("touser", to);
+        node.put("msgtype", "image");
+        ObjectNode content = node.putObject("image");
+        content.put("media_id", mediaId);
+        String str;
+        try {
+            str = mapper.writeValueAsString(node);
+            String url = WxConfig.getInstance().getSendTextMsg();
+            TokenResp token = accessTokenService.getAccessToken(accountid);
+            url = String.format(url, token.getAccess_token());
+            String result = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
+            log.debug(result);
+
+            return result;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "";
     }
 }
