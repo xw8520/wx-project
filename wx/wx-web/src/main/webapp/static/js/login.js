@@ -16,7 +16,9 @@ $(function(){
             dataType:'json',
             success:function(resp){
                 if(resp.success){
-                    Tools.showToast("登录成功");
+                    Tools.showToast("登录成功",function(){
+                        window.location.href="main/index.html";
+                    });
                 }else{
                     Tools.showToast(resp.info);
                 }

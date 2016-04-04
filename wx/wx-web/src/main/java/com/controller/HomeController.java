@@ -44,6 +44,9 @@ public class HomeController {
     public Result login(@RequestParam("account") String account,
                         @RequestParam("password") String password) {
         Result result = new Result();
+
+
+
         result.setSuccess(true);
         return result;
     }

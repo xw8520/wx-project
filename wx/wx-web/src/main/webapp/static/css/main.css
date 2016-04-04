@@ -1,0 +1,10 @@
+.menu{
+    width: 260px;
+    height: 90%;
+    overflow-y: scroll;
+}
+
+.panel{
+    margin-bottom: 4px;
+    padding: 0;
+}
