@@ -85,8 +85,7 @@ public class WxMediaServiceImpl implements WxMediaService {
      */
     @Override
     public File downLoadTmpMedia(String mediaId, int accountId,
-                                 String fileName)
-            throws Exception {
+                                 String fileName) throws Exception {
         WxMediaType mediaType = getMediaType(fileName);
         String url = "";
         if (mediaType == WxMediaType.video) {

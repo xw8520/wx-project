@@ -1,26 +1,32 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 2016/2/17
-  Time: 20:29
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>首页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>登录</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../static/css/all.css" type="text/css"/>
+    <link rel="stylesheet" href="../../static/css/login.css" type="text/css"/>
+
+    <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/login.js"></script>
+
 </head>
+
 <body>
-<img src="${requestScope.code}"/>
-获取个人信息：${userInfo.getNickname()}<br/>
-获取多人信息：
-<c:forEach var="item" items="${list}">
-    <span>${item.getNickname()}</span><br/>
-</c:forEach>
+<div class="container">
+    <form class="form-signin">
+        <h2 class="form-signin-heading">登录</h2>
+        <input type="text" id="txtAccount" class="form-control" placeholder="账号"/>
 
-<a href="share.html">微信分享页面</a>
+        <input type="password" id="txtPassword" class="form-control" placeholder="密码"/>
 
-<a href="/fileupload.html">文件上传</a>
+        <button class="btn btn-lg btn-primary btn-block" type="button"
+        id="btnLogin">登录</button>
+    </form>
+</div>
 </body>
+
+
 </html>
