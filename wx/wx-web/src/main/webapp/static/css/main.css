@@ -4,7 +4,29 @@
     overflow-y: scroll;
 }
 
+.menu .panel-body{
+    padding: 0;
+}
+
 .panel{
     margin-bottom: 4px;
     padding: 0;
+}
+
+.top-menu li{
+    height:60px;
+    border-radius: 0;
+    padding: 0;
+}
+.top-menu li a{
+     height:60px;
+     color: #ffffff;
+     padding-top: 20px;
+ }
+.top-menu li a:hover{
+    background-color: #1270d7;
+}
+
+.top-menu-sel li a{
+    background-color: #1270d7;
 }

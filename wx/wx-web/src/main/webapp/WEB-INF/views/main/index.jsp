@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="../../static/css/main.css" type="text/css"/>
     <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../static/js/main.js"></script>
 </head>
 <body>
 <%--头部--%>
 <div class="panel panel-heading" style="background-color: #1891e8">
-<div>
-    <img src="../../static/image/logo-v2.png" style="width: 200px;height: 60px;border: none;"/>
-</div>
+    <img src="../../static/image/logo-v2.png" style="width: 200px;height: 60px;border: none;float: left"/>
+    <ul class="nav nav-pills top-menu">
+        <li ><a href="#">Home</a></li>
+        <li><a href="#">Profile</a></li>
+        <li><a href="#">Messages</a></li>
+    </ul>
 </div>
 <%--左侧导航--%>
 <div class="panel panel-default menu">
     <div class="panel-body">
-        <ul class="nav nav-pills nav-stacked">
+        <ul class="nav nav-pills nav-stacked menu-body">
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#">SVN</a></li>
             <li><a href="#">iOS</a></li>
