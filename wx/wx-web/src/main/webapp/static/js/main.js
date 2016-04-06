@@ -1,14 +1,14 @@
 /**
  * Created by Admin on 2016/4/5.
  */
-$(function(){
-    $('.menu-body li').click(function(){
-        $('.menu-body li').removeClass('active');
-        $(this).addClass('active')
-    });
-
-    $('.top-menu li').click(function(){
-        $('.top-menu li').removeClass('top-menu-sel');
-        $(this).addClass('top-menu-sel')
-    });
+$(function () {
+    $('.navbar-left ul li a ').click(function () {
+        $('.navbar-left ul li a').removeClass("actived");
+        $(this).addClass('actived');
+        if($('.actived i').hasClass('transform-90')){
+            $('.actived i').removeClass('transform-90')
+        }else{
+            $('.actived i').addClass('transform-90')
+        }
+    })
 });

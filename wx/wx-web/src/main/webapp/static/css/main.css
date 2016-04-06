@@ -1,32 +1,49 @@
-.menu{
-    width: 260px;
-    height: 90%;
-    overflow-y: scroll;
-}
-
-.menu .panel-body{
-    padding: 0;
-}
-
-.panel{
-    margin-bottom: 4px;
-    padding: 0;
-}
-
-.top-menu li{
-    height:60px;
-    border-radius: 0;
-    padding: 0;
-}
-.top-menu li a{
-     height:60px;
-     color: #ffffff;
-     padding-top: 20px;
- }
-.top-menu li a:hover{
+.header {
     background-color: #1270d7;
 }
 
-.top-menu-sel li a{
-    background-color: #1270d7;
+.navbar-left {
+    width: 198px;
+    border: solid #cccccc 1px;
+    height: 100%;
+    margin-top: 51px;
+}
+
+.navbar-left ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-left ul li a {
+    padding: 12px 5px 12px 15px;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    color: #1270D7;
+    border-bottom: 1px solid #d8dfe4;
+    box-shadow: none;
+    background-color: #fff;
+    font-weight: normal;
+}
+
+.navbar-left ul li a:hover {
+    background-color: #1270D7;
+    color: #fff;
+}
+
+.actived {
+    background-color: #1270D7 !important;
+    color: #fff !important;
+    /*-webkit-transform: rotate(-90deg);*/
+}
+
+.transform-90{
+    -webkit-transform: rotate(-90deg);
+}
+
+.pull-right {
+    margin-right: 10px;
+    margin-left: .3em;
+    float: right !important;
 }
