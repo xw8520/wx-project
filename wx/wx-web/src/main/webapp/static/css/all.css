@@ -44,7 +44,6 @@ a:focus {
     width: 100%
 }
 
-
 #toast-container {
     position: fixed;
     z-index: 999999;
@@ -88,7 +87,6 @@ a:focus {
     cursor: pointer
 }
 
-
 #toast-container.toast-bottom-center > div, #toast-container.toast-top-center > div {
     width: 200px;
     margin-left: auto;
@@ -124,4 +122,38 @@ a:focus {
         padding: 15px 15px 15px 50px;
         width: 25em
     }
+}
+
+.table-bordered {
+    border: 1px solid #ddd !important;
+}
+
+.main-title {
+    border-bottom: 1px solid #d8dfe4;
+}
+
+.main-title span {
+    display: inline-block;
+    width: 150px;
+    line-height: 40px;
+    font-size: 18px;
+    color: #1891e8;
+    text-indent: 20px;
+    border-bottom: 2px solid #1891e8;
+}
+
+.form-inline {
+    margin-top: 14px;
+}
+
+.panel-op {
+    line-height: 39px;
+    border: 1px solid #ddd;
+    border-bottom: 0;
+    background-color: #ebf3fd;
+    text-align: right;
+}
+
+.panel-body {
+    min-height: 720px;
 }

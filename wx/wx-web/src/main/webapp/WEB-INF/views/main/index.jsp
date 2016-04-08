@@ -41,7 +41,7 @@
 </div>
 
 <div class="content-wrapper">
-    <iframe id="frameMain" class="fram-main" src="">
+    <iframe id="frameMain" class="fram-main">
 
     </iframe>
 </div>

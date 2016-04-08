@@ -32,7 +32,7 @@ public class MainController {
             list.add(item);
         }
         for (int i = 0; i < 3; i++) {
-            item = new MenuItem("name" + i, "url" + i);
+            item = new MenuItem("name" + i, "/account/index.html");
             list.get(0).getChild().add(item);
         }
         view.addObject("menu", list);

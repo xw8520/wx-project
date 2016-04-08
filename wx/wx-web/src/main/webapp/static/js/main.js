@@ -5,6 +5,10 @@ $(function () {
     $('.navbar-left ul li a ').click(function () {
         $('.navbar-left ul li a').removeClass("actived");
         $(this).addClass('actived');
+        var url = $(this).attr('url');
+        if (url != '' && url != null) {
+            $('#frameMain').attr('src', url);
+        }
         //子菜单
         var child = $(this).next('ul');
         if ($('.actived i').hasClass('transform-90')) {
