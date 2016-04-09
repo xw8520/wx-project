@@ -154,6 +154,8 @@ a:focus {
     text-align: right;
 }
 
-.panel-body {
-    min-height: 720px;
+.main-content{
+    margin-bottom: 0;
+    height: 100%;
+    min-width: 1000px;
 }

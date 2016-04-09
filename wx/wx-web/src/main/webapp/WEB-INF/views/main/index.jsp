@@ -15,35 +15,36 @@
 <div class="header navbar navbar-fixed-top">
     <img src="../../static/image/logo-v2.png">
 </div>
-<div class="navbar-left">
-    <ul>
-        <c:forEach items="${menu}" var="item">
-            <li>
-                <a>${item.getName()}
+<div class="panel main-body">
+    <div class="navbar-left">
+        <ul>
+            <c:forEach items="${menu}" var="item">
+                <li>
+                    <a>${item.getName()}
+                        <c:if test="${item.getChild().size()>0}">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </c:if>
+                    </a>
                     <c:if test="${item.getChild().size()>0}">
-                        <i class="fa fa-angle-left pull-right"></i>
+                        <ul class="nav-child">
+                            <c:forEach items="${item.getChild()}" var="child">
+                                <li>
+                                    <a href="javascript:void(0)" url="${child.getUrl()}">
+                                            ${child.getName()}
+                                    </a>
+                                </li>
+                            </c:forEach>
+                        </ul>
                     </c:if>
-                </a>
-                <c:if test="${item.getChild().size()>0}">
-                    <ul class="nav-child">
-                        <c:forEach items="${item.getChild()}" var="child">
-                            <li>
-                                <a href="javascript:void(0)" url="${child.getUrl()}">
-                                        ${child.getName()}
-                                </a>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </c:if>
-            </li>
-        </c:forEach>
-    </ul>
-</div>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
+    <div class="content-wrapper">
+        <iframe id="frameMain" class="fram-main">
 
-<div class="content-wrapper">
-    <iframe id="frameMain" class="fram-main">
-
-    </iframe>
+        </iframe>
+    </div>
 </div>
 </body>
 </html>

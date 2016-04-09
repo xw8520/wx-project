@@ -6,10 +6,7 @@
     width: 210px;
     border: solid #cccccc 1px;
     height: 100%;
-    min-height: 600px;
-    margin-top: 51px;
-    /*position: fixed;*/
-
+    float: left;
 }
 
 .navbar-left ul {
@@ -67,14 +64,18 @@
 }
 
 .content-wrapper {
-    min-height: 600px;
+    height: 100%;
     margin-left: 214px;
-    padding:56px 6px 0 2px;
 }
 
 .fram-main {
-    /*height: 100%;*/
+    height: 100%;
     width: 100%;
     border: none;
-    min-height: 760px;
+}
+
+.main-body{
+    margin-top: 51px;
+    height: 100%;
+    min-width: 1000px;
 }

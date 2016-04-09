@@ -10,7 +10,7 @@
     <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="panel panel-body">
+<div class="panel panel-body main-content">
     <div class="main-title">
         <span>账户管理</span>
     </div>
@@ -25,7 +25,6 @@
         </div>
         <button type="submit" class="btn btn-default">Send invitation</button>
     </form>
-
     <div class="panel-op">
         <a  href="#">Link</a>
     </div>
