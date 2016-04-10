@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.AccessTokenMapper">
+    <resultMap id="AccessTokenResult" type="com.domain.wx.AccessToken">
+        <result column="id"></result>
+        <result column="accountid"></result>
+        <result column="token"></result>
+        <result column="createtime"></result>
+        <result column="expiredtime"></result>
+    </resultMap>
+
+    <select id="getAccessTokenByAccount" resultType="com.domain.wx.AccessToken"
+             parameterType="int">
+    SELECT  * from AccessToken WHERE accountid=#{accountid}
+    ORDER BY id desc limit 1
+    </select>
+    
+    <select id="getAccessTokenByToken" resultType="com.domain.wx.AccessToken"
+            parameterType="string">
+        SELECT  * from AccessToken WHERE token=#{token}
+        ORDER BY id desc limit 1
+    </select>
+    
+    <insert id="addAccessToken" parameterType="com.domain.wx.AccessToken"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT into accesstoken(accountid,token,createtime,expiredtime)
+        VALUES (#{accountid},#{token},#{createtime},#{expiredtime})
+    </insert>
+</mapper>

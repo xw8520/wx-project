@@ -4,7 +4,6 @@
 <head>
     <title>主页</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="../../static/css/all.css" type="text/css"/>
     <link rel="stylesheet" href="../../static/css/main.css" type="text/css"/>
     <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
@@ -22,7 +21,7 @@
                 <li>
                     <a>${item.getName()}
                         <c:if test="${item.getChild().size()>0}">
-                            <i class="fa fa-angle-left pull-right"></i>
+                            <i class="glyphicon glyphicon-menu-left pull-right"></i>
                         </c:if>
                     </a>
                     <c:if test="${item.getChild().size()>0}">
@@ -42,7 +41,6 @@
     </div>
     <div class="content-wrapper">
         <iframe id="frameMain" class="fram-main">
-
         </iframe>
     </div>
 </div>

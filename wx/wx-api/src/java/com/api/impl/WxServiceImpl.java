@@ -1,11 +1,9 @@
 package com.api.impl;
 
 import com.api.WxService;
-import com.service.WxMessageService;
+import com.service.api.WxMessageService;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.NoSuchAlgorithmException;
 
 /**

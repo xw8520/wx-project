@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.QrCodeMapper">
+    <resultMap id="QrCodeResult" type="com.domain.wx.QrCode">
+        <result column="id"></result>
+        <result column="param"></result>
+        <result column="remark"/>
+        <result column="ticket"/>
+        <result column="accountid"/>
+        <result column="createtime"></result>
+        <result column="expiredtime"></result>
+    </resultMap>
+    <select id="getCodeById" parameterType="int" resultType="com.domain.wx.QrCode">
+        SELECT  * from QrCode where id=#{id}
+    </select>
+
+    <select id="getCodeByParam" parameterType="string" resultType="com.domain.wx.QrCode">
+        SELECT  * from QrCode where param=#{param} limit 1
+    </select>
+
+    <insert id="addQrCode" parameterType="com.domain.wx.QrCode" useGeneratedKeys="true" keyProperty="id">
+        insert into QrCode(param,remark,createtime,expiredtime,ticket,accountid) values(
+        #{param},#{remark},#{createtime},#{expiredtime},#{ticket},#{accountid})
+    </insert>
+
+    <update id="updateQrCode" parameterType="com.domain.wx.QrCode">
+        UPDATE QrCode SET expiredtime=#{expiredtime} where id=#{id}
+    </update>
+</mapper>

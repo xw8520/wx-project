@@ -1,17 +1,17 @@
 package com.test;
 
-import com.dto.wx.NewsMessageItem;
-import com.dto.wx.TokenResp;
-import com.dto.wx.UserInfoListResp;
-import com.dto.wx.enums.WxMediaType;
-import com.dto.wx.media.ArticleItem;
+import com.models.wx.message.NewsMessageItem;
+import com.models.wx.token.TokenResp;
+import com.models.wx.user.UserInfoListResp;
+import com.enums.WxMediaType;
+import com.models.wx.media.ArticleItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.service.AccessTokenService;
-import com.service.WxMediaService;
-import com.service.WxMessageService;
-import com.service.impl.WxMediaServiceImpl;
+import com.service.api.AccessTokenService;
+import com.service.api.WxMediaService;
+import com.service.api.WxMessageService;
+import com.service.api.impl.WxMediaServiceImpl;
 import com.utils.JsonUtils;
 import com.utils.XmlParseUtils;
 import junit.framework.TestCase;
@@ -28,10 +28,8 @@ import org.apache.http.util.EntityUtils;
 import org.dom4j.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;

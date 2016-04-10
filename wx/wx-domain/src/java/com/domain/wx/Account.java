@@ -1,13 +1,30 @@
 package com.domain.wx;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Admin on 2016/2/21.
  */
-public class Account {
+public class Account implements Serializable {
+    public Account() {
+    }
+
     private int id;
     private String name;
+
+    public byte getType() {
+        return type;
+    }
+
+    public void setType(byte type) {
+        this.type = type;
+    }
+
+    /**
+     * 0-订阅号，1-服务号
+     */
+    private byte type;
     private String appid;
     private String secret;
     private String remark;

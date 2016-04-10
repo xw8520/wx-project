@@ -1,22 +1,14 @@
 package com.controller;
 
 
-import com.dto.web.Result;
-import com.dto.wx.UserInfoResp;
-import com.service.AccessTokenService;
-import com.service.WxMessageService;
+import com.sun.javafx.collections.MappingChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -41,13 +33,10 @@ public class HomeController {
      */
     @ResponseBody
     @RequestMapping(value = "home/login.action", method = RequestMethod.POST)
-    public Result login(@RequestParam("account") String account,
-                        @RequestParam("password") String password) {
-        Result result = new Result();
-
-
-
-        result.setSuccess(true);
+    public Map<String, Object> login(@RequestParam("account") String account,
+                                     @RequestParam("password") String password) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", true);
         return result;
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.data.AccountMapper">
+    <resultMap id="AccountResult" type="com.domain.wx.Account">
+        <result column="id" property="id"></result>
+        <result column="name" property="name"></result>
+        <result column="type" property="type"></result>
+        <result column="appid" property="appid"></result>
+        <result column="secret" property="secret"></result>
+        <result column="remark" property="remark"></result>
+        <result column="createtime" property="createtime"></result>
+        <result column="modifytime" property="modifytime"></result>
+    </resultMap>
+    <select id="getAccountById" parameterType="int" resultType="com.domain.wx.Account">
+        SELECT  * from account where id=#{id}
+    </select>
+
+    <insert id="addAccount" parameterType="com.domain.wx.Account" useGeneratedKeys="true" keyProperty="id">
+        insert into account(name,appid,secret,remark,createtime,modifytime) values(
+        #{name},#{appid},#{secret},#{remark},#{createtime},#{modifytime}
+        )
+    </insert>
+
+    <select id="getAccountList" resultMap="AccountResult">
+        SELECT id,name,type,appid,secret,remark,createtime,modifytime from Account as a
+        <where>
+            <if test="name!='' and name!=null">
+                a.name =#{name }
+            </if>
+            <if test="appId!=null and appId!=''">
+                a.appid=#{appid}
+            </if>
+        </where>
+        ORDER BY a.id asc
+    </select>
+
+    <update id="updateAccount" parameterType="com.domain.wx.Account">
+        update account
+        set name=#{name},appid=#{appid},secret=#{secret},remark=#{remark},modifytime=#{modifytime}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteAccount" parameterType="Map">
+        delete from account
+        where id in
+        <foreach collection="list" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
