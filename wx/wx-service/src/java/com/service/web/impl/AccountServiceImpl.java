@@ -11,11 +11,14 @@ import com.models.web.SaveAccount;
 import com.service.web.AccountService;
 import com.utils.JsonUtils;
 import com.utils.StringUtils;
+import com.utils.XmlParseUtils;
+import org.dom4j.Document;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.*;
 
 /**
@@ -56,6 +59,37 @@ public class AccountServiceImpl implements AccountService {
         }
 
 
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getAccountHtml(int pageIndex, int pageSize, String args) {
+        Map<String, Object> map=getAccountList(pageIndex,pageSize,args);
+        if(map!=null){
+            List<AccountInfo> list = (List<AccountInfo>) map.get("data");
+            if(list!=null){
+                try {
+                    InputStream stream = this.getClass().getResource("/template/accountList.xml")
+                            .openStream();
+                    Document doc = XmlParseUtils.getDocument(stream);
+                    String str = XmlParseUtils.getDocElementTextByPath(doc, "root/body");
+                    if (!StringUtils.isNullOrEmpty(str)) {
+                        StringBuffer buffer = new StringBuffer();
+                        if (list != null) {
+                            for (AccountInfo item : list) {
+                                String tmp = MessageFormat.format(str, item.getId(), item.getName(),
+                                        item.getAppid(), item.getType(), item.getId());
+                                buffer.append(tmp);
+                            }
+                        }
+                        map.remove("data");
+                        map.put("data", buffer.toString());
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         return map;
     }
 
@@ -113,5 +147,21 @@ public class AccountServiceImpl implements AccountService {
             return map;
         }
 
+    }
+
+    @Override
+    public SaveAccount getAccountById(int id) {
+        SaveAccount info = new SaveAccount();
+        Account account = accountMapper.getAccountById(id);
+        if (account != null) {
+            info.setId(account.getId());
+            info.setName(account.getName());
+            info.setAppid(account.getAppid());
+            info.setSecret(account.getSecret());
+            info.setType(account.getType());
+            info.setRemark(account.getRemark());
+        }
+
+        return info;
     }
 }

@@ -105,6 +105,14 @@ var pager = {
                 $('#pageInfo').text(index + '/' + resp.total);
                 $(bodyLoc).empty();
                 $(bodyLoc).append(resp.data);
+                $('.chkId').click(function () {
+                    var checked = $(this).is(':checked');
+                    if (checked) {
+                        $(this).parent().parent().css('background-color', '#ebf3fd');
+                    } else {
+                        $(this).parent().parent().css('background-color', 'transparent');
+                    }
+                });
             },
             error: function (resp) {
                 Tools.showToast('系统出错，请稍后再试');

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <body>
+        <![CDATA[
+        <tr>
+            <td><input class="chkId" val="{0}" type="checkbox"></td>
+            <td>{1}</td>
+            <td>{2}</td>
+            <td>{3}</td>
+            <td>{4}</td>
+        </tr>
+    ]]>
+    </body>
+</root>

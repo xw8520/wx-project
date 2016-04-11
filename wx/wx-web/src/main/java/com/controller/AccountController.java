@@ -4,15 +4,17 @@ import com.model.PagerParam;
 import com.models.web.AccountInfo;
 import com.models.web.SaveAccount;
 import com.service.web.AccountService;
+import com.utils.StringUtils;
+import com.utils.XmlParseUtils;
+import org.dom4j.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,27 +37,8 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "getAccountList", method = RequestMethod.POST)
     public Map<String, Object> getAccountList(@ModelAttribute("data") PagerParam data) {
-        Map<String, Object> map = accountService.getAccountList(data.getPageIndex(),
+        Map<String, Object> map = accountService.getAccountHtml(data.getPageIndex(),
                 data.getPageSize(), data.getArgs());
-        List<AccountInfo> list = (List<AccountInfo>) map.get("data");
-        String str = "<tr>\n" +
-                "            <td><input class=\"chkId\" val=\"{4}\" type=\"checkbox\"/></td>\n" +
-                "            <td>{0}</td>\n" +
-                "            <td>{1}</td>\n" +
-                "            <td>{2}</td>\n" +
-                "            <td>{3}</td>\n" +
-                "        </tr>";
-        StringBuffer buffer = new StringBuffer();
-        if (list != null) {
-            for (AccountInfo item : list) {
-                String tmp = MessageFormat.format(str, item.getId(), item.getName(),
-                        item.getAppid(), item.getType(), item.getId());
-                buffer.append(tmp);
-            }
-        }
-        map.remove("data");
-        map.put("data", buffer.toString());
-
         return map;
     }
 
@@ -71,5 +54,12 @@ public class AccountController {
     public Map<String, Object> deleteAccount(@RequestBody List<Integer> data) {
         Map<String, Object> map = accountService.deleteAccount(data);
         return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getAccount", method = RequestMethod.POST)
+    public SaveAccount getAccount(@RequestParam("id") int id) {
+        SaveAccount account = accountService.getAccountById(id);
+        return account;
     }
 }

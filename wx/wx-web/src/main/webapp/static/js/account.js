@@ -3,6 +3,8 @@
  */
 $(function () {
     $('#btnSave').click(saveAccount);
+
+
 });
 
 function add() {
@@ -17,7 +19,35 @@ function add() {
 }
 
 function edit() {
+    var input = $('.chkId:checked');
+    var data = new Array();
+    input.each(function (index, el) {
+        data.push(parseInt($(el).attr('val')));
+    });
+    if (data.length == 0) {
+        Tools.showToast("请选择要编辑的记录");
+        return;
+    }
+    Tools.showModel('#popModel');
+    $.ajax({
+        url: '/account/getAccount',
+        type: 'POST',
+        data: {id: data[0]},
+        dataType: 'json',
+        traditional: true,
+        success: function (resp) {
+            var input = $('#formAccount input');
+            input.each(function (index, el) {
+                $(el).val(resp[$(el).attr('id')])
+            });
+            $('#remark').val(resp.remark);
+            $('#type').val(resp.type);
 
+        },
+        error: function (resp) {
+            Tools.showToast('系统出错，请稍后再试');
+        }
+    })
 }
 
 function del() {

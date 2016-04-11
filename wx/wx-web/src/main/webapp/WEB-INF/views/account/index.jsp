@@ -45,16 +45,15 @@
         <a href="javascript:void(0)" onclick="add()">新增</a>
         <a href="javascript:void(0)" onclick="edit()">修改</a>
         <a href="javascript:void(0)" onclick="del()">删除</a>
-
     </div>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th></th>
-            <th>编号</th>
-            <th>名称</th>
-            <th>微信号</th>
-            <th>类型</th>
+            <th class="col-chk"></th>
+            <th class="row-head">编号</th>
+            <th class="row-head">名称</th>
+            <th class="row-head">微信号</th>
+            <th class="row-head">类型</th>
         </tr>
         </thead>
         <tbody id="listBody">
@@ -81,21 +80,21 @@
                             <label class="col-sm-3 control-label" for="name">账号名:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" class="form-control"/>
+                                <input type="text" id="name" class="form-control" maxlength="50"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="appid">AppId:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="appid" class="form-control"/>
+                                <input type="text" id="appid" class="form-control" maxlength="100"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="secret">AppSecret:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="secret" class="form-control"/>
+                                <input type="text" id="secret" class="form-control" maxlength="100"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -112,7 +111,7 @@
                             <label class="col-sm-3 control-label" for="remark">备注:</label>
 
                             <div class="col-sm-9">
-                               <textarea id="remark" class="form-control"></textarea>
+                               <textarea id="remark" class="form-control" maxlength="200"></textarea>
                             </div>
                         </div>
                     </form>

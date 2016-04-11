@@ -180,3 +180,15 @@ a:focus {
 .panel-search{
     margin-bottom: 0;
 }
+
+.col-chk{
+    width:40px;
+}
+
+.row-head{
+    text-align: center;
+}
+
+.table-hover tbody tr:hover{
+    background-color:#ebf3fd ;
+}
