@@ -9,16 +9,16 @@
         <result column="password"></result>
         <result column="name"></result>
         <result column="domain"></result>
-        <result column="modifytime" jdbcType="Date"></result>
-        <result column="createtime" jdbcType="Date"></result>
+        <result column="modifytime"></result>
+        <result column="createtime"></result>
         <result column="company"></result>
     </resultMap>
 
     <select id="getUser" resultMap="UserResult" parameterType="int">
         SELECT * from Users where id=#{id}
     </select>
-    <select id="login">
-        SELECT  count(1) from Users where account=#{account} AND  password=#{password}
+    <select id="login" resultType="int">
+        SELECT count(1) from Users where account=#{account} AND  password=#{password}
     </select>
 
 </mapper>

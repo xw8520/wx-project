@@ -8,6 +8,8 @@ import com.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by TimLin on 2016/5/10.
@@ -26,7 +28,10 @@ public class UsersServiceImpl implements UsersService {
             return resp;
         }
         password = Md5.md5(password);
-        int exist = userMapper.login(account, password);
+        Map<String, String> map = new HashMap<>();
+        map.put("account", account);
+        map.put("password", password);
+        int exist = userMapper.login(map);
         if (exist > 0) {
             resp.setSuccess(true);
             return resp;
