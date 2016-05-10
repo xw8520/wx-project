@@ -24,6 +24,7 @@ import java.util.*;
 /**
  * Created by Admin on 2016/4/10.
  */
+@Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
     @Resource

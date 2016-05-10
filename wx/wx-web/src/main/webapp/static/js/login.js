@@ -20,7 +20,7 @@ $(function(){
                         window.location.href="main/index.html";
                     });
                 }else{
-                    Tools.showToast(resp.info);
+                    Tools.showToast(resp.msg);
                 }
             },
             error:function(resp){
