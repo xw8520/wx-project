@@ -40,6 +40,7 @@ public class HomeController {
     @RequestMapping(value = "home/login.action", method = RequestMethod.POST)
     public LoginResp login(@RequestParam("account") String account,
                                      @RequestParam("password") String password) {
+									 //
         LoginResp resp=usersService.login(account,password);
         return resp;
     }
