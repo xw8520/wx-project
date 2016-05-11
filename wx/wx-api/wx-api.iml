@@ -13,7 +13,6 @@
     <orderEntry type="module" module-name="wx-service" />
     <orderEntry type="module" module-name="wx-data" />
     <orderEntry type="module" module-name="wx-domain" />
-    <orderEntry type="library" name="Maven: wx:wx-dto:1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="wx-core" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.1.6.RELEASE" level="project" />

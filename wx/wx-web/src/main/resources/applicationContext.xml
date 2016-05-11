@@ -56,6 +56,10 @@
         <property name="mapperInterface" value="com.data.UsersMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+    <bean id="menuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.MenuMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
     <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
     <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
     <!--</bean>-->

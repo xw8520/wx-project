@@ -38,6 +38,7 @@
         <mapper resource="mybatis-mappers/QrCodeMapper.xml"></mapper>
         <mapper resource="mybatis-mappers/WxMediaMapper.xml"></mapper>
         <mapper resource="mybatis-mappers/UsersMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/MenuMapper.xml"></mapper>
     </mappers>
 </configuration>
 

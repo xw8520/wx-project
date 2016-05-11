@@ -90,6 +90,9 @@ public class AccountServiceImpl implements AccountService {
                     ex.printStackTrace();
                 }
             }
+        }else{
+            map.put("total",0);
+            map.put("data","");
         }
         return map;
     }

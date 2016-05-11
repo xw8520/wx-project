@@ -1,10 +1,12 @@
 package com.controller;
 
 import com.models.web.MenuItem;
+import com.service.web.MenuService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,10 @@ import java.util.List;
 @Controller
 @RequestMapping("main")
 public class MainController {
+
+    @Resource
+    MenuService menuService;
+
     /**
      * 主页
      *
@@ -22,16 +28,7 @@ public class MainController {
     @RequestMapping(value = "index.html")
     public ModelAndView index() {
         ModelAndView view = new ModelAndView("main/index");
-        List<MenuItem> list = new ArrayList<>();
-        MenuItem item;
-        for (int i = 0; i < 5; i++) {
-            item = new MenuItem("name" + i, "url" + i);
-            list.add(item);
-        }
-        for (int i = 0; i < 3; i++) {
-            item = new MenuItem("name" + i, "/account/index.html");
-            list.get(0).getChild().add(item);
-        }
+        List<MenuItem> list =menuService.getMenuList();
         view.addObject("menu", list);
         return view;
     }
