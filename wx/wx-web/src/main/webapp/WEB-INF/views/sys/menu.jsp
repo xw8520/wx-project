@@ -15,17 +15,17 @@
 //            pager.initPager('/sys/getMenuList');
 //            pager.loadData();
 
-            $('.glyphicon').click(function(){
-                var loc=$(this);
-                var val=loc.attr('val');
-                if(loc.hasClass('glyphicon-plus')){
+            $('.glyphicon').click(function () {
+                var loc = $(this);
+                var val = loc.attr('val');
+                if (loc.hasClass('glyphicon-plus')) {
                     loc.removeClass('glyphicon-plus');
                     loc.addClass('glyphicon-minus');
-                    $('tr[pid='+val+']').show();
-                }else{
+                    $('tr[pid=' + val + ']').show();
+                } else {
                     loc.removeClass('glyphicon-minus');
                     loc.addClass('glyphicon-plus');
-                    $('tr[pid='+val+']').hide();
+                    $('tr[pid=' + val + ']').hide();
                 }
             });
         });
@@ -60,25 +60,32 @@
             </td>
             <td>内容</td>
             <td>内容</td>
-            <td>内容</td>
+            <td>
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-remove"></i>
+            </td>
         </tr>
         <tr pid="1123">
             <td style="padding-left: 30px;">
-                <i ></i>
+                <i></i>
                 内容
             </td>
             <td>内容</td>
             <td>内容</td>
-            <td>内容</td>
+            <td><i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-remove"></i></td>
         </tr>
         <tr pid="1123">
             <td style="padding-left: 30px;">
-                <i ></i>
+                <i></i>
                 内容
             </td>
             <td>内容</td>
             <td>内容</td>
-            <td>内容</td>
+            <td><i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-remove"></i>
+            </td>
         </tr>
 
         <tr>
@@ -88,7 +95,11 @@
             </td>
             <td>内容</td>
             <td>内容</td>
-            <td>内容</td>
+            <td>
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-remove"></i>
+            </td>
         </tr>
         </tbody>
     </table>
