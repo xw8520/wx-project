@@ -8,11 +8,12 @@ import com.enums.MenuType;
 import com.models.web.MenuInfo;
 import com.models.web.MenuItem;
 import com.service.web.MenuService;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.sun.org.apache.xml.internal.dtm.ref.DTMNamedNodeMap;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by TimLin on 2016/5/11.
@@ -46,7 +47,7 @@ public class MenuServiceImpl implements MenuService {
         result.setType(menu.getType());
         result.setName(menu.getName());
         result.setId(menu.getId());
-        result.setOrdenum(menu.getOrdernum());
+        result.setOrdernum(menu.getOrdernum());
         result.setPid(menu.getPid());
         result.setDomain(menu.getDomain());
         result.setStatus(menu.getStatus());
@@ -59,15 +60,15 @@ public class MenuServiceImpl implements MenuService {
         MenuExample param = new MenuExample();
         param.createCriteria().andPidEqualTo(pid);
         List<Menu> list = menuMapper.selectByExample(param);
-        List<MenuInfo> result=new ArrayList<>();
+        List<MenuInfo> result = new ArrayList<>();
         MenuInfo newItem;
         for (Menu item : list) {
-            newItem=new MenuInfo();
+            newItem = new MenuInfo();
             newItem.setUrl(item.getUrl());
             newItem.setType(item.getType());
             newItem.setName(item.getName());
             newItem.setId(item.getId());
-            newItem.setOrdenum(item.getOrdernum());
+            newItem.setOrdernum(item.getOrdernum());
             newItem.setPid(item.getPid());
             newItem.setDomain(item.getDomain());
             newItem.setStatus(item.getStatus());
@@ -75,6 +76,67 @@ public class MenuServiceImpl implements MenuService {
         }
 
         return result;
+    }
+
+    @Override
+    public Map<String, Object> saveOrUpdate(MenuInfo info) {
+        Map<String, Object> map = new HashMap<>();
+        if (info == null) {
+            map.put("success", false);
+            map.put("msg", "请求参数为空");
+            return map;
+        }
+        Menu data = new Menu();
+        data.setId(info.getId());
+        data.setDomain(info.getDomain());
+        data.setName(info.getName());
+        data.setOrdernum(info.getOrdernum());
+        data.setPid(info.getPid());
+        data.setStatus(info.getStatus());
+        data.setType(info.getType());
+        data.setUrl(info.getUrl());
+        data.setModifytime(new Date());
+        try {
+            if (info.getId() == 0) {
+                data.setCreatetime(new Date());
+                menuMapper.insert(data);
+            } else {
+                MenuExample exp = new MenuExample();
+                exp.createCriteria().andIdEqualTo(info.getId());
+
+                menuMapper.updateByExampleSelective(data, exp);
+            }
+            map.put("success", true);
+            return map;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            map.put("success", false);
+            map.put("msg", "保存失败");
+            return map;
+        }
+
+    }
+
+    @Override
+    public Map<String, Object> deleteMenu(Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        MenuExample exp = new MenuExample();
+        exp.createCriteria().andPidEqualTo(id);
+
+        int childCount = menuMapper.countByExample(exp);
+
+        if (childCount > 0) {
+            map.put("success", false);
+            map.put("msg", "请先移除子菜单");
+            return map;
+        }
+        Menu menu = new Menu();
+        menu.setId(id);
+        menu.setStatus(MenuStatus.刪除.getValue());
+        menu.setModifytime(new Date());
+        menuMapper.updateByPrimaryKeySelective(menu);
+        map.put("success", true);
+        return map;
     }
 
     private List<MenuItem> getChildMenu(int pid) {

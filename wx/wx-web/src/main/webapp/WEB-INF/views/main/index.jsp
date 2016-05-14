@@ -11,8 +11,8 @@
     <script type="text/javascript" src="../../static/js/main.js"></script>
 </head>
 <body>
-<div class="header navbar navbar-fixed-top">
-    <img src="../../static/image/logo-v2.png">
+<div class="header navbar navbar-fixed-top" >
+    <img src="../../static/image/logo-v2.png" style="display: none">
 </div>
 <div class="panel main-body">
     <div class="navbar-left">

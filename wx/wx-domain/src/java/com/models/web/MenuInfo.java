@@ -24,7 +24,7 @@ public class MenuInfo implements Serializable {
     private int pid;
     private int domain;
     private byte status;
-    private int ordenum;
+    private int ordernum;
 
     public int getId() {
         return id;
@@ -82,11 +82,11 @@ public class MenuInfo implements Serializable {
         this.status = status;
     }
 
-    public int getOrdenum() {
-        return ordenum;
+    public int getOrdernum() {
+        return ordernum;
     }
 
-    public void setOrdenum(int ordenum) {
-        this.ordenum = ordenum;
+    public void setOrdernum(int ordernum) {
+        this.ordernum = ordernum;
     }
 }
