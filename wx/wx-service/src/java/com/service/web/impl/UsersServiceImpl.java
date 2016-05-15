@@ -1,6 +1,7 @@
 package com.service.web.impl;
 
 import com.data.UsersMapper;
+import com.domain.web.Users;
 import com.models.web.LoginResp;
 import com.service.web.UsersService;
 import com.utils.Md5;
@@ -21,22 +22,27 @@ public class UsersServiceImpl implements UsersService {
     UsersMapper userMapper;
 
     @Override
-    public LoginResp login(String account, String password) {
-        LoginResp resp = new LoginResp();
+    public Map<String, Object> login(String account, String password) {
+        Map<String, Object> map = new HashMap<>();
         if (StringUtils.isNullOrEmpty(account) || StringUtils.isNullOrEmpty(password)) {
-            resp.setMsg("请输账号和密码");
-            return resp;
+            map.put("msg", "请输账号和密码");
+            map.put("success", false);
+            return map;
         }
         password = Md5.md5(password);
-        Map<String, String> map = new HashMap<>();
-        map.put("account", account);
-        map.put("password", password);
-        int exist = userMapper.login(map);
-        if (exist > 0) {
-            resp.setSuccess(true);
-            return resp;
+        Map<String, String> param = new HashMap<>();
+        param.put("account", account);
+        param.put("password", password);
+        Users user = userMapper.getUserInfo(param);
+        if (user != null) {
+            map.put("success", true);
+            map.put("domain", user.getDomain());
+            map.put("name", user.getName());
+            map.put("id", user.getId());
+            return map;
         }
-        resp.setMsg("账户不存在或者密码错误");
-        return resp;
+        map.put("success", false);
+        map.put("msg","账户不存在或者密码错误");
+        return map;
     }
 }

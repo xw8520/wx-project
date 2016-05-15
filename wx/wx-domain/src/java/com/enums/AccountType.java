@@ -15,4 +15,9 @@ public enum AccountType {
     public int getVal() {
         return val;
     }
+
+    public static AccountType getType(byte val) {
+        if (val == 0) return AccountType.服务号;
+        return AccountType.订阅号;
+    }
 }

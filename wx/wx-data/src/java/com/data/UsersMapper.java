@@ -10,5 +10,7 @@ import java.util.Map;
 public interface UsersMapper {
     Users getUser(int id);
 
+    Users getUserInfo(Map<String,String> map);
+
     int login(Map<String,String> map);
 }

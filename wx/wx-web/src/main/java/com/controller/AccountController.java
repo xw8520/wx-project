@@ -4,6 +4,7 @@ import com.model.PagerParam;
 import com.models.web.AccountInfo;
 import com.models.web.SaveAccount;
 import com.service.web.AccountService;
+import com.utils.CookieUtil;
 import com.utils.StringUtils;
 import com.utils.XmlParseUtils;
 import org.dom4j.Document;
@@ -14,7 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +34,7 @@ public class AccountController {
     AccountService accountService;
 
     @RequestMapping(value = "index.html")
-    public ModelAndView index() {
+    public ModelAndView index(HttpServletRequest req, HttpServletResponse resp) {
         ModelAndView view = new ModelAndView("account/index");
         return view;
     }

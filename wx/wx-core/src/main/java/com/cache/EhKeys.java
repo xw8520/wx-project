@@ -5,4 +5,6 @@ package com.cache;
  */
 public class EhKeys {
     public static final String accessTokenKey = "accessTokenKey_%d";
+
+    public static final String accountInfoKey="accountInfoKey_%d";
 }

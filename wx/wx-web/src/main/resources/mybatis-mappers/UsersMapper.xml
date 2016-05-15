@@ -20,5 +20,8 @@
     <select id="login" resultType="int">
         SELECT count(1) from Users where account=#{account} AND  password=#{password}
     </select>
+    <select id="getUserInfo" resultType="com.domain.web.Users">
+         SELECT * from Users where account=#{account} AND  password=#{password}
+    </select>
 
 </mapper>

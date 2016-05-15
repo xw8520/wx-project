@@ -20,4 +20,6 @@ public interface AccountService {
     Map<String, Object> deleteAccount(List<Integer> list);
 
     SaveAccount getAccountById(int id);
+
+    AccountInfo getAccountInfo(int id);
 }

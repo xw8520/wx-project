@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>菜单管理</title>
+    <title>临时素材管理</title>
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="../../static/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="../../static/css/all.css" type="text/css"/>
@@ -10,12 +10,12 @@
     <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../static/js/bootstrap-modal.js"></script>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
-    <script type="text/javascript" src="../../static/js/sys/menu.js"></script>
+    <script type="text/javascript" src="../../static/js/media/tmedia.js"></script>
 </head>
 <body>
 <div class="panel panel-body main-content">
     <div class="main-title">
-        <span>菜单管理</span>
+        <span>临时素材管理</span>
     </div>
     <div class="panel-op">
         <a href="javascript:void(0)" onclick="addMenu(0)">新增</a>
@@ -23,17 +23,17 @@
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th class="row-head" style="width: 400px">菜单名</th>
-            <th class="row-head">类型</th>
-            <th class="row-head">Url</th>
-            <th class="row-head">操作</th>
+            <th class="row-head" style="">id</th>
+            <th class="row-head">标题</th>
+            <th class="row-head">素材类型</th>
+            <th class="row-head">素材id</th>
+            <th class="row-head">备注</th>
         </tr>
         </thead>
         <tbody id="listBody">
         <c:forEach var="item" items="${menu}">
             <tr>
                 <td>
-                    <i class="glyphicon glyphicon-minus gp" val="${item.id}"></i>
                         ${item.name}
                 </td>
                 <td>${item.type==0?"组":"菜单"}</td>
@@ -44,22 +44,6 @@
                     <i class="glyphicon glyphicon-remove" title="删除" onclick="deleteMenu(${item.id})"></i>
                 </td>
             </tr>
-            <c:if test="${item.child!=null}">
-                <c:forEach var="child" items="${item.child}">
-                    <tr pid="${item.id}">
-                        <td style="padding-left: 30px;">
-                            <i></i>
-                                ${child.name}
-                        </td>
-                        <td>${child.type==0?"组":"菜单"}</td>
-                        <td>${child.url}</td>
-                        <td>
-                            <i class="glyphicon glyphicon-edit" onclick="editMenu(${child.id})"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <i class="glyphicon glyphicon-remove" onclick="deleteMenu(${child.id})"></i>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </c:if>
         </c:forEach>
         </tbody>
     </table>

@@ -9,9 +9,18 @@ import java.util.Date;
 public class Users implements Serializable {
     private int id;
     private String account;
-    private String passoword;
     private String name;
     private int domain;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private Date modifytime;
     private Date createtime;
     private String company;
@@ -30,14 +39,6 @@ public class Users implements Serializable {
 
     public void setAccount(String account) {
         this.account = account;
-    }
-
-    public String getPassWord() {
-        return passoword;
-    }
-
-    public void setPassWord(String passWord) {
-        this.passoword = passWord;
     }
 
     public String getName() {

@@ -1,5 +1,7 @@
 package com.service.web.impl;
 
+import com.cache.EhCacheManager;
+import com.cache.EhKeys;
 import com.data.AccountMapper;
 import com.domain.wx.Account;
 import com.enums.AccountType;
@@ -29,6 +31,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Resource
     AccountMapper accountMapper;
+    @Resource
+    EhCacheManager cacheManager;
 
     @Override
     public Map<String, Object> getAccountList(int pageIndex, int pageSize, String args) {
@@ -65,10 +69,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Map<String, Object> getAccountHtml(int pageIndex, int pageSize, String args) {
-        Map<String, Object> map=getAccountList(pageIndex,pageSize,args);
-        if(map!=null){
+        Map<String, Object> map = getAccountList(pageIndex, pageSize, args);
+        if (map != null) {
             List<AccountInfo> list = (List<AccountInfo>) map.get("data");
-            if(list!=null){
+            if (list != null) {
                 try {
                     InputStream stream = this.getClass().getResource("/template/accountList.xml")
                             .openStream();
@@ -90,9 +94,9 @@ public class AccountServiceImpl implements AccountService {
                     ex.printStackTrace();
                 }
             }
-        }else{
-            map.put("total",0);
-            map.put("data","");
+        } else {
+            map.put("total", 0);
+            map.put("data", "");
         }
         return map;
     }
@@ -164,6 +168,23 @@ public class AccountServiceImpl implements AccountService {
             info.setSecret(account.getSecret());
             info.setType(account.getType());
             info.setRemark(account.getRemark());
+        }
+
+        return info;
+    }
+
+    @Override
+    public AccountInfo getAccountInfo(int id) {
+        String key = String.format(EhKeys.accountInfoKey, id);
+        AccountInfo info = cacheManager.get(key, AccountInfo.class);
+        if (info == null) {
+            Account account = accountMapper.getAccountById(id);
+            info = new AccountInfo();
+            info.setType(AccountType.getType(account.getType()));
+            info.setAppid(account.getAppid());
+            info.setId(account.getId());
+            info.setSecret(account.getSecret());
+            cacheManager.put(key, info, 30 * 60);
         }
 
         return info;

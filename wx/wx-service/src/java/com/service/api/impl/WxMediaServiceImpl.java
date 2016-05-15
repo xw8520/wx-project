@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -64,13 +65,19 @@ public class WxMediaServiceImpl implements WxMediaService {
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传素材失败");
         }
-        System.out.println(str);
+//        System.out.println(str);
         UploadTmpMediaResp resp = JsonUtils.Deserialize(str, UploadTmpMediaResp.class);
-        String fileName = path.substring(path.lastIndexOf("/") + 1);
         //添加临时素材记录
-        WxMedia media = new WxMedia(title, remark, accountId, mediaType.getValue(),
-                fileName, resp.getMedia_id(), false);
-        wxMediaMapper.addMedia(media);
+        WxMedia media = new WxMedia();
+        media.setRemark(remark);
+        media.setCreatetime(new Date());
+        media.setAccountid(accountId);
+        media.setIslong(false);
+        media.setDomain(1);
+        media.setMediatype(mediaType.getValue());
+        media.setTitle(title);
+        media.setMediaid(resp.getMedia_id());
+        wxMediaMapper.insert(media);
         return resp;
     }
 
@@ -210,9 +217,9 @@ public class WxMediaServiceImpl implements WxMediaService {
             System.out.println(hash.get("errmsg"));
         }
         //添加临时素材记录
-        WxMedia media = new WxMedia("long", "long", accountId, mediaType.getValue(),
-                fileName, mediaId, true);
-        wxMediaMapper.addMedia(media);
+//        WxMedia media = new WxMedia("long", "long", accountId, mediaType.getValue(),
+//                fileName, mediaId, true);
+//        wxMediaMapper.addMedia(media);
         return "";
     }
 }

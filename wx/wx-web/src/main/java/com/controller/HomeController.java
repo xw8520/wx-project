@@ -1,8 +1,12 @@
 package com.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.model.UserInfo;
 import com.models.web.LoginResp;
 import com.service.web.UsersService;
+import com.utils.CookieUtil;
+import com.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
@@ -38,10 +44,26 @@ public class HomeController {
      */
     @ResponseBody
     @RequestMapping(value = "home/login.action", method = RequestMethod.POST)
-    public LoginResp login(@RequestParam("account") String account,
-                           @RequestParam("password") String password) {
+    public Map<String, Object> login(@RequestParam("account") String account,
+                                     @RequestParam("password") String password,
+                                     HttpServletRequest req,
+                                     HttpServletResponse resp) {
         //
-        LoginResp resp = usersService.login(account, password);
-        return resp;
+        Map<String, Object> map = usersService.login(account, password);
+        try {
+            if (Boolean.valueOf(map.get("success").toString())) {
+                UserInfo info = new UserInfo(Integer.valueOf(map.get("id").toString()),
+                        Integer.valueOf(map.get("domain").toString()),
+                        map.get("name").toString());
+                CookieUtil.setCookie(req, resp, "u", JsonUtils.Serialize(info));
+                map.remove("id");
+                map.remove("name");
+                map.remove("domain");
+            }
+
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 }
