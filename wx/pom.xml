@@ -14,7 +14,6 @@
         <module>wx-service</module>
         <module>wx-data</module>
         <module>wx-domain</module>
-        <module>wx-dto</module>
         <module>wx-core</module>
         <module>wx-test</module>
         <module>generator</module>
@@ -129,20 +128,11 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- http://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.4.5</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.4.5</version>
+            <version>2.7.3</version>
         </dependency>
         <dependency>
             <groupId>redis.clients</groupId>

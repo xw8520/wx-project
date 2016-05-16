@@ -1,9 +1,8 @@
 package com.api;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.models.wx.user.QrCodeReq;
+
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -24,4 +23,10 @@ public interface WxService {
                  @QueryParam("timestamp") String timestamp,
                  @QueryParam("nonce") String nonce,
                  @QueryParam("echostr") String echostr) throws NoSuchAlgorithmException;
+
+    @POST
+    @Path("/getQrCode")
+    @Produces("application/json")
+    @Consumes("application/json")
+    String getQrCode(QrCodeReq data) throws Exception;
 }
