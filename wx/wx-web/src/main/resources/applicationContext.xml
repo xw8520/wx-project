@@ -78,9 +78,7 @@
         </property>
     </bean>
 
-    <!--<bean id="accountService" class="com.service.web.impl.AccountServiceImpl">-->
-
-    <!--</bean>-->
+    <bean id="Auth" class="com.api.impl.AuthContainerRequestFilter"></bean>
 
     <bean id="wxservice" class="com.api.impl.WxServiceImpl">
         <!--<constructor-arg>-->
@@ -88,17 +86,18 @@
         <!--</constructor-arg>-->
     </bean>
     <jaxrs:server id="logisticsApiServiceContainer">
+
         <jaxrs:serviceBeans>
             <ref bean="wxservice"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"></bean>
+            <ref bean="Auth"></ref>
         </jaxrs:providers>
         <jaxrs:extensionMappings>
             <entry key="json" value="application/json"/>
             <entry key="xml" value="application/xml"/>
         </jaxrs:extensionMappings>
-
         <jaxrs:languageMappings>
             <entry key="cn" value="cn-ZH"/>
         </jaxrs:languageMappings>
