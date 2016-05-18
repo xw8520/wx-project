@@ -82,7 +82,11 @@
 
     <!--</bean>-->
 
-    <bean id="wxservice" class="com.api.impl.WxServiceImpl"></bean>
+    <bean id="wxservice" class="com.api.impl.WxServiceImpl">
+        <!--<constructor-arg>-->
+        <!--<bean id="configurable" class="javax.ws.rs.core.Configurable"></bean>-->
+        <!--</constructor-arg>-->
+    </bean>
     <jaxrs:server id="logisticsApiServiceContainer">
         <jaxrs:serviceBeans>
             <ref bean="wxservice"/>

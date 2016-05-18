@@ -1,6 +1,8 @@
 package com.api;
 
+import com.models.wx.message.CustomTextMsg;
 import com.models.wx.user.QrCodeReq;
+import com.models.wx.user.UserInfoResp;
 
 import javax.ws.rs.*;
 import java.security.NoSuchAlgorithmException;
@@ -29,4 +31,19 @@ public interface WxService {
     @Produces("application/json")
     @Consumes("application/json")
     String getQrCode(QrCodeReq data) throws Exception;
+
+    @GET
+    @Path("/getUserInfo/{accountid:\\d+}/{openid}")
+    @Produces("application/json")
+    UserInfoResp getUserInfo(@PathParam("accountid") int accountid,
+                             @PathParam("openid") String openid) throws Exception;
+
+    /**
+     * 客服接口 -发送文本消息
+     * @return
+     */
+    @POST
+    @Path("/sendCustomTextMsg")
+    @Produces("application/json")
+    String sendCustomTextMsg(CustomTextMsg data);
 }

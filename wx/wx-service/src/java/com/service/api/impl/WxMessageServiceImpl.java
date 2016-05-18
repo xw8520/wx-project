@@ -102,9 +102,6 @@ public class WxMessageServiceImpl implements WxMessageService {
         try {
             p = Integer.valueOf(param);
         } catch (Exception ex) {
-//            if (expireTime == 0) {
-//                throw new Exception("参数错误");
-//            }
             p = -1;
         }
         if (expireTime != 0 && p != -1) {

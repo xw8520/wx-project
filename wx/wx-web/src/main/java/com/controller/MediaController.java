@@ -23,9 +23,9 @@ public class MediaController {
     @Resource
     MediaService mediaService;
 
-    @RequestMapping("tmedia.thml")
+    @RequestMapping("tmedia.html")
     public ModelAndView tmpMedia() {
-        ModelAndView view = new ModelAndView("/media/tmedia");
+        ModelAndView view = new ModelAndView("media/tmedia");
         return view;
     }
 
