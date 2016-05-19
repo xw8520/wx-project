@@ -5,12 +5,12 @@ import java.io.Serializable;
 /**
  * Created by Admin on 2016/3/13.
  */
-public class NewsMessageItem implements Serializable {
-    public NewsMessageItem() {
+public class NewsMsgItem implements Serializable {
+    public NewsMsgItem() {
 
     }
 
-    public NewsMessageItem(String title, String desc, String picUrl, String url) {
+    public NewsMsgItem(String title, String desc, String picUrl, String url) {
         this.title = title;
         this.desc = desc;
         this.picUrl = picUrl;

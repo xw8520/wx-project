@@ -1,11 +1,14 @@
 package com.api;
 
+import com.models.wx.message.CustomNewsMsg;
+import com.models.wx.message.CustomNewsMsgItem;
 import com.models.wx.message.CustomTextMsg;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
 
 import javax.ws.rs.*;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * Created by Admin on 2016/2/23.
@@ -15,7 +18,6 @@ public interface WxService {
 
     @POST
     @Path("/reply")
-//    @Produces("application/xml")
     String reply(String body);
 
     @GET
@@ -46,4 +48,13 @@ public interface WxService {
     @Path("/sendCustomTextMsg")
     @Produces("application/json")
     String sendCustomTextMsg(CustomTextMsg data);
+
+    /**
+     * 客服接口 -发送图文消息
+     * @return
+     */
+    @POST
+    @Path("/sendCustomNewsMsg")
+    @Produces("application/json")
+    String sendCustomNewsMsg(CustomNewsMsg data);
 }

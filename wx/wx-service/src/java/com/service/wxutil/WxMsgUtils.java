@@ -1,37 +1,30 @@
-package com.service.api.impl;
+package com.service.wxutil;
 
-import com.models.wx.message.NewsMessageItem;
-import com.wxconfig.ReceiveMsg;
-import com.models.wx.token.TokenResp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.service.api.AccessTokenService;
-import com.service.api.WxSendMsgService;
-import com.utils.AcceptTypeEnum;
-import com.utils.HttpUtils;
-import com.wxconfig.WxConfig;
+import com.models.wx.message.CustomNewsMsgItem;
+import com.models.wx.message.NewsMsgItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.List;
 
 /**
- * Created by Admin on 2016/3/19.
- * 格式化微信消息
+ * Created by Admin on 2016/5/19.
  */
-@Service("wxSendMsgService")
-public class WxSendMsgServiceImpl implements WxSendMsgService {
-    @Resource
-    AccessTokenService accessTokenService;
+public class WxMsgUtils {
+    private static Logger logger = LoggerFactory.getLogger(WxMsgUtils.class);
 
-    static Logger log = LoggerFactory.getLogger(WxSendMsgServiceImpl.class);
-
-    @Override
-    public String getTextMsg(ReceiveMsg receive, String msg) {
+    /**
+     * 被动回复 文本消息
+     *
+     * @param receive
+     * @param msg
+     * @return
+     */
+    public static String getTextMsg(ReceiveMsg receive, String msg) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
         String str = "<xml>\n" +
@@ -46,8 +39,14 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
         return MessageFormat.format(str, from, to, String.valueOf(time), msg);
     }
 
-    @Override
-    public String getImageMsg(ReceiveMsg receive, String mediaId) {
+    /**
+     * 被动回复 图片消息
+     *
+     * @param receive
+     * @param mediaId
+     * @return
+     */
+    public static String getImageMsg(ReceiveMsg receive, String mediaId) {
         String msg = "<xml>\n" +
                 "<ToUserName><![CDATA[{0}]]></ToUserName>\n" +
                 "<FromUserName><![CDATA[{1}]]></FromUserName>\n" +
@@ -61,8 +60,14 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
         return MessageFormat.format(msg, receive.getToUserName(), receive.getFromUserName(), String.valueOf(time), mediaId);
     }
 
-    @Override
-    public String getVoiceMsg(ReceiveMsg receive, String mediaId) {
+    /**
+     * 被动回复 语音消息
+     *
+     * @param receive
+     * @param mediaId
+     * @return
+     */
+    public static String getVoiceMsg(ReceiveMsg receive, String mediaId) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
         String str = "<xml>\n" +
@@ -79,8 +84,14 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
         return str;
     }
 
-    @Override
-    public String getNewsMsg(ReceiveMsg receive, List<NewsMessageItem> list) {
+    /**
+     * 被动回复 图文消息
+     *
+     * @param receive
+     * @param list
+     * @return
+     */
+    public static String getNewsMsg(ReceiveMsg receive, List<NewsMsgItem> list) {
         String from = receive.getFromUserName();
         String to = receive.getToUserName();
         int count = list.size();
@@ -101,7 +112,7 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
                 "<Url><![CDATA[%s]]></Url>\n" +
                 "</item>";
         StringBuffer buffer = new StringBuffer();
-        for (NewsMessageItem s : list) {
+        for (NewsMsgItem s : list) {
             buffer.append(String.format(item, s.getTitle(), s.getDesc(), s.getPicUrl(), s.getUrl()));
         }
         Long time = Calendar.getInstance().getTimeInMillis();
@@ -109,8 +120,16 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
         return msg;
     }
 
-    @Override
-    public String getVideoMsg(ReceiveMsg receive, String mediaId, String title, String desc) {
+    /**
+     * 被动回复 视频消息
+     *
+     * @param receive
+     * @param mediaId
+     * @param title
+     * @param desc
+     * @return
+     */
+    public static String getVideoMsg(ReceiveMsg receive, String mediaId, String title, String desc) {
         String str = "<xml>\n" +
                 "<ToUserName><![CDATA[{0}]]></ToUserName>\n" +
                 "<FromUserName><![CDATA[{1}]]></FromUserName>\n" +
@@ -128,9 +147,19 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
 
     }
 
-    @Override
-    public String getMusicMsg(ReceiveMsg receive, String mediaId, String title,
-                              String desc, String misucUrl, String hqUrl) {
+    /**
+     * 被动回复 视频消息
+     *
+     * @param receive
+     * @param mediaId
+     * @param title
+     * @param desc
+     * @param misucUrl
+     * @param hqUrl
+     * @return
+     */
+    public static String getMusicMsg(ReceiveMsg receive, String mediaId, String title,
+                                     String desc, String misucUrl, String hqUrl) {
         String str = "<xml>\n" +
                 "<ToUserName><![CDATA[{0}]]></ToUserName>\n" +
                 "<FromUserName><![CDATA[{1}]]></FromUserName>\n" +
@@ -150,65 +179,24 @@ public class WxSendMsgServiceImpl implements WxSendMsgService {
     }
 
     /**
-     * 发送文本消息
+     * 获取客服接口图文消息
      *
      * @param to
-     * @param msg
+     * @param list
      * @return
      */
-    @Override
-    public String sendCustomTextMsg(String to, String msg, int accountid) {
-        ObjectMapper mapper = new ObjectMapper();
-
-        ObjectNode node = mapper.createObjectNode();
-        node.put("touser", to);
-        node.put("msgtype", "text");
-        ObjectNode content = node.putObject("text");
-        content.put("content", msg);
-        String str = "";
-        try {
-            str = mapper.writeValueAsString(node);
-            String url = WxConfig.getInstance().getSendTextMsg();
-            TokenResp token = accessTokenService.getAccessToken(accountid);
-            url = String.format(url, token.getAccess_token());
-            String result = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
-            log.debug(result);
-
-            return result;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return str;
-    }
-
-    /**
-     * 微信发送图片消息
-     *
-     * @param to
-     * @param mediaId
-     * @param accountid
-     * @return
-     */
-    @Override
-    public String sendCustomImgMsg(String to, String mediaId, int accountid) {
+    public static String getCustomNewsMsg(String to, List<CustomNewsMsgItem> list) {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode node = mapper.createObjectNode();
         node.put("touser", to);
-        node.put("msgtype", "image");
-        ObjectNode content = node.putObject("image");
-        content.put("media_id", mediaId);
-        String str;
+        node.put("msgtype", "news");
+        ObjectNode content = node.putObject("news");
+        content.putPOJO("articles", list);
         try {
-            str = mapper.writeValueAsString(node);
-            String url = WxConfig.getInstance().getSendTextMsg();
-            TokenResp token = accessTokenService.getAccessToken(accountid);
-            url = String.format(url, token.getAccess_token());
-            String result = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
-            log.debug(result);
-
-            return result;
+            String str = mapper.writeValueAsString(node);
+            return str;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("获取客服接口图文消息失败", ex);
         }
         return "";
     }

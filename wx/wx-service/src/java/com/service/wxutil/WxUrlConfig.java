@@ -1,4 +1,4 @@
-package com.wxconfig;
+package com.service.wxutil;
 
 
 import org.springframework.util.StringUtils;
@@ -9,11 +9,11 @@ import java.util.Properties;
 /**
  * Created by Admin on 2016/2/21.
  */
-public class WxConfig {
-    private static WxConfig config;
+public class WxUrlConfig {
+    private static WxUrlConfig config;
     private static Properties props;
 
-    private WxConfig() {
+    private WxUrlConfig() {
         try {
             props = new Properties();
             InputStreamReader streamReader = new InputStreamReader(
@@ -25,8 +25,8 @@ public class WxConfig {
         }
     }
 
-    public static WxConfig getInstance() {
-        if (config == null) config = new WxConfig();
+    public static WxUrlConfig getInstance() {
+        if (config == null) config = new WxUrlConfig();
         return config;
     }
 
@@ -133,10 +133,10 @@ public class WxConfig {
     }
 
     /**
-     * 微信发送消息
+     * 微信客服发送消息接口
      * @return
      */
     public String getSendTextMsg(){
-        return getValue("wz.send");
+        return getValue("wx.send");
     }
 }

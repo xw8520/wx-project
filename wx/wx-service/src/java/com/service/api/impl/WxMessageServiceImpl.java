@@ -7,8 +7,8 @@ import com.domain.wx.Account;
 import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
 import com.service.api.AccessTokenService;
+import com.service.api.WxCustomMsgService;
 import com.service.api.WxMessageService;
-import com.service.api.WxSendMsgService;
 import com.utils.*;
 import com.models.wx.token.JsapiticketResp;
 import com.models.wx.token.TokenResp;
@@ -17,9 +17,9 @@ import com.models.wx.user.GetUserInfoReq;
 import com.models.wx.user.QrCodeTicketResp;
 import com.models.wx.user.UserInfoListResp;
 import com.models.wx.user.UserInfoResp;
-import com.wxconfig.ReceiveMsg;
-import com.wxconfig.WxConfig;
-import com.wxconfig.WxUtils;
+import com.service.wxutil.ReceiveMsg;
+import com.service.wxutil.WxUrlConfig;
+import com.service.wxutil.WxSignUtils;
 import org.dom4j.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -44,7 +44,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     @Resource
     JsapiticketMapper jsapiticketMapper;
     @Resource
-    WxSendMsgService wxMsgReplyService;
+    WxCustomMsgService wxMsgReplyService;
 
     public String reply(String body) {
 
@@ -76,7 +76,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     }
 
     public List<String> getWxServerIp(int accountId) throws IOException {
-        String url = WxConfig.getInstance().getWxserveripservice();
+        String url = WxUrlConfig.getInstance().getWxserveripservice();
         TokenResp token = accessTokenService.getAccessToken(accountId);
         url = String.format(url, token.getAccess_token());
         String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
@@ -90,11 +90,11 @@ public class WxMessageServiceImpl implements WxMessageService {
     public String getQrCode(String param, int expireTime, int accountId) throws Exception {
         if (StringUtils.isEmpty(param)) return "";
         QrCode code = qrCodeMapper.getCodeByParam(param);
-        String qrcodeUrl = WxConfig.getInstance().getQrcode();
+        String qrcodeUrl = WxUrlConfig.getInstance().getQrcode();
         if (code != null && code.getExpiredtime().after(new Date())) {
             return String.format(qrcodeUrl, code.getTicket());
         }
-        String ticketUrl = WxConfig.getInstance().getQrticket();
+        String ticketUrl = WxUrlConfig.getInstance().getQrticket();
         TokenResp token = accessTokenService.getAccessToken(accountId);
         ticketUrl = String.format(ticketUrl, token.getAccess_token());
         int p = 0;
@@ -130,7 +130,7 @@ public class WxMessageServiceImpl implements WxMessageService {
         if (token == null || !StringUtils.isEmpty(token.getErrcode())) {
             throw new Exception("获取token失败");
         }
-        String url = WxConfig.getInstance().getJsapiticket();
+        String url = WxUrlConfig.getInstance().getJsapiticket();
         url = String.format(url, token.getAccess_token());
         String str = HttpUtils.doGet(url, AcceptTypeEnum.json);
         JsapiticketResp dto = JsonUtils.Deserialize(str, JsapiticketResp.class);
@@ -149,14 +149,14 @@ public class WxMessageServiceImpl implements WxMessageService {
         if (StringUtils.isEmpty(ticket)) {
             throw new Exception("获取ticket失败");
         }
-        Map<String, String> map = WxUtils.sign(ticket, url);
+        Map<String, String> map = WxSignUtils.sign(ticket, url);
         Account account = accountMapper.getAccountById(accountid);
         map.put("appid", account.getAppid());
         return map;
     }
 
     public UserInfoResp getUserInfo(int accountid, String openid) throws Exception {
-        String url = WxConfig.getInstance().getUserInfo();
+        String url = WxUrlConfig.getInstance().getUserInfo();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }
@@ -175,7 +175,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     }
 
     public List<UserInfoResp> getUserInfoBatch(int accountid, List<String> openids) throws Exception {
-        String url = WxConfig.getInstance().getUserinfoBatch();
+        String url = WxUrlConfig.getInstance().getUserinfoBatch();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }

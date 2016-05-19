@@ -1,4 +1,4 @@
-package com.wxconfig;
+package com.service.wxutil;
 
 import com.utils.XmlParseUtils;
 import org.dom4j.Document;

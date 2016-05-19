@@ -11,7 +11,7 @@ import com.service.api.AccessTokenService;
 import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
 import com.utils.JsonUtils;
-import com.wxconfig.WxConfig;
+import com.service.wxutil.WxUrlConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -58,7 +58,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             return tokenResp;
         }
         Account account = accountMapper.getAccountById(accountid);
-        String url = WxConfig.getInstance().getAccesstoken();
+        String url = WxUrlConfig.getInstance().getAccesstoken();
         if (!StringUtils.isEmpty(url)) {
             url = String.format(url, account.getAppid(), account.getSecret());
             System.out.println("url:" + url);

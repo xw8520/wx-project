@@ -1,6 +1,6 @@
 package com.service.api;
 
-import com.wxconfig.ReceiveMsg;
+import com.service.wxutil.ReceiveMsg;
 
 /**
  * Created by Admin on 2016/3/19.

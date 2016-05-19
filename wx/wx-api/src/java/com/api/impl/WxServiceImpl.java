@@ -1,18 +1,17 @@
 package com.api.impl;
 
 import com.api.WxService;
+import com.models.wx.message.CustomNewsMsg;
+import com.models.wx.message.CustomNewsMsgItem;
 import com.models.wx.message.CustomTextMsg;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
 import com.service.api.WxMessageService;
-import com.service.api.WxSendMsgService;
+import com.service.api.WxCustomMsgService;
 
 import javax.annotation.Resource;
-import javax.ws.rs.Priorities;
-import javax.ws.rs.core.Configurable;
-import javax.ws.rs.core.Context;
 import java.security.NoSuchAlgorithmException;
-import java.security.cert.PKIXRevocationChecker;
+import java.util.List;
 
 /**
  * Created by Admin on 2016/2/23.
@@ -23,7 +22,7 @@ public class WxServiceImpl implements WxService {
     WxMessageService wxMsgService;
 
     @Resource
-    WxSendMsgService wxSendMsgService;
+    WxCustomMsgService wxSendMsgService;
 
     public String reply(String body) {
         return wxMsgService.reply(body);
@@ -49,5 +48,11 @@ public class WxServiceImpl implements WxService {
     public String sendCustomTextMsg(CustomTextMsg data) {
         if (data == null) return "";
         return wxSendMsgService.sendCustomTextMsg(data.getTo(), data.getMsg(), data.getAccountid());
+    }
+
+    @Override
+    public String sendCustomNewsMsg(CustomNewsMsg data) {
+        if (data == null) return "";
+        return wxSendMsgService.sendCustomNewsMsg(data.getTo(), data.getList(), data.getAccountid());
     }
 }

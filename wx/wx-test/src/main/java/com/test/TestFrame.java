@@ -1,6 +1,6 @@
 package com.test;
 
-import com.models.wx.message.NewsMessageItem;
+import com.models.wx.message.NewsMsgItem;
 import com.models.wx.token.TokenResp;
 import com.models.wx.user.UserInfoListResp;
 import com.enums.WxMediaType;
@@ -120,11 +120,11 @@ public class TestFrame extends TestCase {
     }
 
     public void testStringFormate() {
-        List<NewsMessageItem> items = new ArrayList<>();
-        items.add(new NewsMessageItem("测试标题", "测试图文消息的描述",
+        List<NewsMsgItem> items = new ArrayList<>();
+        items.add(new NewsMsgItem("测试标题", "测试图文消息的描述",
                 "http://wxtest963.tunnel.qydev.com/static/image/news-big.jpg",
                 "http://wxtest963.tunnel.qydev.com/"));
-        items.add(new NewsMessageItem("测试标题", "测试图文消息的描述",
+        items.add(new NewsMsgItem("测试标题", "测试图文消息的描述",
                 "http://wxtest963.tunnel.qydev.com/static/image/pic-small.jpg",
                 "http://wxtest963.tunnel.qydev.com/"));
         int count = items.size();
@@ -146,7 +146,7 @@ public class TestFrame extends TestCase {
                 "<Url><![CDATA[%s]]></Url>\n" +
                 "</item>";
         StringBuffer buffer = new StringBuffer();
-        for (NewsMessageItem s : items) {
+        for (NewsMsgItem s : items) {
             buffer.append(String.format(item, s.getTitle(), s.getDesc(), s.getPicUrl(), s.getUrl()));
         }
         Long time = Calendar.getInstance().getTimeInMillis();

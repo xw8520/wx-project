@@ -1,4 +1,4 @@
-package com.wxconfig;
+package com.service.wxutil;
 
 import com.utils.SHA1;
 
@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * Created by Admin on 2016/2/28.
  */
-public class WxUtils {
+public class WxSignUtils {
 
     public static Map<String, String> sign(String jsapi_ticket, String url) {
         Map<String, String> ret = new HashMap<String, String>();
