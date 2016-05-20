@@ -1,10 +1,8 @@
 package com.service.api.impl;
 
 import com.models.wx.message.CustomNewsMsgItem;
-import com.models.wx.message.NewsMsgItem;
 import com.service.wxutil.WxMsgUtils;
 import com.utils.StringUtils;
-import com.service.wxutil.ReceiveMsg;
 import com.models.wx.token.TokenResp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -12,14 +10,12 @@ import com.service.api.AccessTokenService;
 import com.service.api.WxCustomMsgService;
 import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
-import com.service.wxutil.WxUrlConfig;
+import com.service.wxutil.WxUrlUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.MessageFormat;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -52,7 +48,7 @@ public class WxCustomMsgServiceImpl implements WxCustomMsgService {
         String str = "";
         try {
             str = mapper.writeValueAsString(node);
-            String url = WxUrlConfig.getInstance().getSendTextMsg();
+            String url = WxUrlUtils.getInstance().getSendTextMsg();
             TokenResp token = accessTokenService.getAccessToken(accountid);
             url = String.format(url, token.getAccess_token());
             String result = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
@@ -84,7 +80,7 @@ public class WxCustomMsgServiceImpl implements WxCustomMsgService {
         String str;
         try {
             str = mapper.writeValueAsString(node);
-            String url = WxUrlConfig.getInstance().getSendTextMsg();
+            String url = WxUrlUtils.getInstance().getSendTextMsg();
             TokenResp token = accessTokenService.getAccessToken(accountid);
             url = String.format(url, token.getAccess_token());
             String result = HttpUtils.doPost(url, str, AcceptTypeEnum.json);
@@ -103,7 +99,7 @@ public class WxCustomMsgServiceImpl implements WxCustomMsgService {
         if (StringUtils.isNullOrEmpty(msg)) {
             return "get msg error";
         }
-        String url = WxUrlConfig.getInstance().getSendTextMsg();
+        String url = WxUrlUtils.getInstance().getSendTextMsg();
         try {
             TokenResp token = accessTokenService.getAccessToken(accountid);
             url = String.format(url, token.getAccess_token());

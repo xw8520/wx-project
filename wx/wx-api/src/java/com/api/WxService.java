@@ -3,6 +3,7 @@ package com.api;
 import com.models.wx.message.CustomNewsMsg;
 import com.models.wx.message.CustomNewsMsgItem;
 import com.models.wx.message.CustomTextMsg;
+import com.models.wx.user.CreateTagReq;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
 
@@ -57,4 +58,13 @@ public interface WxService {
     @Path("/sendCustomNewsMsg")
     @Produces("application/json")
     String sendCustomNewsMsg(CustomNewsMsg data);
+
+    /**
+     * 客服接口 -发送图文消息
+     * @return
+     */
+    @POST
+    @Path("/createTag")
+    @Produces("application/json")
+    String createTag(CreateTagReq data) throws Exception;
 }

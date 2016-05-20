@@ -9,11 +9,11 @@ import java.util.Properties;
 /**
  * Created by Admin on 2016/2/21.
  */
-public class WxUrlConfig {
-    private static WxUrlConfig config;
+public class WxUrlUtils {
+    private static WxUrlUtils config;
     private static Properties props;
 
-    private WxUrlConfig() {
+    private WxUrlUtils() {
         try {
             props = new Properties();
             InputStreamReader streamReader = new InputStreamReader(
@@ -25,8 +25,8 @@ public class WxUrlConfig {
         }
     }
 
-    public static WxUrlConfig getInstance() {
-        if (config == null) config = new WxUrlConfig();
+    public static WxUrlUtils getInstance() {
+        if (config == null) config = new WxUrlUtils();
         return config;
     }
 
@@ -134,9 +134,18 @@ public class WxUrlConfig {
 
     /**
      * 微信客服发送消息接口
+     *
      * @return
      */
-    public String getSendTextMsg(){
+    public String getSendTextMsg() {
         return getValue("wx.send");
+    }
+
+    /**
+     * 创建标签url
+     * @return
+     */
+    public String getCreateTag() {
+        return getValue("wx.createtag");
     }
 }

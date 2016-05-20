@@ -18,7 +18,7 @@ import com.models.wx.user.QrCodeTicketResp;
 import com.models.wx.user.UserInfoListResp;
 import com.models.wx.user.UserInfoResp;
 import com.service.wxutil.ReceiveMsg;
-import com.service.wxutil.WxUrlConfig;
+import com.service.wxutil.WxUrlUtils;
 import com.service.wxutil.WxSignUtils;
 import org.dom4j.Document;
 import org.springframework.stereotype.Service;
@@ -76,7 +76,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     }
 
     public List<String> getWxServerIp(int accountId) throws IOException {
-        String url = WxUrlConfig.getInstance().getWxserveripservice();
+        String url = WxUrlUtils.getInstance().getWxserveripservice();
         TokenResp token = accessTokenService.getAccessToken(accountId);
         url = String.format(url, token.getAccess_token());
         String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
@@ -90,11 +90,11 @@ public class WxMessageServiceImpl implements WxMessageService {
     public String getQrCode(String param, int expireTime, int accountId) throws Exception {
         if (StringUtils.isEmpty(param)) return "";
         QrCode code = qrCodeMapper.getCodeByParam(param);
-        String qrcodeUrl = WxUrlConfig.getInstance().getQrcode();
+        String qrcodeUrl = WxUrlUtils.getInstance().getQrcode();
         if (code != null && code.getExpiredtime().after(new Date())) {
             return String.format(qrcodeUrl, code.getTicket());
         }
-        String ticketUrl = WxUrlConfig.getInstance().getQrticket();
+        String ticketUrl = WxUrlUtils.getInstance().getQrticket();
         TokenResp token = accessTokenService.getAccessToken(accountId);
         ticketUrl = String.format(ticketUrl, token.getAccess_token());
         int p = 0;
@@ -130,7 +130,7 @@ public class WxMessageServiceImpl implements WxMessageService {
         if (token == null || !StringUtils.isEmpty(token.getErrcode())) {
             throw new Exception("获取token失败");
         }
-        String url = WxUrlConfig.getInstance().getJsapiticket();
+        String url = WxUrlUtils.getInstance().getJsapiticket();
         url = String.format(url, token.getAccess_token());
         String str = HttpUtils.doGet(url, AcceptTypeEnum.json);
         JsapiticketResp dto = JsonUtils.Deserialize(str, JsapiticketResp.class);
@@ -156,7 +156,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     }
 
     public UserInfoResp getUserInfo(int accountid, String openid) throws Exception {
-        String url = WxUrlConfig.getInstance().getUserInfo();
+        String url = WxUrlUtils.getInstance().getUserInfo();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }
@@ -175,7 +175,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     }
 
     public List<UserInfoResp> getUserInfoBatch(int accountid, List<String> openids) throws Exception {
-        String url = WxUrlConfig.getInstance().getUserinfoBatch();
+        String url = WxUrlUtils.getInstance().getUserinfoBatch();
         if (StringUtils.isEmpty(url)) {
             throw new Exception("url未初始化");
         }

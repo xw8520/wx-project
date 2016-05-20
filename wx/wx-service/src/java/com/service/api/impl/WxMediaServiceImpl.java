@@ -13,7 +13,7 @@ import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
 import com.utils.JsonUtils;
 import com.utils.StringUtils;
-import com.service.wxutil.WxUrlConfig;
+import com.service.wxutil.WxUrlUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class WxMediaServiceImpl implements WxMediaService {
     @Override
     public UploadTmpMediaResp uploadTmpMedia(String path, int accountId,
                                              String title, String remark) throws Exception {
-        String url = WxUrlConfig.getInstance().getTmpMediaUpload();
+        String url = WxUrlUtils.getInstance().getTmpMediaUpload();
         WxMediaType mediaType = getMediaType(path);
         if (mediaType == WxMediaType.unknow) {
             throw new Exception("文件格式有误");
@@ -96,9 +96,9 @@ public class WxMediaServiceImpl implements WxMediaService {
         WxMediaType mediaType = getMediaType(fileName);
         String url = "";
         if (mediaType == WxMediaType.video) {
-            url = WxUrlConfig.getInstance().getTmpmedia();
+            url = WxUrlUtils.getInstance().getTmpmedia();
         } else {
-            url = WxUrlConfig.getInstance().getTmpVedio();
+            url = WxUrlUtils.getInstance().getTmpVedio();
         }
 
         TokenResp token = accessTokenService.getAccessToken(accountId);
@@ -140,7 +140,7 @@ public class WxMediaServiceImpl implements WxMediaService {
 
     @Override
     public String uploadImage(String path, int accountId) throws Exception {
-        String url = WxUrlConfig.getInstance().getUploadimg();
+        String url = WxUrlUtils.getInstance().getUploadimg();
 
         TokenResp token = accessTokenService.getAccessToken(accountId);
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
@@ -159,7 +159,7 @@ public class WxMediaServiceImpl implements WxMediaService {
 
     @Override
     public String uploadNews(List<ArticleItem> list, int accountId) throws Exception {
-        String url = WxUrlConfig.getInstance().getUploadNews();
+        String url = WxUrlUtils.getInstance().getUploadNews();
 
         TokenResp token = accessTokenService.getAccessToken(accountId);
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
@@ -186,7 +186,7 @@ public class WxMediaServiceImpl implements WxMediaService {
     @Override
     public String addMaterial(String path, int accountId) throws Exception {
 
-        String url = WxUrlConfig.getInstance().getAddmaterial();
+        String url = WxUrlUtils.getInstance().getAddmaterial();
         WxMediaType mediaType = getMediaType(path);
         if (mediaType == WxMediaType.unknow) {
             throw new Exception("文件格式有误");

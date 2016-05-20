@@ -4,10 +4,12 @@ import com.api.WxService;
 import com.models.wx.message.CustomNewsMsg;
 import com.models.wx.message.CustomNewsMsgItem;
 import com.models.wx.message.CustomTextMsg;
+import com.models.wx.user.CreateTagReq;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
 import com.service.api.WxMessageService;
 import com.service.api.WxCustomMsgService;
+import com.service.api.WxTagService;
 
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;
@@ -23,6 +25,9 @@ public class WxServiceImpl implements WxService {
 
     @Resource
     WxCustomMsgService wxSendMsgService;
+
+    @Resource
+    WxTagService wxTagService;
 
     public String reply(String body) {
         return wxMsgService.reply(body);
@@ -54,5 +59,10 @@ public class WxServiceImpl implements WxService {
     public String sendCustomNewsMsg(CustomNewsMsg data) {
         if (data == null) return "";
         return wxSendMsgService.sendCustomNewsMsg(data.getTo(), data.getList(), data.getAccountid());
+    }
+
+    @Override
+    public String createTag(CreateTagReq data) throws Exception {
+        return wxTagService.createTag(data.getName(), data.getAccountid());
     }
 }
