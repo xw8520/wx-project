@@ -7,7 +7,7 @@ package com.models.web;
 public class UploadFileResp {
     private Boolean success;
     private String errorMsg;
-    private Object data;
+    private String data;
 
     public Boolean getSuccess() {
         return success;
@@ -25,11 +25,11 @@ public class UploadFileResp {
         this.errorMsg = errorMsg;
     }
 
-    public Object getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(String data) {
         this.data = data;
     }
 }

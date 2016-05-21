@@ -32,7 +32,7 @@ public class MediaServiceImpl implements MediaService {
     public Map<String, Object> getMediaList(int pageSize, int pageIndex, Boolean isLong, String args) {
         Map<String, Object> map = new HashMap<>();
         WxMediaExample exp = new WxMediaExample();
-        WxMediaExample.Criteria criteria = exp.createCriteria().andIslongEqualTo(isLong);
+        WxMediaExample.Criteria criteria = exp.createCriteria();
         if (!StringUtils.isNullOrEmpty(args)) {
             try {
                 HashMap<String, Object> param = JsonUtils.Deserialize(args, HashMap.class);

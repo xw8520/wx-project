@@ -5,13 +5,15 @@
     <title>临时素材管理</title>
     <jsp:include page="../shared/header.jsp"></jsp:include>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
-    <script type="text/javascript" src="../../static/js/media/tmedia.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery-form.js"></script>
+    <script type="text/javascript" src="../../static/js/media/media.js"></script>
     <script type="text/x-jquery-tmpl" id="tempBody">
         <tr>
             <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
             <td>{{= title}}</td>
             <td>{{= mediatype}}</td>
             <td>{{= mediaid}}</td>
+            <td>{{= account}}</td>
             <td>{{= remark}}</td>
         </tr>
     </script>
@@ -30,7 +32,7 @@
     </div>
     <div class="panel-op">
         <a href="javascript:void(0)" onclick="add()">新增</a>
-        <a href="javascript:void(0)" onclick="edit()">修改</a>
+        <a href="javascript:void(0)" onclick="mediaDetail()">详情</a>
         <a href="javascript:void(0)" onclick="del()">删除</a>
     </div>
     <table class="table table-bordered table-hover">
@@ -40,6 +42,7 @@
             <th class="row-head">标题</th>
             <th class="row-head">素材类型</th>
             <th class="row-head">素材id</th>
+            <th class="row-head">公众号</th>
             <th class="row-head">备注</th>
         </tr>
         </thead>
@@ -48,6 +51,7 @@
         </tbody>
     </table>
     <jsp:include page="../shared/pager.jsp"></jsp:include>
+
     <!-- Modal -->
     <div class="modal fade" id="popModel" tabindex="-1" role="dialog"
          aria-labelledby="myTitle" aria-hidden="true">
@@ -57,56 +61,62 @@
                     <button type="button" class="close" data-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myTitle">编辑菜单</h4>
+                    <h4 class="modal-title" id="myTitle">添加素材</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="formAccount">
-                        <input type="hidden" id="id">
-                        <input type="hidden" id="pid">
-
+                    <div class="form-horizontal" id="formMedia">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="name">菜单名:</label>
+                            <label class="col-sm-2 control-label" for="txtTitle">标题:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" class="form-control" maxlength="50"/>
+                                <input type="text" id="txtTitle" class="form-control" maxlength="50"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="type">类型:</label>
+                            <label class="col-sm-2 control-label">永久素材:</label>
 
                             <div class="col-sm-9">
-                                <%--<input type="text" id="type" class="form-control" maxlength="100"/>--%>
-                                <select id="type" class="form-control">
-                                    <option value="0">组</option>
-                                    <option value="1">菜单</option>
-                                </select>
+                                <label for="chkPer">是</label>&nbsp;
+                                <input type="radio" id="chkPer" name="Permanent"/>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label for="chkTmp">否</label>&nbsp;
+                                <input type="radio" id="chkTmp" name="Permanent" checked/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="url">Url:</label>
+                            <label class="col-sm-2 control-label" for="txtAccount">公众号:</label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="url" class="form-control" maxlength="100"/>
+                                <select id="txtAccount" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="ordernum">排序:</label>
+                            <label class="col-sm-2 control-label" for="txtFile">素材:</label>
 
                             <div class="col-sm-9">
-                                <input type="number" id="ordernum" class="form-control"/>
+                                <form id="fromUpload" enctype="multipart/form-data">
+                                    <input id="txtFile" name="file" type="file" style="display:none">
+                                    <input id="hidFile" type="hidden"/>
+
+                                    <div class="input-append">
+                                        <input id="txtFileName" class="text-input"
+                                               style="height: 30px;width: 250px;"
+                                               type="text" readonly>
+                                        <a class="btn btn-primary" onclick="$('input[id=txtFile]').click();">
+                                            选择文件</a>
+                                        <a class="btn btn-primary" id="btnUpload">&nbsp;上&nbsp;&nbsp;传&nbsp;</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="status">状态:</label>
+                            <label class="col-sm-2 control-label" for="txtRemark">备注:</label>
 
                             <div class="col-sm-9">
-                                <select id="status" class="form-control">
-                                    <option value="1">正常</option>
-                                    <option value="2">锁定</option>
-                                </select>
+                                <textarea id="txtRemark" class="form-control" maxlength="200"></textarea>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default"

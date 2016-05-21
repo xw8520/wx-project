@@ -16,7 +16,7 @@ function getParam() {
 }
 
 function add() {
-    Tools.showModel('#popModel');
+    $.showModel('#popModel');
     var input = $('#formAccount input');
     input.each(function (index, el) {
         $(el).val(null)
@@ -33,10 +33,10 @@ function edit() {
         data.push(parseInt($(el).attr('val')));
     });
     if (data.length == 0) {
-        Tools.showToast("请选择要编辑的记录");
+        $.showToast("请选择要编辑的记录");
         return;
     }
-    Tools.showModel('#popModel');
+    $.showModel('#popModel');
     $.ajax({
         url: '/account/getAccount',
         type: 'POST',
@@ -53,7 +53,7 @@ function edit() {
 
         },
         error: function (resp) {
-            Tools.showToast('系统出错，请稍后再试');
+            $.showToast('系统出错，请稍后再试');
         }
     })
 }
@@ -65,7 +65,7 @@ function del() {
         data.push(parseInt($(el).attr('val')));
     });
     if (data.length == 0) {
-        Tools.showToast("请选择要删除的数据")
+        $.showToast("请选择要删除的数据")
         return;
     }
 
@@ -77,16 +77,16 @@ function del() {
         contentType: "application/json",
         traditional: true,
         success: function (resp) {
-            Tools.hideModel();
+            $.hideModel();
             if (resp.success) {
-                Tools.showToast('删除成功');
+                $.showToast('删除成功');
                 pager.loadData();
             } else {
-                Tools.showToast(resp.info)
+                $.showToast(resp.info)
             }
         },
         error: function (resp) {
-            Tools.showToast('系统出错，请稍后再试');
+            $.showToast('系统出错，请稍后再试');
         }
     })
 }
@@ -110,7 +110,7 @@ function saveAccount() {
     }
     var msg = valid(data);
     if (msg != "") {
-        Tools.showToast(msg);
+        $.showToast(msg);
         $('#btnSave').removeAttr('disabled');
         return;
     }
@@ -121,17 +121,17 @@ function saveAccount() {
         data: data,
         dataType: 'json',
         success: function (resp) {
-            Tools.hideModel();
+            $.hideModel();
             $('#btnSave').removeAttr('disabled');
             if (resp.success) {
-                Tools.showToast('保存成功');
+                $.showToast('保存成功');
                 pager.loadData();
             } else {
-                Tools.showToast(resp.info);
+                $.showToast(resp.info);
             }
         },
         error: function (resp) {
-            Tools.showToast('系统出错，请稍后再试');
+            $.showToast('系统出错，请稍后再试');
             $('#btnSave').removeAttr('disabled');
         }
     })

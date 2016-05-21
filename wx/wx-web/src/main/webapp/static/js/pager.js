@@ -113,12 +113,12 @@ var pager = {
                 $('#txtPageIndex').attr('total', pageTotal);
                 $('#pageInfo').text(index + '/' + pageTotal);
                 $(bodyLoc).empty();
-                if (loc == undefined || loc == null || loc == '') {
+                if (!loc) {
                     loc = tmpLoc;
                 }
-                if (resp.data != undefined && resp.data != null) {
+                if (resp.data) {
                     $(loc).tmpl(resp.data).appendTo(bodyLoc);
-                } else if (resp.list != undefined && resp.list != null) {
+                } else if (resp.list) {
                     $(loc).tmpl(resp.list).appendTo(bodyLoc);
                 }
 
@@ -132,7 +132,7 @@ var pager = {
                 });
             },
             error: function (resp) {
-                Tools.showToast('系统出错，请稍后再试');
+                $.showToast('系统出错，请稍后再试');
             }
         });
     },

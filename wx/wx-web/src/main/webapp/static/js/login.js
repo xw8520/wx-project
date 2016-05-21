@@ -6,7 +6,7 @@ $(function(){
         var account=$('#txtAccount').val();
         var password=$('#txtPassword').val();
         if(account==''||password==''){
-            Tools.showToast("请输入账号和密码");
+            $.showToast("请输入账号和密码");
             return;
         }
         $.ajax({
@@ -16,15 +16,15 @@ $(function(){
             dataType:'json',
             success:function(resp){
                 if(resp.success){
-                    Tools.showToast("登录成功",function(){
+                    $.showToast("登录成功",function(){
                         window.location.href="main/index.html";
                     });
                 }else{
-                    Tools.showToast(resp.msg);
+                    $.showToast(resp.msg);
                 }
             },
             error:function(resp){
-                Tools.showToast("登录失败,请稍后再试");
+                $.showToast("登录失败,请稍后再试");
             }
         })
     });

@@ -21,7 +21,7 @@ $(function () {
             data[loc.attr('id')] = loc.val();
         });
         if (data.name == '') {
-            Tools.showToast('请输入菜单名')
+            $.showToast('请输入菜单名')
             return
         }
         $.ajax({
@@ -31,14 +31,14 @@ $(function () {
             dataType: 'json',
             success: function (resp) {
                 if (resp.success) {
-                    Tools.hideModel();
+                    $.hideModel();
                     window.location.reload()
                     return
                 }
-                Tools.showToast(resp.msg)
+                $.showToast(resp.msg)
             },
             error: function (resp) {
-                Tools.showToast('请求错误，请稍后再试', null);
+                $.showToast('请求错误，请稍后再试', null);
             }
         });
     });
@@ -51,7 +51,7 @@ function addMenu(pid) {
     });
     $('#pid').val(pid);
     $('#id').val(0)
-    Tools.showModel('#popModel');
+    $.showModel('#popModel');
 }
 
 function editMenu(id) {
@@ -73,17 +73,17 @@ function editMenu(id) {
             });
         },
         error: function (resp) {
-            Tools.showToast('请求错误，请稍后再试', null);
+            $.showToast('请求错误，请稍后再试', null);
         }
     });
-    Tools.showModel('#popModel');
+    $.showModel('#popModel');
 }
 
 function deleteMenu(id) {
     var data = {
         id: id
     };
-    Tools.showConfirm('popConfirm','btnYes',function(){
+    $.showConfirm('popConfirm','btnYes',function(){
         $.ajax({
             type: "POST",
             url: '/sys/deleteMenu',
@@ -94,10 +94,10 @@ function deleteMenu(id) {
                     window.location.reload()
                     return
                 }
-                Tools.showToast(resp.msg)
+                $.showToast(resp.msg)
             },
             error: function (resp) {
-                Tools.showToast('请求错误，请稍后再试', null);
+                $.showToast('请求错误，请稍后再试', null);
             }
         });
     });

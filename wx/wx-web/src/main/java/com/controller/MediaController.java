@@ -20,15 +20,15 @@ public class MediaController {
     @Resource
     MediaService mediaService;
 
-    @RequestMapping("tmedia.html")
+    @RequestMapping("media.html")
     public ModelAndView tmpMedia() {
-        ModelAndView view = new ModelAndView("media/tmedia");
+        ModelAndView view = new ModelAndView("media/media");
         return view;
     }
 
     @ResponseBody
-    @RequestMapping(value = "getTMeidaList", method = RequestMethod.POST)
-    public Map<String, Object> getTMeidaList(@ModelAttribute("data") PagerParam data) {
+    @RequestMapping(value = "getMediaList", method = RequestMethod.POST)
+    public Map<String, Object> getMediaList(@ModelAttribute("data") PagerParam data) {
         Map<String, Object> map = mediaService.getMediaList(data.getPageSize(), data.getPageIndex(),
                 false, data.getArgs());
         return map;

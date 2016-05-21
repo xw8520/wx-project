@@ -4,7 +4,6 @@
 <head>
     <title>菜单管理</title>
     <jsp:include page="../shared/header.jsp"></jsp:include>
-    <script type="text/javascript" src="../../static/js/pager.js"></script>
     <script type="text/javascript" src="../../static/js/sys/menu.js"></script>
 </head>
 <body>

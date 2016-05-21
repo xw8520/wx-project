@@ -72,7 +72,7 @@ public class WxMediaServiceImpl implements WxMediaService {
         media.setRemark(remark);
         media.setCreatetime(new Date());
         media.setAccountid(accountId);
-        media.setIslong(false);
+        media.setPermanent(false);
         media.setDomain(1);
         media.setMediatype(mediaType.getValue());
         media.setTitle(title);

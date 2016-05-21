@@ -63,18 +63,19 @@ a:focus {
     margin: 0 0 6px;
     padding: 15px 15px 15px 50px;
     width: 300px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
     background-position: 15px center;
     background-repeat: no-repeat;
     -moz-box-shadow: 0 0 12px #999;
     -webkit-box-shadow: 0 0 12px #999;
     box-shadow: 0 0 12px #999;
     color: #fff;
-    opacity: .8;
-    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
-    filter: alpha(opacity=80)
+    opacity: .7;
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+    filter: alpha(opacity=70);
+    text-align: center;
 }
 
 #toast-container > :hover {
@@ -154,41 +155,63 @@ a:focus {
     text-align: right;
     padding-right: 20px;
 }
-.panel-op a{
+
+.panel-op a {
     padding-right: 10px;
 }
-.panel-op a:hover{
+
+.panel-op a:hover {
     text-decoration: none;
 }
 
-.main-content{
+.main-content {
     margin-bottom: 0;
     height: 100%;
     min-width: 1000px;
 }
 
-.page-info{
-    border: none!important;
-    background: none!important;
-    border-radius: 0!important;
+.page-info {
+    border: none !important;
+    background: none !important;
+    border-radius: 0 !important;
 }
 
-.pager-ctl{
-    color: #ccc!important;
+.pager-ctl {
+    color: #ccc !important;
 }
 
-.panel-search{
+.panel-search {
     margin-bottom: 0;
 }
 
-.col-chk{
-    width:40px;
+.col-chk {
+    width: 40px;
 }
 
-.row-head{
+.row-head {
     text-align: center;
 }
 
-.table-hover tbody tr:hover{
-    background-color:#ebf3fd ;
+.table-hover tbody tr:hover {
+    background-color: #ebf3fd;
+}
+
+.loading {
+    width: 200px;
+    height: 50px;
+    position: absolute;
+    left: 40%;
+    right: 50%;
+    top: 100px;
+    line-height: 50px;
+    color: #fff;
+    font-size: 15px;
+    background: #000 url(../image/loader.gif) no-repeat 10px 50%;
+    opacity: 0.7;
+    z-index: 9999;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
+    text-align: center;
 }
