@@ -3,30 +3,17 @@
 <head>
     <title>账户管理</title>
     <title>主页</title>
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../../static/css/all.css" type="text/css"/>
-    <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap-modal.js"></script>
+    <jsp:include page="../shared/header.jsp"></jsp:include>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
     <script type="text/javascript" src="../../static/js/account.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            pager.initPager('/account/getAccountList');
-            pager.loadData();
-            $('#btnSearch').click(function () {
-                pager.loadData();
-            });
-        });
-
-        function getParam() {
-            var param = {};
-            if ($('#txtName').val() != null && $('#txtName').val() != '') {
-                param.name = $('#txtName').val();
-            }
-            return param;
-        }
+    <script type="text/x-jquery-tmpl" id="tempBody">
+         <tr>
+            <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
+             <td>{{= id}}</td>
+            <td>{{= name}}</td>
+            <td>{{= appid}}</td>
+            <td>{{= type}}</td>
+        </tr>
     </script>
 </head>
 <body>
@@ -36,7 +23,7 @@
     </div>
     <div class="panel panel-search">
         <div class="form-inline form-group">
-            <label for="txtName">Name</label>
+            <label for="txtName">账号名</label>
             <input type="text" class="form-control" id="txtName" placeholder="账号名">
             <button type="button" id="btnSearch" class="btn btn-default">查询</button>
         </div>
@@ -99,6 +86,7 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="type">公众号类型:</label>
+
                             <div class="col-sm-9">
                                 <select id="type" class="form-control">
                                     <option value="-1">请选择</option>
@@ -111,7 +99,7 @@
                             <label class="col-sm-3 control-label" for="remark">备注:</label>
 
                             <div class="col-sm-9">
-                               <textarea id="remark" class="form-control" maxlength="200"></textarea>
+                                <textarea id="remark" class="form-control" maxlength="200"></textarea>
                             </div>
                         </div>
                     </form>

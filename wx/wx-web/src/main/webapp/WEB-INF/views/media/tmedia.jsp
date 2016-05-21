@@ -3,27 +3,40 @@
 <html>
 <head>
     <title>临时素材管理</title>
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../../static/css/all.css" type="text/css"/>
-    <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap-modal.js"></script>
+    <jsp:include page="../shared/header.jsp"></jsp:include>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
     <script type="text/javascript" src="../../static/js/media/tmedia.js"></script>
+    <script type="text/x-jquery-tmpl" id="tempBody">
+        <tr>
+            <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
+            <td>{{= title}}</td>
+            <td>{{= mediatype}}</td>
+            <td>{{= mediaid}}</td>
+            <td>{{= remark}}</td>
+        </tr>
+    </script>
 </head>
 <body>
 <div class="panel panel-body main-content">
     <div class="main-title">
         <span>临时素材管理</span>
     </div>
+    <div class="panel panel-search">
+        <div class="form-inline form-group">
+            <label for="txtName">标题</label>
+            <input type="text" class="form-control" id="txtName" placeholder="标题">
+            <button type="button" id="btnSearch" class="btn btn-default">查询</button>
+        </div>
+    </div>
     <div class="panel-op">
-        <a href="javascript:void(0)" onclick="addMenu(0)">新增</a>
+        <a href="javascript:void(0)" onclick="add()">新增</a>
+        <a href="javascript:void(0)" onclick="edit()">修改</a>
+        <a href="javascript:void(0)" onclick="del()">删除</a>
     </div>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <th class="row-head" style="">id</th>
+            <th class="col-chk"></th>
             <th class="row-head">标题</th>
             <th class="row-head">素材类型</th>
             <th class="row-head">素材id</th>
@@ -31,23 +44,10 @@
         </tr>
         </thead>
         <tbody id="listBody">
-        <c:forEach var="item" items="${menu}">
-            <tr>
-                <td>
-                        ${item.name}
-                </td>
-                <td>${item.type==0?"组":"菜单"}</td>
-                <td>${item.url}</td>
-                <td>
-                    <i class="glyphicon glyphicon-plus" title="新增" onclick="addMenu(${item.id})"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="glyphicon glyphicon-edit" title="修改" onclick="editMenu(${item.id})"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <i class="glyphicon glyphicon-remove" title="删除" onclick="deleteMenu(${item.id})"></i>
-                </td>
-            </tr>
-        </c:forEach>
+
         </tbody>
     </table>
-
+    <jsp:include page="../shared/pager.jsp"></jsp:include>
     <!-- Modal -->
     <div class="modal fade" id="popModel" tabindex="-1" role="dialog"
          aria-labelledby="myTitle" aria-hidden="true">

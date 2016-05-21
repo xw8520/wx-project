@@ -3,10 +3,7 @@ package com.controller;
 import com.model.PagerParam;
 import com.service.web.MediaService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -29,6 +26,7 @@ public class MediaController {
         return view;
     }
 
+    @ResponseBody
     @RequestMapping(value = "getTMeidaList", method = RequestMethod.POST)
     public Map<String, Object> getTMeidaList(@ModelAttribute("data") PagerParam data) {
         Map<String, Object> map = mediaService.getMediaList(data.getPageSize(), data.getPageIndex(),

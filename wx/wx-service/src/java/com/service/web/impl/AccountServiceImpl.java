@@ -57,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
                 tmp.add(info);
             }
 
-            map.put("data", tmp);
+            map.put("list", tmp);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,13 +82,13 @@ public class AccountServiceImpl implements AccountService {
                         StringBuffer buffer = new StringBuffer();
                         if (list != null) {
                             for (AccountInfo item : list) {
-                                String tmp = MessageFormat.format(str, item.getId(), item.getName(),
-                                        item.getAppid(), item.getType(), item.getId());
+                                String tmp = MessageFormat.format(str, item.getId(),item.getId(), item.getName(),
+                                        item.getAppid(), item.getType());
                                 buffer.append(tmp);
                             }
                         }
                         map.remove("data");
-                        map.put("data", buffer.toString());
+                        map.put("list", buffer.toString());
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();

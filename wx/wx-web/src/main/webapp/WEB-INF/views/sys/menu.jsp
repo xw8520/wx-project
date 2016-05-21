@@ -3,12 +3,7 @@
 <html>
 <head>
     <title>菜单管理</title>
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../static/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="../../static/css/all.css" type="text/css"/>
-    <script type="text/javascript" src="../../static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../../static/js/bootstrap-modal.js"></script>
+    <jsp:include page="../shared/header.jsp"></jsp:include>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
     <script type="text/javascript" src="../../static/js/sys/menu.js"></script>
 </head>

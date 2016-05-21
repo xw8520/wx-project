@@ -6,7 +6,7 @@
         <li><a class="page-info" id="pageInfo">1/2</a></li>
         <li><a href="javascript:void(0)" id="btnRight" class="glyphicon glyphicon-chevron-right pager-ctl"></a></li>
         <li><a href="javascript:void(0)" id="btnForward" class="glyphicon glyphicon glyphicon-step-forward pager-ctl"></a></li>
-        <li><a href="javascript:void(0)" id="btnRefresh" class="glyphicon glyphicon-refresh"></a></li>
+        <%--<li><a href="javascript:void(0)" id="btnRefresh" class="glyphicon glyphicon-refresh"></a></li>--%>
 
         <li>
             跳转到:

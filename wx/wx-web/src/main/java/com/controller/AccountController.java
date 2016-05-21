@@ -42,7 +42,7 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "getAccountList", method = RequestMethod.POST)
     public Map<String, Object> getAccountList(@ModelAttribute("data") PagerParam data) {
-        Map<String, Object> map = accountService.getAccountHtml(data.getPageIndex(),
+        Map<String, Object> map = accountService.getAccountList(data.getPageIndex(),
                 data.getPageSize(), data.getArgs());
         return map;
     }

@@ -1,11 +1,19 @@
-/**
- * Created by Admin on 2016/4/10.
- */
 $(function () {
+    pager.initPager('/account/getAccountList');
+    pager.loadData();
+    $('#btnSearch').click(function () {
+        pager.loadData();
+    });
     $('#btnSave').click(saveAccount);
-
-
 });
+
+function getParam() {
+    var param = {};
+    if ($('#txtName').val() != null && $('#txtName').val() != '') {
+        param.name = $('#txtName').val();
+    }
+    return param;
+}
 
 function add() {
     Tools.showModel('#popModel');

@@ -1,6 +1,7 @@
 var reqUrl = '';
 var reqType = "POST";
 var bodyLoc = '#listBody';
+var tmpLoc = '#tempBody';
 /**
  * 分页工具
  * @type {{loadData: pager.loadData}}
@@ -79,20 +80,24 @@ var pager = {
             }
         });
     },
-    loadData: function () {
+    loadData: function (loc) {
         this.setPagerState();
         var index = $('#txtPageIndex').val();
         if (index < 0) {
             $('#txtPageIndex').val(1);
             return;
         }
-
+        var pageSize = $('#txtPageSize').val();
+        if (pageSize == '' || pageSize == null || pageSize == undefined) {
+            pageSize = 10;
+        } else {
+            pageSize = parseInt($('#txtPageSize').val())
+        }
         var data = {
             pageIndex: index,
-            pageSize: parseInt($('#txtPageSize').val()),
+            pageSize: pageSize,
             args: JSON.stringify(getParam())
         };
-
 
         $.ajax({
             url: reqUrl,
@@ -100,11 +105,23 @@ var pager = {
             data: data,
             dataType: 'json',
             success: function (resp) {
-                pager.setPagerState(resp.total);
-                $('#txtPageIndex').attr('total', resp.total);
-                $('#pageInfo').text(index + '/' + resp.total);
+                var totalCount = parseInt(resp.total);
+                var pageTotal = parseInt(totalCount % pageSize == 0
+                    ? totalCount / pageSize
+                    : (totalCount / pageSize + 1));
+                pager.setPagerState(pageTotal);
+                $('#txtPageIndex').attr('total', pageTotal);
+                $('#pageInfo').text(index + '/' + pageTotal);
                 $(bodyLoc).empty();
-                $(bodyLoc).append(resp.data);
+                if (loc == undefined || loc == null || loc == '') {
+                    loc = tmpLoc;
+                }
+                if (resp.data != undefined && resp.data != null) {
+                    $(loc).tmpl(resp.data).appendTo(bodyLoc);
+                } else if (resp.list != undefined && resp.list != null) {
+                    $(loc).tmpl(resp.list).appendTo(bodyLoc);
+                }
+
                 $('.chkId').click(function () {
                     var checked = $(this).is(':checked');
                     if (checked) {
