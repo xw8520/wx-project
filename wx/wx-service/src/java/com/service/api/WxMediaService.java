@@ -66,5 +66,6 @@ public interface WxMediaService {
      * @param accountId
      * @return
      */
-    String addMaterial(String path, int accountId) throws Exception;
+    Map<String, Object> addMaterial(String path,int accountId, int domain,
+                       String title, String remark) throws Exception;
 }

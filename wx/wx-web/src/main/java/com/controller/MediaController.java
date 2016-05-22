@@ -32,7 +32,7 @@ public class MediaController {
     AccountService accountService;
 
     @RequestMapping("media.html")
-    public ModelAndView tmpMedia() {
+    public ModelAndView media() {
         ModelAndView view = new ModelAndView("media/media");
         return view;
     }

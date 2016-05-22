@@ -46,11 +46,17 @@ public class MediaServiceImpl implements MediaService {
             try {
                 HashMap<String, Object> param = JsonUtils.Deserialize(args, HashMap.class);
                 if (!param.isEmpty()) {
-                    if (param.containsKey("title") && !StringUtils.isNullOrEmpty(param.get("title"))) {
-                        criteria.andTitleLike(param.get("title").toString());
+                    if (param.containsKey("name") && !StringUtils.isNullOrEmpty(param.get("name"))) {
+                        criteria.andTitleLike(param.get("name").toString());
                     }
                     if (param.containsKey("type") && !StringUtils.isNullOrEmpty(param.get("type"))) {
                         criteria.andMediatypeEqualTo(Byte.valueOf(param.get("type").toString()));
+                    }
+                    if (param.containsKey("account") && !StringUtils.isNullOrEmpty(param.get("account"))) {
+                        criteria.andAccountidEqualTo(Integer.valueOf(param.get("account").toString()));
+                    }
+                    if (param.containsKey("permanent") && !StringUtils.isNullOrEmpty(param.get("permanent"))) {
+                        criteria.andPermanentEqualTo(param.get("permanent").toString() == "1");
                     }
                 }
             } catch (IOException e) {
@@ -81,17 +87,22 @@ public class MediaServiceImpl implements MediaService {
 
     @Override
     public Map<String, Object> addMedia(SaveMediaInfo data, UserInfo user) {
-        if (data.getPermanent()) {
+        try {
+            if (data.getPermanent()) {
+                return wxMediaService.addMaterial(data.getFilename(), data.getAccountid(),
+                        user.getDomain(), data.getTitle(), data.getRemark());
+            } else {
 
-        } else {
-            try {
                 return wxMediaService.addTmpMedia(data.getFilename(), data.getAccountid(),
                         user.getDomain(), data.getTitle(), data.getRemark());
-            } catch (Exception ex) {
-                log.error("", ex);
             }
+        } catch (Exception ex) {
+            log.error("", ex);
         }
-        return new HashMap<>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("success", false);
+        map.put("info", "保存素材出错");
+        return map;
     }
 
     @Override

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -191,8 +192,8 @@ public class WxMediaServiceImpl implements WxMediaService {
     }
 
     @Override
-    public String addMaterial(String path, int accountId) throws Exception {
-
+    public Map<String, Object> addMaterial(String path, int accountId, int domain,
+                                           String title, String remark) throws Exception {
         String url = WxUrlUtils.getInstance().getAddmaterial();
         WxMediaType mediaType = getMediaType(path);
         if (mediaType == WxMediaType.unknow) {
@@ -203,30 +204,48 @@ public class WxMediaServiceImpl implements WxMediaService {
             throw new Exception("获取token 失败");
         }
         url = String.format(url, token.getAccess_token(), mediaType.toString());
-
+        logger.debug(url);
         List<NameValuePair> param = new ArrayList<>();
-        NameValuePair type = new BasicNameValuePair("type", mediaType.toString());
-        param.add(type);
+        //在上传视频素材时需要POST另一个表单，id为description，
+        // 包含素材的描述信息，内容格式为JSON
+        if (mediaType == WxMediaType.video) {
+            String json = MessageFormat.format("{\"title\":{0},\"introduction\":{1}\"}", title, remark);
+            NameValuePair desc = new BasicNameValuePair("description", json);
+            param.add(desc);
+        }
+
         String str = HttpUtils.doPost(url, path, param);
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传永久素材失败");
         }
-        System.out.println(str);
-
-        String fileName = path.substring(path.lastIndexOf("/") + 1);
-        String mediaId = "";
-        String picUrl = "";
+        Map<String, Object> map = new HashMap<>();
         Hashtable hash = JsonUtils.Deserialize(str, Hashtable.class);
         if (hash != null && hash.containsKey("media_id")) {
-            mediaId = hash.get("media_id").toString();
+            String mediaId = hash.get("media_id").toString();
+            String mediaUrl = hash.get("url").toString();
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, 100);
+            //添加临时素材记录
+            WxMedia media = new WxMedia();
+            media.setRemark(remark);
+            media.setCreatetime(new Date());
+            media.setExpiretime(calendar.getTime());
+            media.setAccountid(accountId);
+            media.setPermanent(true);
+            media.setMediatype(mediaType.getValue());
+            media.setTitle(title);
+            media.setDomain(domain);
+            media.setMediaid(mediaId);
+            media.setUrl(mediaUrl);
+            wxMediaMapper.insert(media);
+            map.put("success", true);
         } else {
-            System.out.println(hash.get("errcode"));
-            System.out.println(hash.get("errmsg"));
+            logger.debug(hash.get("errcode") + "");
+            logger.debug(hash.get("errmsg") + "");
+            map.put("success", false);
+            map.put("info", "上传素材失败");
         }
-        //添加临时素材记录
-//        WxMedia media = new WxMedia("long", "long", accountId, mediaType.getValue(),
-//                fileName, mediaId, true);
-//        wxMediaMapper.addMedia(media);
-        return "";
+
+        return map;
     }
 }

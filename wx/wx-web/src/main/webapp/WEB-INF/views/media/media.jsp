@@ -29,8 +29,27 @@
     </div>
     <div class="panel panel-search">
         <div class="form-inline form-group">
-            <label for="txtName">标题</label>
+            <label for="txtName">标题：</label>
             <input type="text" class="form-control" id="txtName" placeholder="标题">
+            &nbsp;&nbsp;
+            <label for="selAccount">公众号：</label>
+            <select id="selAccount" class="form-control" style="width: 150px">
+            </select>
+            &nbsp;&nbsp;
+            <label for="selPermanent">有效期：</label>
+            <select id="selPermanent" class="form-control" style="width: 150px">
+                <option value="0">临时</option>
+                <option value="1">永久</option>
+            </select>
+            &nbsp;&nbsp;
+            <label for="selType">类型：</label>
+            <select id="selType" class="form-control" style="width: 150px">
+                <option value="0">图片</option>
+                <option value="1">语音</option>
+                <option value="2">视频</option>
+                <option value="3">缩略图</option>
+            </select>
+            &nbsp;&nbsp;
             <button type="button" id="btnSearch" class="btn btn-default">查询</button>
         </div>
     </div>
@@ -52,7 +71,6 @@
         </tr>
         </thead>
         <tbody id="listBody">
-
         </tbody>
     </table>
     <jsp:include page="../shared/pager.jsp"></jsp:include>

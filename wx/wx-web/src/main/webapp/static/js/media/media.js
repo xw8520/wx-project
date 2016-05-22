@@ -86,7 +86,7 @@ function initSelect() {
         type: 'POST',
         dataType: 'json',
         success: function (resp) {
-            $('#tempSelc').tmpl(resp).appendTo('#txtAccount');
+            $('#tempSelc').tmpl(resp).appendTo('#txtAccount,#selAccount');
         },
         error: function (resp) {
             $.showToast('系统出错')
@@ -98,6 +98,15 @@ function getParam() {
     var param = {};
     if ($('#txtName').val() != null && $('#txtName').val() != '') {
         param.name = $('#txtName').val();
+    }
+    if ($('#selAccount').val() != null && $('#selAccount').val() != '') {
+        param.account = $('#selAccount').val();
+    }
+    if ($('#selPermanent').val() != null && $('#selPermanent').val() != '') {
+        param.permanent = $('#selPermanent').val();
+    }
+    if ($('#selType').val() != null && $('#selType').val() != '') {
+        param.type = $('#selType').val();
     }
     return param;
 }

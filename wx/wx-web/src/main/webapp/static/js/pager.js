@@ -82,6 +82,7 @@ var pager = {
     },
     loadData: function (loc) {
         this.setPagerState();
+        $.showLoading('正在加载...');
         var index = $('#txtPageIndex').val();
         if (index < 0) {
             $('#txtPageIndex').val(1);
@@ -105,6 +106,7 @@ var pager = {
             data: data,
             dataType: 'json',
             success: function (resp) {
+                $.hideLoading(100);
                 var totalCount = parseInt(resp.total);
                 var pageTotal = parseInt(totalCount % pageSize == 0
                     ? totalCount / pageSize
@@ -132,6 +134,7 @@ var pager = {
                 });
             },
             error: function (resp) {
+                $.hideLoading(100);
                 $.showToast('系统出错，请稍后再试');
             }
         });
