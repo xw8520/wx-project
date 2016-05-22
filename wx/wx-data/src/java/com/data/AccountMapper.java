@@ -1,6 +1,7 @@
 package com.data;
 
 import com.domain.wx.Account;
+import com.models.web.AccountSelectInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,6 @@ public interface AccountMapper {
     List<Account> getAccountList(Map<String, Object> map);
 
     void deleteAccount(Map<String, List<Integer>> map);
+
+    List<AccountSelectInfo> getAccountSelect(int domain);
 }

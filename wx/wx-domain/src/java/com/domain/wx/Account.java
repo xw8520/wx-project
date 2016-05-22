@@ -13,6 +13,16 @@ public class Account implements Serializable {
     private int id;
     private String name;
 
+    public int getDomain() {
+        return domain;
+    }
+
+    public void setDomain(int domain) {
+        this.domain = domain;
+    }
+
+    private int domain;
+
     public byte getType() {
         return type;
     }

@@ -3,6 +3,7 @@ package com.controller;
 import com.model.PagerParam;
 import com.models.web.AccountInfo;
 import com.models.web.SaveAccount;
+import com.models.web.UserInfo;
 import com.service.web.AccountService;
 import com.utils.CookieUtil;
 import com.utils.StringUtils;
@@ -49,8 +50,10 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "addAccount", method = RequestMethod.POST)
-    public Map<String, Object> addAccount(@ModelAttribute("data") SaveAccount data) {
-        Map<String, Object> map = accountService.addAccount(data);
+    public Map<String, Object> addAccount(@ModelAttribute("data") SaveAccount data,
+                                          HttpServletRequest req) {
+        UserInfo user = CookieUtil.GetCurrentUser(req);
+        Map<String, Object> map = accountService.addAccount(data, user);
         return map;
     }
 

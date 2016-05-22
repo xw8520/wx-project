@@ -1,9 +1,12 @@
 package com.utils;
 
+import com.models.web.UserInfo;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 /**
@@ -63,7 +66,7 @@ public class CookieUtil {
      * @param req
      * @param resp
      * @param name
-     * @param value    如果不设置时间，默认永久
+     * @param value 如果不设置时间，默认永久
      */
     public static void setCookie(HttpServletRequest req,
                                  HttpServletResponse resp, String name, String value) {
@@ -76,7 +79,7 @@ public class CookieUtil {
      * @param resp
      * @param name
      * @param value
-     * @param maxAge   设置cookie，设定时间
+     * @param maxAge 设置cookie，设定时间
      */
     public static void setCookie(HttpServletRequest req,
                                  HttpServletResponse resp, String name, String value, int maxAge) {
@@ -93,5 +96,22 @@ public class CookieUtil {
     private static String getPath(HttpServletRequest req) {
         String path = req.getContextPath();
         return (path == null || path.length() == 0) ? "/" : path;
+    }
+
+    /**
+     * 获取当前用户
+     *
+     * @return
+     */
+    public static UserInfo GetCurrentUser(HttpServletRequest req) {
+        String str = getCookieValue(req, "u");
+        try {
+            str = URLDecoder.decode(str, "utf-8");
+            UserInfo user = JsonUtils.Deserialize(str, UserInfo.class);
+            return user != null ? user : new UserInfo();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new UserInfo();
     }
 }

@@ -5,7 +5,6 @@ import com.domain.wx.WxMedia;
 import com.models.wx.token.TokenResp;
 import com.enums.WxMediaType;
 import com.models.wx.media.ArticleItem;
-import com.models.wx.media.UploadTmpMediaResp;
 import com.service.api.AccessTokenService;
 import com.service.api.WxMediaService;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
@@ -19,13 +18,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -34,7 +31,7 @@ import java.util.regex.Pattern;
  */
 @Service("wxMediaService")
 public class WxMediaServiceImpl implements WxMediaService {
-    static Logger logger = LoggerFactory.getLogger(WxMediaServiceImpl.class);
+    Logger logger = LoggerFactory.getLogger(WxMediaServiceImpl.class);
     @Resource
     AccessTokenService accessTokenService;
 
@@ -48,8 +45,8 @@ public class WxMediaServiceImpl implements WxMediaService {
      * @return
      */
     @Override
-    public UploadTmpMediaResp uploadTmpMedia(String path, int accountId,
-                                             String title, String remark) throws Exception {
+    public Map<String, Object> addTmpMedia(String path, int accountId, int domain,
+                                           String title, String remark) throws Exception {
         String url = WxUrlUtils.getInstance().getTmpMediaUpload();
         WxMediaType mediaType = getMediaType(path);
         if (mediaType == WxMediaType.unknow) {
@@ -65,20 +62,30 @@ public class WxMediaServiceImpl implements WxMediaService {
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传素材失败");
         }
-//        System.out.println(str);
-        UploadTmpMediaResp resp = JsonUtils.Deserialize(str, UploadTmpMediaResp.class);
+        System.out.println(str);
+        Map<String, Object> map = JsonUtils.Deserialize(str, HashMap.class);
+        if (map.containsKey("errcode")) {
+            map.put("success", false);
+            map.put("info", map.get("errmsg"));
+            return map;
+        }
+        Calendar expire = Calendar.getInstance();
+        expire.add(Calendar.DATE, 3);
         //添加临时素材记录
         WxMedia media = new WxMedia();
         media.setRemark(remark);
         media.setCreatetime(new Date());
+        media.setExpiretime(expire.getTime());
         media.setAccountid(accountId);
         media.setPermanent(false);
-        media.setDomain(1);
         media.setMediatype(mediaType.getValue());
         media.setTitle(title);
-        media.setMediaid(resp.getMedia_id());
+        media.setDomain(domain);
+        media.setMediaid(map.get("media_id") != null ? map.get("media_id").toString() : "");
         wxMediaMapper.insert(media);
-        return resp;
+
+        map.put("success", true);
+        return map;
     }
 
     /**

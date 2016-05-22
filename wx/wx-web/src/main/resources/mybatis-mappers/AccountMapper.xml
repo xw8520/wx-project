@@ -7,24 +7,29 @@
         <result column="id" property="id"></result>
         <result column="name" property="name"></result>
         <result column="type" property="type"></result>
+        <result column="domain" property="domain"></result>
         <result column="appid" property="appid"></result>
         <result column="secret" property="secret"></result>
         <result column="remark" property="remark"></result>
         <result column="createtime" property="createtime"></result>
         <result column="modifytime" property="modifytime"></result>
     </resultMap>
+    <resultMap id="AccountSelectResult" type="com.models.web.AccountSelectInfo">
+        <result column="id" property="id"></result>
+        <result column="name" property="name"></result>
+    </resultMap>
     <select id="getAccountById" parameterType="int" resultType="com.domain.wx.Account">
         SELECT  * from account where id=#{id}
     </select>
 
     <insert id="addAccount" parameterType="com.domain.wx.Account" useGeneratedKeys="true" keyProperty="id">
-        insert into account(name,appid,secret,remark,createtime,modifytime) values(
-        #{name},#{appid},#{secret},#{remark},#{createtime},#{modifytime}
+        insert into account(name,appid,secret,remark,createtime,modifytime,domain) values(
+        #{name},#{appid},#{secret},#{remark},#{createtime},#{modifytime},#{domain}
         )
     </insert>
 
     <select id="getAccountList" resultMap="AccountResult">
-        SELECT id,name,type,appid,secret,remark,createtime,modifytime from Account as a
+        SELECT id,name,type,appid,secret,remark,createtime,modifytime,domain from Account as a
         <where>
             <if test="name!='' and name!=null">
                 a.name =#{name }
@@ -50,4 +55,7 @@
             #{id}
         </foreach>
     </delete>
+    <select id="getAccountSelect" resultMap="AccountSelectResult" parameterType="int">
+        SELECT id,name from Account where domain=#{domain}
+    </select>
 </mapper>

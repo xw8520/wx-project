@@ -13,6 +13,16 @@ public class MediaInfo implements Serializable {
     private String account;
     private String mediaid;
 
+    public Boolean getPermanent() {
+        return permanent;
+    }
+
+    public void setPermanent(Boolean permanent) {
+        this.permanent = permanent;
+    }
+
+    private Boolean permanent;
+
     public int getId() {
         return id;
     }

@@ -12,10 +12,14 @@
             <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
             <td>{{= title}}</td>
             <td>{{= mediatype}}</td>
+            <td>{{= permanent?"是":"否"}}</td>
             <td>{{= mediaid}}</td>
             <td>{{= account}}</td>
             <td>{{= remark}}</td>
         </tr>
+    </script>
+    <script type="text/x-jquery-tmpl" id="tempSelc">
+        <option value="{{= id}}">{{= name}}</option>
     </script>
 </head>
 <body>
@@ -41,6 +45,7 @@
             <th class="col-chk"></th>
             <th class="row-head">标题</th>
             <th class="row-head">素材类型</th>
+            <th class="row-head">永久素材</th>
             <th class="row-head">素材id</th>
             <th class="row-head">公众号</th>
             <th class="row-head">备注</th>
@@ -73,14 +78,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">永久素材:</label>
+                            <label class="col-sm-2 control-label">有效期:</label>
 
                             <div class="col-sm-9">
-                                <label for="chkPer">是</label>&nbsp;
-                                <input type="radio" id="chkPer" name="Permanent"/>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <label for="chkTmp">否</label>&nbsp;
-                                <input type="radio" id="chkTmp" name="Permanent" checked/>
+                                <select id="txtPermanent" class="form-control">
+                                    <option value="0">临时</option>
+                                    <option value="1">永久</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -122,7 +126,7 @@
                     <button type="button" class="btn btn-default"
                             data-dismiss="modal">取消
                     </button>
-                    <button type="button" id="btnSave"
+                    <button type="button" id="btnAdd"
                             class="btn btn-primary">保存
                     </button>
                 </div>

@@ -2,10 +2,10 @@ package com.service.api;
 
 import com.enums.WxMediaType;
 import com.models.wx.media.ArticleItem;
-import com.models.wx.media.UploadTmpMediaResp;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -19,8 +19,8 @@ public interface WxMediaService {
      * @param path
      * @return
      */
-    UploadTmpMediaResp uploadTmpMedia(String path, int accountId,
-                                      String title, String remark) throws Exception;
+    Map<String, Object> addTmpMedia(String path, int accountId, int domain,
+                                    String title, String remark) throws Exception;
 
     /**
      * 获取临时素材

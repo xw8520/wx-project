@@ -46,7 +46,6 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         if (token != null && token.getExpiredtime().after(new Date())) {
             tokenResp = new TokenResp();
             tokenResp.setAccess_token(token.getToken());
-            System.out.println("get token by cache");
             return tokenResp;
         }
         token = accessTokenMapper.getAccessTokenByAccount(accountid);
@@ -61,7 +60,6 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         String url = WxUrlUtils.getInstance().getAccesstoken();
         if (!StringUtils.isEmpty(url)) {
             url = String.format(url, account.getAppid(), account.getSecret());
-            System.out.println("url:" + url);
             String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
             tokenResp = JsonUtils.Deserialize(json, TokenResp.class);
             if (StringUtils.isEmpty(tokenResp.getErrcode())) {

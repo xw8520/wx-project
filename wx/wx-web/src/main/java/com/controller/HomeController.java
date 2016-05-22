@@ -2,15 +2,13 @@ package com.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.model.UserInfo;
-import com.models.web.LoginResp;
+import com.models.web.UserInfo;
 import com.service.web.UsersService;
 import com.utils.CookieUtil;
 import com.utils.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

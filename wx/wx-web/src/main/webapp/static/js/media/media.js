@@ -4,7 +4,7 @@ $(function () {
     $('#btnSearch').click(function () {
         pager.loadData();
     });
-
+    initSelect();
     $('#txtFile').change(function () {
         $('#txtFileName').val($(this).val());
     });
@@ -15,7 +15,7 @@ $(function () {
             url: "/file/upload",
             type: "POST",
             timeout: 60000,
-            beforeSubmit:function(){
+            beforeSubmit: function () {
                 var fileName = $('#txtFileName').val();
                 if (fileName == '') return false;
                 fileName = fileName.substr(fileName.lastIndexOf('.') + 1);
@@ -42,7 +42,57 @@ $(function () {
         });
 
     })
+
+    $('#btnAdd').click(function () {
+        var data = {
+            title: $('#txtTitle').val(),
+            remark: $('#txtRemark').val(),
+            permanent: $('#txtPermanent').val(),
+            accountid: $('#txtAccount').val(),
+            filename: $('#hidFile').val()
+        };
+        if (data.title == '') {
+            $.showToast('标题不能为空')
+            return
+        }
+        if (data.filename == '' || data.filename == null) {
+            $.showToast('请上传文件')
+            return
+        }
+        $.ajax({
+            url: '/media/addMedia',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function (resp) {
+                if (resp.success) {
+                    $.showToast('保存成功');
+                    $.hideModel();
+                    pager.loadData();
+                    return
+                }
+                $.showToast(resp.info);
+            },
+            error: function (resp) {
+                $.showToast('系统出错')
+            }
+        })
+    });
 });
+
+function initSelect() {
+    $.ajax({
+        url: '/media/getAccountSelect',
+        type: 'POST',
+        dataType: 'json',
+        success: function (resp) {
+            $('#tempSelc').tmpl(resp).appendTo('#txtAccount');
+        },
+        error: function (resp) {
+            $.showToast('系统出错')
+        }
+    })
+}
 
 function getParam() {
     var param = {};
@@ -57,6 +107,36 @@ function add() {
 }
 
 function del() {
+    var input = $('.chkId:checked');
+    var data = new Array();
+    input.each(function (index, el) {
+        data.push(parseInt($(el).attr('val')));
+    });
+    if (data.length == 0) {
+        $.showToast("请选择要删除的数据")
+        return;
+    }
+    $.showConfirm('','',function(){
+        $.ajax({
+            url: '/media/deleteMedia',
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: "application/json",
+            traditional: true,
+            success: function (resp) {
+                if (resp.success) {
+                    $.showToast('删除成功');
+                    pager.loadData();
+                } else {
+                    $.showToast(resp.info)
+                }
+            },
+            error: function (resp) {
+                $.showToast('系统出错，请稍后再试');
+            }
+        })
+    })
 
 }
 

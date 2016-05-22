@@ -9,7 +9,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.models.web.AccountInfo;
+import com.models.web.AccountSelectInfo;
 import com.models.web.SaveAccount;
+import com.models.web.UserInfo;
 import com.service.web.AccountService;
 import com.utils.JsonUtils;
 import com.utils.StringUtils;
@@ -82,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
                         StringBuffer buffer = new StringBuffer();
                         if (list != null) {
                             for (AccountInfo item : list) {
-                                String tmp = MessageFormat.format(str, item.getId(),item.getId(), item.getName(),
+                                String tmp = MessageFormat.format(str, item.getId(), item.getId(), item.getName(),
                                         item.getAppid(), item.getType());
                                 buffer.append(tmp);
                             }
@@ -102,7 +104,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Map<String, Object> addAccount(SaveAccount model) {
+    public Map<String, Object> addAccount(SaveAccount model, UserInfo user) {
         Map<String, Object> map = new HashMap<>();
         if (model == null) {
             map.put("success", false);
@@ -118,6 +120,7 @@ public class AccountServiceImpl implements AccountService {
         account.setName(model.getName());
         account.setSecret(model.getSecret());
         account.setType(model.getType());
+        account.setDomain(user.getDomain());
         try {
             if (account.getId() != 0) {
                 accountMapper.updateAccount(account);
@@ -183,10 +186,16 @@ public class AccountServiceImpl implements AccountService {
             info.setType(AccountType.getType(account.getType()));
             info.setAppid(account.getAppid());
             info.setId(account.getId());
+            info.setName(account.getName());
             info.setSecret(account.getSecret());
             cacheManager.put(key, info, 30 * 60);
         }
 
         return info;
+    }
+
+    @Override
+    public List<AccountSelectInfo> getAccountSelect(int domain) {
+        return accountMapper.getAccountSelect(domain);
     }
 }
