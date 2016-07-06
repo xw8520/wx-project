@@ -42,7 +42,7 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "getAccountList", method = RequestMethod.POST)
-    public Map<String, Object> getAccountList(@ModelAttribute("data") PagerParam data) {
+    public Map<String, Object> getAccountList(PagerParam data) {
         Map<String, Object> map = accountService.getAccountList(data.getPageIndex(),
                 data.getPageSize(), data.getArgs());
         return map;
@@ -50,7 +50,7 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "addAccount", method = RequestMethod.POST)
-    public Map<String, Object> addAccount(@ModelAttribute("data") SaveAccount data,
+    public Map<String, Object> addAccount(SaveAccount data,
                                           HttpServletRequest req) {
         UserInfo user = CookieUtil.GetCurrentUser(req);
         Map<String, Object> map = accountService.addAccount(data, user);

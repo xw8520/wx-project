@@ -37,7 +37,7 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "addMenu", method = RequestMethod.POST)
-    public Map<String, Object> addMenu(@ModelAttribute("data") MenuInfo data) {
+    public Map<String, Object> addMenu(MenuInfo data) {
         Map<String, Object> map = menuService.saveOrUpdate(data);
         return map;
     }

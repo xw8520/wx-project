@@ -39,7 +39,7 @@ public class MediaController {
 
     @ResponseBody
     @RequestMapping(value = "getMediaList", method = RequestMethod.POST)
-    public Map<String, Object> getMediaList(@ModelAttribute("data") PagerParam data) {
+    public Map<String, Object> getMediaList(PagerParam data) {
         Map<String, Object> map = mediaService.getMediaList(data.getPageSize(), data.getPageIndex(),
                 data.getArgs());
         return map;
@@ -47,7 +47,7 @@ public class MediaController {
 
     @ResponseBody
     @RequestMapping(value = "addMedia", method = RequestMethod.POST)
-    public Map<String, Object> addMedia(@ModelAttribute("data") SaveMediaInfo data,
+    public Map<String, Object> addMedia(SaveMediaInfo data,
                                         HttpServletRequest req) {
         UserInfo user = CookieUtil.GetCurrentUser(req);
         String path = req.getServletContext().getRealPath("/upload");
