@@ -3,10 +3,7 @@ package com.controller;
 import com.model.PagerParam;
 import com.models.web.*;
 import com.models.web.media.*;
-import com.service.web.AccountService;
-import com.service.web.ArticleService;
-import com.service.web.ImageMsgService;
-import com.service.web.MediaService;
+import com.service.web.*;
 import com.utils.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +32,9 @@ public class MediaController {
     ImageMsgService imageMsgService;
     @Resource
     ArticleService articleService;
+
+    @Resource
+    ArticleItemService articleItemService;
 
     @RequestMapping("media.html")
     public ModelAndView media() {
@@ -138,5 +138,29 @@ public class MediaController {
         ModelAndView view = new ModelAndView("media/articleItem");
         view.addObject("aid", aid);
         return view;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getarticleItemList", method = RequestMethod.POST)
+    public DataListResp getarticleItemList(PagerParam data) {
+        return articleItemService.getArticleItemList(data.getPageSize(), data.getPageIndex(), data.getArgs());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getArticleItemInfo", method = RequestMethod.POST)
+    public ArticleItemInfo getArticleItemInfo(Integer id) {
+        return articleItemService.getArticleItem(id);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "deleteArticleItemInfo", method = RequestMethod.POST)
+    public BaseResp deleteArticleItemInfo(List<Integer> data) {
+        return articleItemService.deleteAddArticleItem(data);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "addArticleItemInfo", method = RequestMethod.POST)
+    public BaseResp addArticleItemInfo(AddArticleItemReq data) {
+        return articleItemService.addArticleItem(data);
     }
 }
