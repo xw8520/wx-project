@@ -17,7 +17,7 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.domain.wx" targetProject="../wx-domain/src/java">
+        <javaModelGenerator targetPackage="com.domain.wx" targetProject="../wx-domain/src/main/java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
@@ -26,11 +26,11 @@
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.data"  targetProject="../wx-data/src/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.data"  targetProject="../wx-data/src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="" tableName="WxMedia" domainObjectName="WxMedia" >
+        <table schema="" tableName="Articles" domainObjectName="Articles" >
         </table>
 
     </context>

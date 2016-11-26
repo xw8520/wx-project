@@ -52,6 +52,7 @@ public class HomeController {
             if (loginResp.getSuccess()) {
                 UserInfo info = new UserInfo(loginResp.getId(), loginResp.getDomain(), loginResp.getName());
                 CookieUtil.setCookie(req, resp, "u", JsonUtils.Serialize(info));
+                CookieUtil.setCookie(req, resp, "d", String.valueOf(info.getDomain()));
                 loginResp.setId(0);
                 loginResp.setDomain(0);
                 loginResp.setName("");

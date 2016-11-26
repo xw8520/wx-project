@@ -6,3 +6,4 @@
 <script type="text/javascript" src="../../static/js/jquery.tmpl.min.js"></script>
 <script type="text/javascript" src="../../static/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../static/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="../../static/js/jquery.cookie.js"></script>

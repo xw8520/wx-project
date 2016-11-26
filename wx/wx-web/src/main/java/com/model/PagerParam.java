@@ -10,6 +10,16 @@ import java.io.Serializable;
 public class PagerParam implements Serializable {
     private int pageIndex;
     private int pageSize;
+
+    public int getDomain() {
+        return domain;
+    }
+
+    public void setDomain(int domain) {
+        this.domain = domain;
+    }
+
+    private int domain;
     private String args;
 
     public int getPageIndex() {

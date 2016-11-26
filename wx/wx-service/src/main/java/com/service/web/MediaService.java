@@ -1,9 +1,9 @@
 package com.service.web;
 
 import com.models.web.*;
+import com.models.web.media.SaveMediaInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Admin on 2016/5/15.
@@ -32,11 +32,4 @@ public interface MediaService {
      * @return
      */
     BaseResp deleteMedia(List<Integer> data);
-
-    /**
-     * 上传群发图片
-     * @param req
-     * @return
-     */
-    UploadImageResp uploadImage(UploadImageReq req, UserInfo user);
 }

@@ -1,4 +1,4 @@
-package com.models.web;
+package com.models.web.media;
 
 import java.io.Serializable;
 

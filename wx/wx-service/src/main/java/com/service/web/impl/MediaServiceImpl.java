@@ -7,6 +7,8 @@ import com.enums.WxMediaType;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.models.web.*;
+import com.models.web.media.MediaInfo;
+import com.models.web.media.SaveMediaInfo;
 import com.models.wx.media.AddMaterialResp;
 import com.models.wx.media.AddTmpMediaResp;
 import com.service.api.WxMediaService;
@@ -121,23 +123,6 @@ public class MediaServiceImpl implements MediaService {
             log.error("", ex);
             resp.setInfo("系统出错");
         }
-        return resp;
-    }
-
-    @Override
-    public UploadImageResp uploadImage(UploadImageReq req, UserInfo user) {
-        try {
-            String val = wxMediaService.uploadImage(req.getFileName(), 1);
-            if (!org.springframework.util.StringUtils.isEmpty(val)) {
-                UploadImageResp resp = new UploadImageResp();
-                resp.setData(val);
-                resp.setSuccess(true);
-                return resp;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        UploadImageResp resp = new UploadImageResp();
         return resp;
     }
 }

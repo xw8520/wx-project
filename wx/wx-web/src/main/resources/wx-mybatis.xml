@@ -39,6 +39,9 @@
         <mapper resource="mybatis-mappers/WxMediaMapper.xml"></mapper>
         <mapper resource="mybatis-mappers/UsersMapper.xml"></mapper>
         <mapper resource="mybatis-mappers/MenuMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/ImageMessageMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/ArticlesMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/ArticleItemMapper.xml"></mapper>
     </mappers>
 </configuration>
 

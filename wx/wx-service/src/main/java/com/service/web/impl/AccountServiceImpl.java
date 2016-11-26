@@ -164,7 +164,11 @@ public class AccountServiceImpl implements AccountService {
         String key = String.format(RedisKeys.accountInfoKey, id);
         AccountInfo info = redisCacheManager.get(key, AccountInfo.class);
         if (info == null) {
+            info = new AccountInfo();
             Account account = accountMapper.getAccountById(id);
+            if (account == null) {
+                return info;
+            }
             info = new AccountInfo();
             info.setType(AccountType.getType(account.getType()));
             info.setAppid(account.getAppid());

@@ -80,7 +80,7 @@ var pager = {
             }
         });
     },
-    loadData: function (loc) {
+    loadData: function (loc, callback) {
         this.setPagerState();
         $.showLoading('正在加载...');
         var index = $('#txtPageIndex').val();
@@ -97,6 +97,7 @@ var pager = {
         var data = {
             pageIndex: index,
             pageSize: pageSize,
+            domain: $.cookie('d'),
             args: JSON.stringify(getParam())
         };
 
@@ -132,6 +133,10 @@ var pager = {
                         $(this).parent().parent().css('background-color', 'transparent');
                     }
                 });
+
+                if (callback) {
+                    callback();
+                }
             },
             error: function (resp) {
                 $.hideLoading(100);

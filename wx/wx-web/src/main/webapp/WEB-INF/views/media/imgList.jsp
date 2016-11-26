@@ -2,19 +2,17 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>素材管理</title>
+    <title>群发图片管理</title>
     <jsp:include page="../shared/header.jsp"></jsp:include>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
     <script type="text/javascript" src="../../static/js/jquery-form.js"></script>
-    <script type="text/javascript" src="../../static/js/media/media.js"></script>
+    <script type="text/javascript" src="../../static/js/media/imgList.js"></script>
     <script type="text/x-jquery-tmpl" id="tempBody">
         <tr>
             <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
             <td>{{= title}}</td>
-            <td>{{= mediatype}}</td>
-            <td>{{= permanent?"是":"否"}}</td>
-            <td>{{= mediaid}}</td>
             <td>{{= account}}</td>
+            <td><a href="{{= url}}" target="_blank">查看图片</a></td>
             <td>{{= remark}}</td>
         </tr>
     </script>
@@ -25,7 +23,7 @@
 <body>
 <div class="panel panel-body main-content">
     <div class="main-title">
-        <span>临时素材管理</span>
+        <span>群发图片管理</span>
     </div>
     <div class="panel panel-search">
         <div class="form-inline form-group">
@@ -36,26 +34,11 @@
             <select id="selAccount" class="form-control" style="width: 150px">
             </select>
             &nbsp;&nbsp;
-            <label for="selPermanent">有效期：</label>
-            <select id="selPermanent" class="form-control" style="width: 150px">
-                <option value="0">临时</option>
-                <option value="1">永久</option>
-            </select>
-            &nbsp;&nbsp;
-            <label for="selType">类型：</label>
-            <select id="selType" class="form-control" style="width: 150px">
-                <option value="0">图片</option>
-                <option value="1">语音</option>
-                <option value="2">视频</option>
-                <option value="3">缩略图</option>
-            </select>
-            &nbsp;&nbsp;
             <button type="button" id="btnSearch" class="btn btn-default">查询</button>
         </div>
     </div>
     <div class="panel-op">
         <a href="javascript:void(0)" onclick="add()">新增</a>
-        <a href="javascript:void(0)" onclick="mediaDetail()">详情</a>
         <a href="javascript:void(0)" onclick="del()">删除</a>
     </div>
     <table class="table table-bordered table-hover">
@@ -63,10 +46,8 @@
         <tr>
             <th class="col-chk"></th>
             <th class="row-head">标题</th>
-            <th class="row-head">素材类型</th>
-            <th class="row-head">永久素材</th>
-            <th class="row-head">素材id</th>
             <th class="row-head">公众号</th>
+            <th class="row-head">图片</th>
             <th class="row-head">备注</th>
         </tr>
         </thead>
@@ -93,16 +74,6 @@
 
                             <div class="col-sm-9">
                                 <input type="text" id="txtTitle" class="form-control" maxlength="50"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">有效期:</label>
-
-                            <div class="col-sm-9">
-                                <select id="txtPermanent" class="form-control">
-                                    <option value="0">临时</option>
-                                    <option value="1">永久</option>
-                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -168,7 +139,7 @@
                             data-dismiss="modal">取消
                     </button>
                     <button type="button" id="btnYes"
-                            class="btn btn-primary">保存
+                            class="btn btn-primary">确定
                     </button>
                 </div>
             </div>
