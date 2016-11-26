@@ -192,8 +192,8 @@ public class TestFrame extends TestCase {
         List<ArticleItem> list = new ArrayList<>();
         list.add(item1);
         list.add(item2);
-        String mediaId = wxMediaService.uploadNews(list, 1);
-        log.debug(mediaId);
+//        String mediaId = wxMediaService.uploadNews(list, 1);
+//        log.debug(mediaId);
     }
 
     public void testJsonSer() throws JsonProcessingException {

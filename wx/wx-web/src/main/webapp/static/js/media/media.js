@@ -35,7 +35,7 @@ $(function () {
                     $('#hidFile').val(resp.data);
                     $.showToast('上传成功');
                 } else {
-                    $.showToast(resp.errorMsg)
+                    $.showToast(resp.info)
                 }
                 $.hideLoading(0);
             }

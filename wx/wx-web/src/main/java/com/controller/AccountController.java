@@ -1,26 +1,19 @@
 package com.controller;
 
 import com.model.PagerParam;
-import com.models.web.AccountInfo;
+import com.models.web.BaseResp;
+import com.models.web.DataListResp;
 import com.models.web.SaveAccount;
 import com.models.web.UserInfo;
 import com.service.web.AccountService;
 import com.utils.CookieUtil;
-import com.utils.StringUtils;
-import com.utils.XmlParseUtils;
-import org.dom4j.Document;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.InputStream;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -42,25 +35,25 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "getAccountList", method = RequestMethod.POST)
-    public Map<String, Object> getAccountList(PagerParam data) {
-        Map<String, Object> map = accountService.getAccountList(data.getPageIndex(),
+    public DataListResp getAccountList(PagerParam data) {
+        DataListResp map = accountService.getAccountList(data.getPageIndex(),
                 data.getPageSize(), data.getArgs());
         return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "addAccount", method = RequestMethod.POST)
-    public Map<String, Object> addAccount(SaveAccount data,
-                                          HttpServletRequest req) {
+    public BaseResp addAccount(SaveAccount data,
+                               HttpServletRequest req) {
         UserInfo user = CookieUtil.GetCurrentUser(req);
-        Map<String, Object> map = accountService.addAccount(data, user);
+        BaseResp map = accountService.addAccount(data, user);
         return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "deleteAccount", method = RequestMethod.POST)
-    public Map<String, Object> deleteAccount(@RequestBody List<Integer> data) {
-        Map<String, Object> map = accountService.deleteAccount(data);
+    public BaseResp deleteAccount(@RequestBody List<Integer> data) {
+        BaseResp map = accountService.deleteAccount(data);
         return map;
     }
 

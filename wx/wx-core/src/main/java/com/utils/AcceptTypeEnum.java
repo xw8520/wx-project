@@ -1,6 +1,5 @@
 package com.utils;
 
-import java.util.PriorityQueue;
 
 /**
  * Created by Admin on 2016/2/21.

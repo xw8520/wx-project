@@ -35,7 +35,7 @@ $(function () {
                     window.location.reload()
                     return
                 }
-                $.showToast(resp.msg)
+                $.showToast(resp.info)
             },
             error: function (resp) {
                 $.showToast('请求错误，请稍后再试', null);
@@ -94,7 +94,7 @@ function deleteMenu(id) {
                     window.location.reload()
                     return
                 }
-                $.showToast(resp.msg)
+                $.showToast(resp.info)
             },
             error: function (resp) {
                 $.showToast('请求错误，请稍后再试', null);

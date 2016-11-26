@@ -60,23 +60,10 @@
         <property name="mapperInterface" value="com.data.MenuMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-    <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
-    <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
-    <!--</bean>-->
-    <!-- 引用ehCache的配置 -->
-    <bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:ehcache.xml"/>
-        <!--<property name="shared" value="true"/>-->
+    <bean id="jedisPool" class="com.cache.ShardedJedisPoolFactory">
+        <property name="hostAndPorts" value="127.0.0.1:6379"></property>
     </bean>
-    <!-- 定义ehCache的工厂，并设置所使用的Cache name -->
-    <bean id="ehCacheManager" class="com.cache.impl.EhCacheManagerImpl">
-        <property name="cacheManager">
-            <ref local="defaultCacheManager"/>
-        </property>
-        <property name="cacheName">
-            <value>localCache</value>
-        </property>
-    </bean>
+    <bean id="redisCacheManager" class="com.cache.impl.RedisCacheManagerImpl"/>
 
     <bean id="Auth" class="com.api.impl.AuthContainerRequestFilter"></bean>
 

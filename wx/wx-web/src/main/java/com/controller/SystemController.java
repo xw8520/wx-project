@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.models.web.BaseResp;
 import com.models.web.MenuInfo;
 import com.models.web.MenuItem;
 import com.service.web.MenuService;
@@ -37,15 +38,15 @@ public class SystemController {
 
     @ResponseBody
     @RequestMapping(value = "addMenu", method = RequestMethod.POST)
-    public Map<String, Object> addMenu(MenuInfo data) {
-        Map<String, Object> map = menuService.saveOrUpdate(data);
+    public BaseResp addMenu(MenuInfo data) {
+        BaseResp map = menuService.saveOrUpdate(data);
         return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "deleteMenu", method = RequestMethod.POST)
-    public Map<String, Object> deleteMenu(@RequestParam("id") int id) {
-        Map<String, Object> map = menuService.deleteMenu(id);
+    public BaseResp deleteMenu(@RequestParam("id") int id) {
+        BaseResp map = menuService.deleteMenu(id);
         return map;
     }
 }

@@ -2,6 +2,7 @@ package com.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.models.web.LoginResp;
 import com.models.web.UserInfo;
 import com.service.web.UsersService;
 import com.utils.CookieUtil;
@@ -42,26 +43,23 @@ public class HomeController {
      */
     @ResponseBody
     @RequestMapping(value = "home/login.action", method = RequestMethod.POST)
-    public Map<String, Object> login(@RequestParam("account") String account,
-                                     @RequestParam("password") String password,
-                                     HttpServletRequest req,
-                                     HttpServletResponse resp) {
-        //
-        Map<String, Object> map = usersService.login(account, password);
+    public LoginResp login(@RequestParam("account") String account,
+                           @RequestParam("password") String password,
+                           HttpServletRequest req,
+                           HttpServletResponse resp) {
+        LoginResp loginResp = usersService.login(account, password);
         try {
-            if (Boolean.valueOf(map.get("success").toString())) {
-                UserInfo info = new UserInfo(Integer.valueOf(map.get("id").toString()),
-                        Integer.valueOf(map.get("domain").toString()),
-                        map.get("name").toString());
+            if (loginResp.getSuccess()) {
+                UserInfo info = new UserInfo(loginResp.getId(), loginResp.getDomain(), loginResp.getName());
                 CookieUtil.setCookie(req, resp, "u", JsonUtils.Serialize(info));
-                map.remove("id");
-                map.remove("name");
-                map.remove("domain");
+                loginResp.setId(0);
+                loginResp.setDomain(0);
+                loginResp.setName("");
             }
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return map;
+        return loginResp;
     }
 }

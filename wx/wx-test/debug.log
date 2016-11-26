@@ -211,7 +211,7 @@
 [DEBUG] [2016-03-24 20:48:12] 
  Registered injected element on class [com.service.api.impl.AccessTokenServiceImpl]: ResourceElement for com.data.AccessTokenMapper com.service.api.impl.AccessTokenServiceImpl.accessTokenMapper
 [DEBUG] [2016-03-24 20:48:12] 
- Registered injected element on class [com.service.api.impl.AccessTokenServiceImpl]: AutowiredFieldElement for com.cache.EhCacheManager com.service.api.impl.AccessTokenServiceImpl.ehCacheManager
+ Registered injected element on class [com.service.api.impl.AccessTokenServiceImpl]: AutowiredFieldElement for com.cache.RedisCacheManager com.service.api.impl.AccessTokenServiceImpl.ehCacheManager
 [DEBUG] [2016-03-24 20:48:12] 
  Eagerly caching bean 'accessTokenService' to allow for resolving potential circular references
 [DEBUG] [2016-03-24 20:48:12] 
@@ -355,7 +355,7 @@
 [DEBUG] [2016-03-24 20:48:13] 
  Finished creating instance of bean 'accessTokenMapper'
 [DEBUG] [2016-03-24 20:48:13] 
- Processing injected element of bean 'accessTokenService': AutowiredFieldElement for com.cache.EhCacheManager com.service.api.impl.AccessTokenServiceImpl.ehCacheManager
+ Processing injected element of bean 'accessTokenService': AutowiredFieldElement for com.cache.RedisCacheManager com.service.api.impl.AccessTokenServiceImpl.ehCacheManager
 [DEBUG] [2016-03-24 20:48:13] 
  Creating shared instance of singleton bean 'qrCodeMapper'
 [DEBUG] [2016-03-24 20:48:13] 

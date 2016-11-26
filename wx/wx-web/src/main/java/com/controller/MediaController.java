@@ -1,9 +1,8 @@
 package com.controller;
 
 import com.model.PagerParam;
-import com.models.web.AccountSelectInfo;
-import com.models.web.SaveMediaInfo;
-import com.models.web.UserInfo;
+import com.models.web.*;
+import com.service.api.WxMediaService;
 import com.service.web.AccountService;
 import com.service.web.MediaService;
 import com.utils.CookieUtil;
@@ -14,8 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,15 +36,15 @@ public class MediaController {
 
     @ResponseBody
     @RequestMapping(value = "getMediaList", method = RequestMethod.POST)
-    public Map<String, Object> getMediaList(PagerParam data) {
-        Map<String, Object> map = mediaService.getMediaList(data.getPageSize(), data.getPageIndex(),
+    public DataListResp getMediaList(PagerParam data) {
+        DataListResp map = mediaService.getMediaList(data.getPageSize(), data.getPageIndex(),
                 data.getArgs());
         return map;
     }
 
     @ResponseBody
     @RequestMapping(value = "addMedia", method = RequestMethod.POST)
-    public Map<String, Object> addMedia(SaveMediaInfo data,
+    public BaseResp addMedia(SaveMediaInfo data,
                                         HttpServletRequest req) {
         UserInfo user = CookieUtil.GetCurrentUser(req);
         String path = req.getServletContext().getRealPath("/upload");
@@ -64,7 +61,18 @@ public class MediaController {
 
     @ResponseBody
     @RequestMapping(value = "deleteMedia", method = RequestMethod.POST)
-    public Map<String, Object> deleteMedia(@RequestBody List<Integer> data) {
+    public BaseResp deleteMedia(@RequestBody List<Integer> data) {
         return mediaService.deleteMedia(data);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "uploadImage", method = RequestMethod.POST)
+    public UploadImageResp uploadImage(UploadImageReq data,
+                                       HttpServletRequest req) {
+        UserInfo user = CookieUtil.GetCurrentUser(req);
+        String path = req.getServletContext().getRealPath("/upload");
+        data.setFileName(path + File.separator + data.getFileName());
+        return mediaService.uploadImage(data, user);
+
     }
 }
