@@ -49,7 +49,8 @@ $(function () {
             remark: $('#txtRemark').val(),
             permanent: $('#txtPermanent').val(),
             accountid: $('#txtAccount').val(),
-            filename: $('#hidFile').val()
+            filename: $('#hidFile').val(),
+            mediaType: $('#selType2').val()
         };
         if (data.title == '') {
             $.showToast('标题不能为空')
@@ -96,16 +97,16 @@ function initSelect() {
 
 function getParam() {
     var param = {};
-    if ($('#txtName').val() != null && $('#txtName').val() != '') {
+    if ($('#txtName').val() != '') {
         param.name = $('#txtName').val();
     }
     if ($('#selAccount').val() != null && $('#selAccount').val() != '') {
         param.account = $('#selAccount').val();
     }
-    if ($('#selPermanent').val() != null && $('#selPermanent').val() != '') {
+    if ($('#selPermanent').val() != '') {
         param.permanent = $('#selPermanent').val();
     }
-    if ($('#selType').val() != null && $('#selType').val() != '') {
+    if ($('#selType').val() != '') {
         param.type = $('#selType').val();
     }
     return param;
@@ -125,7 +126,7 @@ function del() {
         $.showToast("请选择要删除的数据")
         return;
     }
-    $.showConfirm('','',function(){
+    $.showConfirm('', '', function () {
         $.ajax({
             url: '/media/deleteMedia',
             type: 'POST',

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by admin on 2016/11/26.
  */
-public class UploadNewsResp implements Serializable {
+public class UploadArticleResp implements Serializable {
     private String type;
     private String media_id;
     private int created_at;

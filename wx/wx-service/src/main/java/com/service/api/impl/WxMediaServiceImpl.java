@@ -2,13 +2,9 @@ package com.service.api.impl;
 
 import com.data.WxMediaMapper;
 import com.domain.wx.WxMedia;
-import com.models.wx.WxBaseResp;
-import com.models.wx.media.AddMaterialResp;
-import com.models.wx.media.AddTmpMediaResp;
-import com.models.wx.media.UploadNewsResp;
+import com.models.wx.media.*;
 import com.models.wx.token.TokenResp;
 import com.enums.WxMediaType;
-import com.models.wx.media.ArticleItem;
 import com.service.api.AccessTokenService;
 import com.service.api.WxMediaService;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
@@ -21,6 +17,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -45,44 +42,42 @@ public class WxMediaServiceImpl implements WxMediaService {
     /**
      * 上传临时素材
      *
-     * @param path
      * @return
      */
     @Override
-    public AddTmpMediaResp addTmpMedia(String path, int accountId, int domain,
-                                       String title, String remark) throws Exception {
+    public AddTmpMediaResp addTmpMedia(AddMaterialReq req) throws Exception {
         String url = WxUrlUtils.getInstance().getTmpMediaUpload();
-        WxMediaType mediaType = getMediaType(path);
+        WxMediaType mediaType = getMediaType(req.getPath());
         if (mediaType == WxMediaType.unknow) {
             throw new Exception("文件格式有误");
         }
-        TokenResp token = accessTokenService.getAccessToken(accountId);
+        TokenResp token = accessTokenService.getAccessToken(req.getAccountId());
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
             throw new Exception("获取token 失败");
         }
         url = String.format(url, token.getAccess_token(), mediaType.toString());
 
-        String str = HttpUtils.doPost(url, path, new VirtualFlow.ArrayLinkedList<>());
+        String str = HttpUtils.doPost(url, req.getPath(), new VirtualFlow.ArrayLinkedList<>());
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传素材失败");
         }
         System.out.println(str);
         AddTmpMediaResp addTmpMediaResp = JsonUtils.Deserialize(str, AddTmpMediaResp.class);
-        if (addTmpMediaResp.getErrcode()!=0) {
+        if (addTmpMediaResp.getErrcode() != 0) {
             return addTmpMediaResp;
         }
         Calendar expire = Calendar.getInstance();
         expire.add(Calendar.DATE, 3);
         //添加临时素材记录
         WxMedia media = new WxMedia();
-        media.setRemark(remark);
+        media.setRemark(req.getRemark());
         media.setCreatetime(new Date());
         media.setExpiretime(expire.getTime());
-        media.setAccountid(accountId);
+        media.setAccountid(req.getAccountId());
         media.setPermanent(false);
         media.setMediatype(mediaType.getValue());
-        media.setTitle(title);
-        media.setDomain(domain);
+        media.setTitle(req.getTitle());
+        media.setDomain(req.getDomain());
         media.setMediaid(addTmpMediaResp.getMedia_id());
         wxMediaMapper.insert(media);
 
@@ -166,7 +161,7 @@ public class WxMediaServiceImpl implements WxMediaService {
     }
 
     @Override
-    public UploadNewsResp uploadNews(List<ArticleItem> list, int accountId) throws Exception {
+    public UploadArticleResp uploadArticle(List<WxArticleItem> list, int accountId) throws Exception {
         String url = WxUrlUtils.getInstance().getUploadNews();
 
         TokenResp token = accessTokenService.getAccessToken(accountId);
@@ -174,43 +169,35 @@ public class WxMediaServiceImpl implements WxMediaService {
             throw new Exception("获取token 失败");
         }
         url = String.format(url, token.getAccess_token());
-        Hashtable hash = new Hashtable();
+        Map<String, List<WxArticleItem>> hash = new HashMap<>();
         hash.put("articles", list);
-
         String param = JsonUtils.Serialize(hash);
-        System.out.println(param);
+        logger.info(param);
         String json = HttpUtils.doPost(url, param, AcceptTypeEnum.json);
-        System.out.println(json);
-
-        UploadNewsResp r = JsonUtils.Deserialize(json, UploadNewsResp.class);
-
-        return r;
+        logger.debug(json);
+        UploadArticleResp resp = JsonUtils.Deserialize(json, UploadArticleResp.class);
+        return resp;
     }
 
     @Override
-    public AddMaterialResp addMaterial(String path, int accountId, int domain,
-                                       String title, String remark) throws Exception {
+    public AddMaterialResp addMaterial(AddMaterialReq req) throws Exception {
         String url = WxUrlUtils.getInstance().getAddmaterial();
-        WxMediaType mediaType = getMediaType(path);
-        if (mediaType == WxMediaType.unknow) {
-            throw new Exception("文件格式有误");
-        }
-        TokenResp token = accessTokenService.getAccessToken(accountId);
+        TokenResp token = accessTokenService.getAccessToken(req.getAccountId());
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
             throw new Exception("获取token 失败");
         }
-        url = String.format(url, token.getAccess_token(), mediaType.toString());
-        logger.debug(url);
+        url = String.format(url, token.getAccess_token(), WxMediaType.unknow.getTypeName(req.getType()));
         List<NameValuePair> param = new ArrayList<>();
         //在上传视频素材时需要POST另一个表单，id为description，
         // 包含素材的描述信息，内容格式为JSON
-        if (mediaType == WxMediaType.video) {
-            String json = MessageFormat.format("{\"title\":{0},\"introduction\":{1}\"}", title, remark);
+        if (req.getType() == WxMediaType.video.getValue()) {
+            String json = MessageFormat.format("{\"title\":{0},\"introduction\":{1}\"}",
+                    req.getTitle(), req.getRemark());
             NameValuePair desc = new BasicNameValuePair("description", json);
             param.add(desc);
         }
 
-        String str = HttpUtils.doPost(url, path, param);
+        String str = HttpUtils.doPost(url, req.getPath(), param);
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传永久素材失败");
         }
@@ -222,14 +209,14 @@ public class WxMediaServiceImpl implements WxMediaService {
             calendar.add(Calendar.YEAR, 100);
             //添加临时素材记录
             WxMedia media = new WxMedia();
-            media.setRemark(remark);
+            media.setRemark(req.getRemark());
             media.setCreatetime(new Date());
             media.setExpiretime(calendar.getTime());
-            media.setAccountid(accountId);
+            media.setAccountid(req.getAccountId());
             media.setPermanent(true);
-            media.setMediatype(mediaType.getValue());
-            media.setTitle(title);
-            media.setDomain(domain);
+            media.setMediatype((byte) req.getType());
+            media.setTitle(req.getTitle());
+            media.setDomain(req.getDomain());
             media.setMediaid(mediaId);
             media.setUrl(mediaUrl);
             wxMediaMapper.insert(media);

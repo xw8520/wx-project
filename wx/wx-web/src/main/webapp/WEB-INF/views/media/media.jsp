@@ -90,14 +90,12 @@
                     <div class="form-horizontal" id="formMedia">
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="txtTitle">标题:</label>
-
                             <div class="col-sm-9">
                                 <input type="text" id="txtTitle" class="form-control" maxlength="50"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">有效期:</label>
-
                             <div class="col-sm-9">
                                 <select id="txtPermanent" class="form-control">
                                     <option value="0">临时</option>
@@ -106,8 +104,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="txtAccount">公众号:</label>
+                            <label class="col-sm-2 control-label">素材类型:</label>
+                            <div class="col-sm-9">
+                                <select id="selType2" class="form-control" style="width: 150px">
+                                    <option value="0">图片</option>
+                                    <option value="1">语音</option>
+                                    <option value="2">视频</option>
+                                    <option value="3">缩略图</option>
+                                </select>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="txtAccount">公众号:</label>
                             <div class="col-sm-9">
                                 <select id="txtAccount" class="form-control"></select>
                             </div>

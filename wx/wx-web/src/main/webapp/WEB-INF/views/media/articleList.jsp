@@ -43,7 +43,7 @@
     </div>
     <div class="panel-op">
         <a href="javascript:void(0)" onclick="add()">新增</a>&nbsp;&nbsp;
-        <a href="javascript:void(0)" onclick="sendToWx()">推送至微信</a>&nbsp;&nbsp;
+        <a href="javascript:void(0)" onclick="sendToWx()">上传至微信</a>&nbsp;&nbsp;
         <a href="javascript:void(0)" onclick="articleDetail()">编辑</a>&nbsp;&nbsp;
         <a href="javascript:void(0)" onclick="editArtile()">编辑内容</a>&nbsp;&nbsp;
         <a href="javascript:void(0)" onclick="del()">删除</a>&nbsp;&nbsp;

@@ -4,6 +4,7 @@ import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.media.AddArticleItemReq;
 import com.models.web.media.ArticleItemInfo;
+import com.models.web.media.DeleteArticleItemReq;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ArticleItemService {
 
     DataListResp getArticleItemList(int pageSize,int pageIndex,String args);
 
-    BaseResp deleteAddArticleItem(List<Integer> data);
+    BaseResp deleteAddArticleItem(DeleteArticleItemReq data);
 
     ArticleItemInfo getArticleItem(int id);
 

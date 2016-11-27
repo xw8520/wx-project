@@ -8,7 +8,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.models.web.*;
 import com.models.web.media.MediaInfo;
-import com.models.web.media.SaveMediaInfo;
+import com.models.web.media.AddMediaReq;
+import com.models.wx.media.AddMaterialReq;
 import com.models.wx.media.AddMaterialResp;
 import com.models.wx.media.AddTmpMediaResp;
 import com.service.api.WxMediaService;
@@ -45,19 +46,19 @@ public class MediaServiceImpl implements MediaService {
         WxMediaExample.Criteria criteria = exp.createCriteria();
         if (!StringUtils.isNullOrEmpty(args)) {
             try {
-                HashMap<String, Object> param = JsonUtils.Deserialize(args, HashMap.class);
+                HashMap<String, String> param = JsonUtils.Deserialize(args, HashMap.class);
                 if (!param.isEmpty()) {
-                    if (param.containsKey("name") && !StringUtils.isNullOrEmpty(param.get("name"))) {
+                    if (param.containsKey("name")) {
                         criteria.andTitleLike(param.get("name").toString());
                     }
-                    if (param.containsKey("type") && !StringUtils.isNullOrEmpty(param.get("type"))) {
-                        criteria.andMediatypeEqualTo(Byte.valueOf(param.get("type").toString()));
+                    if (param.containsKey("type")) {
+                        criteria.andMediatypeEqualTo(Byte.valueOf(param.get("type")));
                     }
-                    if (param.containsKey("account") && !StringUtils.isNullOrEmpty(param.get("account"))) {
-                        criteria.andAccountidEqualTo(Integer.valueOf(param.get("account").toString()));
+                    if (param.containsKey("account")) {
+                        criteria.andAccountidEqualTo(Integer.valueOf(param.get("account")));
                     }
-                    if (param.containsKey("permanent") && !StringUtils.isNullOrEmpty(param.get("permanent"))) {
-                        criteria.andPermanentEqualTo(param.get("permanent").toString() == "1");
+                    if (param.containsKey("permanent")) {
+                        criteria.andPermanentEqualTo(param.get("permanent").equals("1"));
                     }
                 }
             } catch (IOException e) {
@@ -87,26 +88,24 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public BaseResp addMedia(SaveMediaInfo data, UserInfo user) {
+    public BaseResp addMedia(AddMediaReq data, UserInfo user) {
         BaseResp resp = new BaseResp();
         try {
+            AddMaterialReq req = new AddMaterialReq(data.getFilename(),
+                    data.getAccountid(), user.getDomain(), data.getTitle(),
+                    data.getRemark(), data.getMediaType());
             if (data.getPermanent()) {
-                AddMaterialResp addMaterialResp = wxMediaService.addMaterial(data.getFilename(), data.getAccountid(),
-                        user.getDomain(), data.getTitle(), data.getRemark());
+                AddMaterialResp addMaterialResp = wxMediaService.addMaterial(req);
                 resp.setSuccess(addMaterialResp.getErrcode() == 0);
                 resp.setInfo(addMaterialResp.getErrmsg());
             } else {
-                AddTmpMediaResp addTmpMediaResp = wxMediaService.addTmpMedia(data.getFilename(), data.getAccountid(),
-                        user.getDomain(), data.getTitle(), data.getRemark());
+                AddTmpMediaResp addTmpMediaResp = wxMediaService.addTmpMedia(req);
                 resp.setSuccess(addTmpMediaResp.getErrcode() == 0);
                 resp.setInfo(addTmpMediaResp.getErrmsg());
             }
         } catch (Exception ex) {
             log.error("", ex);
         }
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("success", false);
-        map.put("info", "保存素材出错");
         return resp;
     }
 

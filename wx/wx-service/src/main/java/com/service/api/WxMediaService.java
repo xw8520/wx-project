@@ -1,14 +1,10 @@
 package com.service.api;
 
 import com.enums.WxMediaType;
-import com.models.wx.media.AddMaterialResp;
-import com.models.wx.media.AddTmpMediaResp;
-import com.models.wx.media.ArticleItem;
-import com.models.wx.media.UploadNewsResp;
+import com.models.wx.media.*;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -22,8 +18,7 @@ public interface WxMediaService {
      * @param path
      * @return
      */
-    AddTmpMediaResp addTmpMedia(String path, int accountId, int domain,
-                                String title, String remark) throws Exception;
+    AddTmpMediaResp addTmpMedia(AddMaterialReq req) throws Exception;
 
     /**
      * 获取临时素材
@@ -60,15 +55,11 @@ public interface WxMediaService {
      * @param accountId
      * @return
      */
-    UploadNewsResp uploadNews(List<ArticleItem> list, int accountId) throws Exception;
+    UploadArticleResp uploadArticle(List<WxArticleItem> list, int accountId) throws Exception;
 
     /**
      * 上传永久素材
-     *
-     * @param path
-     * @param accountId
      * @return
      */
-    AddMaterialResp addMaterial(String path, int accountId, int domain,
-                                String title, String remark) throws Exception;
+    AddMaterialResp addMaterial(AddMaterialReq req) throws Exception;
 }

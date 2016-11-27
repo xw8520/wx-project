@@ -22,10 +22,10 @@ public enum WxMediaType {
     }
 
     public String getTypeName(int val) {
-        if (val == 0) return "图片";
-        if (val == 1) return "语音";
-        if (val == 2) return "视频";
-        if (val == 3) return "缩略图";
-        return "未知";
+        if (val == 0) return "image";
+        if (val == 1) return "voice";
+        if (val == 2) return "video";
+        if (val == 3) return "thumb";
+        return "unknow";
     }
 }

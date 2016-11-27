@@ -6,12 +6,12 @@ import java.io.Serializable;
  * Created by Admin on 2016/3/19.
  * 群发图文消息，图文项
  */
-public class ArticleItem implements Serializable {
-    public ArticleItem(){
+public class WxArticleItem implements Serializable {
+    public WxArticleItem(){
 
     }
-    public ArticleItem(String thumb_media_id,String author,String title,String content_source_url,
-                       String content,String digest,String show_cover_pic){
+    public WxArticleItem(String thumb_media_id, String author, String title, String content_source_url,
+                         String content, String digest, int show_cover_pic){
         this.author=author;
         this.content=content;
         this.content_source_url=content_source_url;
@@ -31,7 +31,7 @@ public class ArticleItem implements Serializable {
     //图文消息的描述
     private String digest;
     //是否显示封面，1为显示，0为不显示
-    private String show_cover_pic;
+    private int show_cover_pic;
 
     public String getThumb_media_id() {
         return thumb_media_id;
@@ -81,11 +81,11 @@ public class ArticleItem implements Serializable {
         this.digest = digest;
     }
 
-    public String getShow_cover_pic() {
+    public int getShow_cover_pic() {
         return show_cover_pic;
     }
 
-    public void setShow_cover_pic(String show_cover_pic) {
+    public void setShow_cover_pic(int show_cover_pic) {
         this.show_cover_pic = show_cover_pic;
     }
 }

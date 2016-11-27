@@ -154,11 +154,16 @@ function delWx() {
 }
 
 function articleDetail() {
+    var id = getCurrent();
+    if (!id) {
+        $.showToast("请选择要查看的数据")
+        return;
+    }
     $.showModel();
     $.ajax({
         url: '/media/getArticle',
         type: 'POST',
-        data: {id: getCurrent()},
+        data: {id: id},
         dataType: 'json',
         success: function (resp) {
             $('#txtTitle').val(resp.title);
@@ -177,11 +182,36 @@ function articleDetail() {
 
 function editArtile() {
     var id = getCurrent();
+    if (!id) {
+        $.showToast("请选择要编辑的数据")
+        return;
+    }
     window.location.href = "articleItem.html?aid=" + id;
 }
 
 function sendToWx() {
     var id = getCurrent();
+    if (id) {
+        $.ajax({
+            url: '/media/sendArticleToWx',
+            type: 'POST',
+            data: {id: id},
+            dataType: 'json',
+            success: function (resp) {
+                if (resp.success) {
+                    $.showToast('上传成功');
+                    pager.loadData();
+                } else {
+                    $.showToast(resp.info)
+                }
+            },
+            error: function (resp) {
+                $.showToast('系统出错，请稍后再试');
+            }
+        })
+        return;
+    }
+    $.showToast("请选择要上传的数据")
 }
 
 function getCurrent() {
@@ -190,5 +220,8 @@ function getCurrent() {
     input.each(function (index, el) {
         data.push(parseInt($(el).attr('val')));
     });
-    return data[0];
+    if (data.length > 0) {
+        return data[0];
+    }
+    return null;
 }

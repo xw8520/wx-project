@@ -11,11 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.PathParam;
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Admin on 2016/5/15.
@@ -52,7 +49,7 @@ public class MediaController {
 
     @ResponseBody
     @RequestMapping(value = "addMedia", method = RequestMethod.POST)
-    public BaseResp addMedia(SaveMediaInfo data,
+    public BaseResp addMedia(AddMediaReq data,
                              HttpServletRequest req) {
         UserInfo user = CookieUtil.GetCurrentUser(req);
         String path = req.getServletContext().getRealPath("/upload");
@@ -128,6 +125,12 @@ public class MediaController {
     }
 
     @ResponseBody
+    @RequestMapping("sendArticleToWx")
+    public BaseResp sendArticleToWx(Integer id) {
+        return articleService.sendArticleToWx(id);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "deleteArticle", method = RequestMethod.POST)
     public BaseResp deleteArticle(@RequestBody DeleteArticleReq req) {
         return articleService.deleteArticle(req.getData(), req.isDeleteWx());
@@ -154,7 +157,7 @@ public class MediaController {
 
     @ResponseBody
     @RequestMapping(value = "deleteArticleItemInfo", method = RequestMethod.POST)
-    public BaseResp deleteArticleItemInfo(List<Integer> data) {
+    public BaseResp deleteArticleItemInfo(@RequestBody DeleteArticleItemReq data) {
         return articleItemService.deleteAddArticleItem(data);
     }
 
@@ -162,5 +165,23 @@ public class MediaController {
     @RequestMapping(value = "addArticleItemInfo", method = RequestMethod.POST)
     public BaseResp addArticleItemInfo(AddArticleItemReq data) {
         return articleItemService.addArticleItem(data);
+    }
+
+
+    @RequestMapping("addArticleItem.html")
+    public ModelAndView addArticleItem(
+            @RequestParam("aid") Integer aid,
+            @RequestParam(value = "id", required = false) Integer id) {
+        ModelAndView view = new ModelAndView("media/addArticleItem");
+        if (id != null) {
+            ArticleItemInfo data = articleItemService.getArticleItem(id);
+            view.addObject("data", data);
+        } else {
+            ArticleItemInfo data = new ArticleItemInfo();
+            data.setShowCover(false);
+            view.addObject("data", data);
+        }
+        view.addObject("aid", aid);
+        return view;
     }
 }

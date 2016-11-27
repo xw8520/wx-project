@@ -4,7 +4,7 @@ import com.models.wx.message.NewsMsgItem;
 import com.models.wx.token.TokenResp;
 import com.models.wx.user.UserInfoListResp;
 import com.enums.WxMediaType;
-import com.models.wx.media.ArticleItem;
+import com.models.wx.media.WxArticleItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -162,8 +162,8 @@ public class TestFrame extends TestCase {
     }
 
     public void testSerializeHash() throws JsonProcessingException {
-        List<ArticleItem> list = new ArrayList<>();
-        list.add(new ArticleItem());
+        List<WxArticleItem> list = new ArrayList<>();
+        list.add(new WxArticleItem());
         Hashtable hash = new Hashtable();
         hash.put("articles", list);
 
@@ -185,14 +185,14 @@ public class TestFrame extends TestCase {
 
     public void testWxMedia() throws Exception {
         wxMediaService = (WxMediaService) context.getBean("wxMediaService");
-        ArticleItem item1 = new ArticleItem("eFTC7PRZVf0W5qzzG6WCTdcoaKtfA8B6qhhkTHs9uuc", "小王",
-                "测试标题", " http://wxtest963.tunnel.qydev.com", "Content", "digest", "1");
-        ArticleItem item2 = new ArticleItem("eFTC7PRZVf0W5qzzG6WCTcGlHsIv5TleryRQwzCa_HM", "小李",
-                "测试标题1", " http://wxtest963.tunnel.qydev.com", "Content1", "digest1", "0");
-        List<ArticleItem> list = new ArrayList<>();
-        list.add(item1);
-        list.add(item2);
-//        String mediaId = wxMediaService.uploadNews(list, 1);
+//        WxArticleItem item1 = new WxArticleItem("eFTC7PRZVf0W5qzzG6WCTdcoaKtfA8B6qhhkTHs9uuc", "小王",
+//                "测试标题", " http://wxtest963.tunnel.qydev.com", "Content", "digest", "1");
+//        WxArticleItem item2 = new WxArticleItem("eFTC7PRZVf0W5qzzG6WCTcGlHsIv5TleryRQwzCa_HM", "小李",
+//                "测试标题1", " http://wxtest963.tunnel.qydev.com", "Content1", "digest1", "0");
+//        List<WxArticleItem> list = new ArrayList<>();
+//        list.add(item1);
+//        list.add(item2);
+//        String mediaId = wxMediaService.uploadArticle(list, 1);
 //        log.debug(mediaId);
     }
 

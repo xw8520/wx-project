@@ -1,7 +1,7 @@
 package com.service.web;
 
 import com.models.web.*;
-import com.models.web.media.SaveMediaInfo;
+import com.models.web.media.AddMediaReq;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface MediaService {
      * @param data
      * @return
      */
-    BaseResp addMedia(SaveMediaInfo data, UserInfo user);
+    BaseResp addMedia(AddMediaReq data, UserInfo user);
 
     /**
      * 删除素材

@@ -5,12 +5,25 @@ import java.io.Serializable;
 /**
  * Created by Admin on 2016/5/22.
  */
-public class SaveMediaInfo implements Serializable {
+public class AddMediaReq implements Serializable {
     private String title;
     private String remark;
     private int accountid;
     private String filename;
     private Boolean permanent;
+
+    public int getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(int mediaType) {
+        this.mediaType = mediaType;
+    }
+
+    /**
+     * 0-图片，1-语音，2-视频，3-缩略图，4-未知
+     */
+    private int mediaType;
 
     public Boolean getPermanent() {
         return permanent;
