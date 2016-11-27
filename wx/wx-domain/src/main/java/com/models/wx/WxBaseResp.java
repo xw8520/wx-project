@@ -8,6 +8,15 @@ import java.io.Serializable;
 public class WxBaseResp implements Serializable {
     private String errmsg;
     private int errcode;
+    private String msg_id;
+
+    public String getMsg_id() {
+        return msg_id;
+    }
+
+    public void setMsg_id(String msg_id) {
+        this.msg_id = msg_id;
+    }
 
     public String getErrmsg() {
         return errmsg;

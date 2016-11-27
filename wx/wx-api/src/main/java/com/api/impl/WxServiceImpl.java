@@ -3,9 +3,12 @@ package com.api.impl;
 import com.api.WxService;
 import com.models.wx.message.CustomNewsMsg;
 import com.models.wx.message.CustomTextMsg;
+import com.models.wx.message.TextMsgReq;
+import com.models.wx.message.WxMassMsgResp;
 import com.models.wx.user.CreateTagReq;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
+import com.service.api.WxMassMsgService;
 import com.service.api.WxMessageService;
 import com.service.api.WxCustomMsgService;
 import com.service.api.WxTagService;
@@ -20,9 +23,10 @@ public class WxServiceImpl implements WxService {
 
     @Resource
     WxMessageService wxMsgService;
-
     @Resource
     WxCustomMsgService wxSendMsgService;
+    @Resource
+    WxMassMsgService wxMassMsgService;
 
     @Resource
     WxTagService wxTagService;
@@ -62,5 +66,10 @@ public class WxServiceImpl implements WxService {
     @Override
     public String createTag(CreateTagReq data) throws Exception {
         return wxTagService.createTag(data.getName(), data.getAccountid());
+    }
+
+    @Override
+    public WxMassMsgResp sendTextMsgByOpenId(TextMsgReq req) {
+        return wxMassMsgService.sendTextMsgByOpenId(req);
     }
 }

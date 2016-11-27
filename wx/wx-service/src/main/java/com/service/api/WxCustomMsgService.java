@@ -6,12 +6,12 @@ import java.util.List;
 
 /**
  * Created by Admin on 2016/3/11.
- * 文本消息
+ * 客服接口
  */
 public interface WxCustomMsgService {
 
     /**
-     * 客服接口 -发送文本消息
+     * 发送文本消息
      * @param to
      * @param msg
      * @return

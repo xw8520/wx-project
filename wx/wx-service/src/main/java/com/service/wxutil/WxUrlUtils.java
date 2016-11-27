@@ -44,7 +44,6 @@ public class WxUrlUtils {
     }
 
     public String getWxserveripservice() {
-
         return getValue("wx.wxserveripservice");
     }
 
@@ -119,8 +118,43 @@ public class WxUrlUtils {
      *
      * @return
      */
-    public String getSendall() {
+    public String getSendByTagId() {
         return getValue("wx.sendall");
+    }
+
+    /**
+     * 根据openid群发
+     *
+     * @return
+     */
+    public String getSendMassByOpenId() {
+        return getValue("wx.sendmass");
+    }
+
+    /**
+     * 群发预览
+     *
+     * @return
+     */
+    public String getPreview() {
+        return getValue("wx.preview");
+    }
+
+    /**
+     * 群发状态
+     *
+     * @return
+     */
+    public String getMassStatus() {
+        return getValue("wx.massstatus");
+    }
+
+    /**
+     * 删除群发
+     * @return
+     */
+    public String deleteMass() {
+        return getValue("wx.deletemass");
     }
 
     /**
@@ -143,6 +177,7 @@ public class WxUrlUtils {
 
     /**
      * 创建标签url
+     *
      * @return
      */
     public String getCreateTag() {

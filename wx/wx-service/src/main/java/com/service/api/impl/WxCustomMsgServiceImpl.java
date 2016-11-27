@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Created by Admin on 2016/3/19.
- * 格式化微信消息
+ * 客服接口
  */
 @Service("wxSendMsgService")
 public class WxCustomMsgServiceImpl implements WxCustomMsgService {
@@ -93,6 +93,13 @@ public class WxCustomMsgServiceImpl implements WxCustomMsgService {
         return "";
     }
 
+    /**
+     * 发送图文消息
+     * @param to
+     * @param list
+     * @param accountid
+     * @return
+     */
     @Override
     public String sendCustomNewsMsg(String to, List<CustomNewsMsgItem> list, int accountid) {
         String msg = WxMsgUtils.getCustomNewsMsg(to, list);

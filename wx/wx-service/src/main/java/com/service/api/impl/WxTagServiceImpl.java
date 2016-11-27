@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 
 /**
  * Created by Admin on 2016/5/20.
+ * 标签相关
  */
 @Service("wxTagService")
 public class WxTagServiceImpl implements WxTagService {

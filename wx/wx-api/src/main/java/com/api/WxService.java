@@ -2,6 +2,8 @@ package com.api;
 
 import com.models.wx.message.CustomNewsMsg;
 import com.models.wx.message.CustomTextMsg;
+import com.models.wx.message.TextMsgReq;
+import com.models.wx.message.WxMassMsgResp;
 import com.models.wx.user.CreateTagReq;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
@@ -65,4 +67,9 @@ public interface WxService {
     @Path("/createTag")
     @Produces("application/json")
     String createTag(CreateTagReq data) throws Exception;
+
+    @POST
+    @Path("sendTextMsgByOpenId")
+    @Produces("application/json")
+    WxMassMsgResp sendTextMsgByOpenId(TextMsgReq req);
 }
