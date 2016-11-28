@@ -85,6 +85,14 @@ public class RedisCacheManagerImpl implements RedisCacheManager {
     }
 
     @Override
+    public String get(String key) {
+        ShardedJedis jedis = jedisPool.getResource();
+        String val = jedis.get(key);
+        jedisPool.returnResourceObject(jedis);
+        return val;
+    }
+
+    @Override
     public <T> T get(String key, Class<T> classType) {
         ShardedJedis jedis = jedisPool.getResource();
         String value = jedis.get(key);

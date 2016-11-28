@@ -471,35 +471,35 @@
 [DEBUG] [2016-03-24 20:48:14] 
  Creating instance of bean 'wxMessageService'
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxMessageServiceImpl]: ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxMessageServiceImpl.accessTokenService
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxUserServiceImpl.accessTokenService
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxMessageServiceImpl]: ResourceElement for com.data.QrCodeMapper com.service.api.impl.WxMessageServiceImpl.qrCodeMapper
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.data.QrCodeMapper com.service.api.impl.WxUserServiceImpl.qrCodeMapper
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxMessageServiceImpl]: ResourceElement for com.data.AccountMapper com.service.api.impl.WxMessageServiceImpl.accountMapper
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.data.AccountMapper com.service.api.impl.WxUserServiceImpl.accountMapper
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxMessageServiceImpl]: ResourceElement for com.data.JsapiticketMapper com.service.api.impl.WxMessageServiceImpl.jsapiticketMapper
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.data.JsapiticketMapper com.service.api.impl.WxUserServiceImpl.jsapiticketMapper
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxMessageServiceImpl]: ResourceElement for com.service.api.WxCustomMsgService com.service.api.impl.WxMessageServiceImpl.wxMsgReplyService
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.service.api.WxMsgService com.service.api.impl.WxUserServiceImpl.wxMsgReplyService
 [DEBUG] [2016-03-24 20:48:14] 
  Eagerly caching bean 'wxMessageService' to allow for resolving potential circular references
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxMessageServiceImpl.accessTokenService
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxUserServiceImpl.accessTokenService
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'accessTokenService'
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.data.QrCodeMapper com.service.api.impl.WxMessageServiceImpl.qrCodeMapper
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.data.QrCodeMapper com.service.api.impl.WxUserServiceImpl.qrCodeMapper
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'qrCodeMapper'
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.data.AccountMapper com.service.api.impl.WxMessageServiceImpl.accountMapper
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.data.AccountMapper com.service.api.impl.WxUserServiceImpl.accountMapper
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'accountMapper'
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.data.JsapiticketMapper com.service.api.impl.WxMessageServiceImpl.jsapiticketMapper
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.data.JsapiticketMapper com.service.api.impl.WxUserServiceImpl.jsapiticketMapper
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'jsapiTicket'
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.WxCustomMsgService com.service.api.impl.WxMessageServiceImpl.wxMsgReplyService
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.WxMsgService com.service.api.impl.WxUserServiceImpl.wxMsgReplyService
 [DEBUG] [2016-03-24 20:48:14] 
  Creating shared instance of singleton bean 'wxMsgReplyService'
 [DEBUG] [2016-03-24 20:48:14] 
@@ -562,3 +562,71 @@
  Returning cached instance of singleton bean 'sqlSessionFactory'
 [DEBUG] [2016-03-24 20:48:14] 
  {"touser":"str","msgtype":"text","text":{"content":"message"}}
+[INFO ] [2016-11-28 20:31:10] 
+ Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@15bfd87: startup date [Mon Nov 28 20:31:10 CST 2016]; root of context hierarchy
+[INFO ] [2016-11-28 20:31:10] 
+ Loading XML bean definitions from class path resource [applicationContext.xml]
+[INFO ] [2016-11-28 20:31:15] 
+ Loading properties file from class path resource [jdbc.properties]
+[WARN ] [2016-11-28 20:31:16] 
+ Exception encountered during context initialization - cancelling refresh attempt
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'accessTokenService': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: com.cache.RedisCacheManager com.service.api.impl.AccessTokenServiceImpl.ehCacheManager; nested exception is java.lang.NoClassDefFoundError: net/sf/ehcache/CacheManager
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1210)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:537)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:476)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:303)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:299)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:194)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:755)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:757)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:480)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:139)
+	at org.springframework.context.support.ClassPathXmlApplicationContext.<init>(ClassPathXmlApplicationContext.java:83)
+	at com.test.TestFrame.setUp(TestFrame.java:51)
+	at junit.framework.TestCase.runBare(TestCase.java:139)
+	at junit.framework.TestResult$1.protect(TestResult.java:122)
+	at junit.framework.TestResult.runProtected(TestResult.java:142)
+	at junit.framework.TestResult.run(TestResult.java:125)
+	at junit.framework.TestCase.run(TestCase.java:129)
+	at junit.framework.TestSuite.runTest(TestSuite.java:255)
+	at junit.framework.TestSuite.run(TestSuite.java:250)
+	at org.junit.internal.runners.JUnit38ClassRunner.run(JUnit38ClassRunner.java:84)
+	at org.junit.runner.JUnitCore.run(JUnitCore.java:160)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:117)
+	at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:42)
+	at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:262)
+	at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:84)
+Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: com.cache.RedisCacheManager com.service.api.impl.AccessTokenServiceImpl.ehCacheManager; nested exception is java.lang.NoClassDefFoundError: net/sf/ehcache/CacheManager
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:561)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+	... 26 more
+Caused by: java.lang.NoClassDefFoundError: net/sf/ehcache/CacheManager
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Class.java:2701)
+	at java.lang.Class.getDeclaredMethods(Class.java:1975)
+	at org.springframework.util.ReflectionUtils.getDeclaredMethods(ReflectionUtils.java:571)
+	at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:488)
+	at org.springframework.util.ReflectionUtils.doWithMethods(ReflectionUtils.java:474)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.determineCandidateConstructors(AutowiredAnnotationBeanPostProcessor.java:241)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineConstructorsFromBeanPostProcessors(AbstractAutowireCapableBeanFactory.java:1065)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1038)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getSingletonFactoryBeanForTypeCheck(AbstractAutowireCapableBeanFactory.java:860)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryBean(AbstractAutowireCapableBeanFactory.java:790)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.isTypeMatch(AbstractBeanFactory.java:542)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doGetBeanNamesForType(DefaultListableBeanFactory.java:436)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBeanNamesForType(DefaultListableBeanFactory.java:412)
+	at org.springframework.beans.factory.BeanFactoryUtils.beanNamesForTypeIncludingAncestors(BeanFactoryUtils.java:186)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1044)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:942)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:533)
+	... 28 more
+Caused by: java.lang.ClassNotFoundException: net.sf.ehcache.CacheManager
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+	... 47 more

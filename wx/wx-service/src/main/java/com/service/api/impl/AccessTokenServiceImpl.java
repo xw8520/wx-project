@@ -31,8 +31,8 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     AccountMapper accountMapper;
     @Resource
     AccessTokenMapper accessTokenMapper;
-    @Autowired
-    RedisCacheManager ehCacheManager;
+    @Resource
+    RedisCacheManager redisCacheManager;
 
     /**
      * @param accountid
@@ -42,7 +42,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     public TokenResp getAccessToken(int accountid) throws IOException {
         TokenResp tokenResp;
         String key = String.format(RedisKeys.accessTokenKey, accountid);
-        AccessToken token = ehCacheManager.get(key, AccessToken.class);
+        AccessToken token = redisCacheManager.get(key, AccessToken.class);
         if (token != null && token.getExpiredtime().after(new Date())) {
             tokenResp = new TokenResp();
             tokenResp.setAccess_token(token.getToken());
@@ -53,7 +53,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             tokenResp = new TokenResp();
             tokenResp.setAccess_token(token.getToken());
             Long seconds = token.getExpiredtime().getTime() - new Date().getTime();
-            ehCacheManager.put(key, token, (int) (seconds/1000));
+            redisCacheManager.put(key, token, (int) (seconds / 1000));
             return tokenResp;
         }
         Account account = accountMapper.getAccountById(accountid);
@@ -64,12 +64,45 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             tokenResp = JsonUtils.Deserialize(json, TokenResp.class);
             if (StringUtils.isEmpty(tokenResp.getErrcode())) {
                 token = getAccessTokenByDto(tokenResp, accountid);
-                ehCacheManager.put(key, token, tokenResp.getExpires_in());
+                redisCacheManager.put(key, token, tokenResp.getExpires_in());
                 accessTokenMapper.addAccessToken(token);
                 return tokenResp;
             }
         }
         return new TokenResp();
+    }
+
+    @Override
+    public String getAccessToken2(int accountid) {
+        try {
+            String key = String.format(RedisKeys.ACCESSTOKENKEY2, accountid);
+            String token = redisCacheManager.get(key);
+            if (!com.utils.StringUtils.isNullOrEmpty(token)) {
+                return token;
+            }
+            AccessToken accessToken = accessTokenMapper.getAccessTokenByAccount(accountid);
+            if (accessToken != null && accessToken.getExpiredtime().after(new Date())) {
+                int time = (int) ((accessToken.getExpiredtime().getTime() - new Date().getTime()) / 1000);
+                redisCacheManager.put(key, accessToken.getToken(), time);
+                return accessToken.getToken();
+            }
+            Account account = accountMapper.getAccountById(accountid);
+            String url = WxUrlUtils.getInstance().getAccesstoken();
+            if (!StringUtils.isEmpty(url)) {
+                url = String.format(url, account.getAppid(), account.getSecret());
+                String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
+                TokenResp tokenResp = JsonUtils.Deserialize(json, TokenResp.class);
+                if (StringUtils.isEmpty(tokenResp.getErrcode())) {
+                    AccessToken tokenDto = getAccessTokenByDto(tokenResp, accountid);
+                    redisCacheManager.put(key, token, tokenResp.getExpires_in());
+                    accessTokenMapper.addAccessToken(tokenDto);
+                    return tokenResp.getAccess_token();
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "";
     }
 
     /**

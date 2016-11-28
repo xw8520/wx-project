@@ -121,11 +121,6 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public BaseResp sendToWx(int id) {
-        return null;
-    }
-
-    @Override
     public BaseResp deleteArticle(List<Integer> data, boolean deleteWx) {
         BaseResp resp = new BaseResp();
         ArticlesExample exp = new ArticlesExample();
@@ -166,9 +161,10 @@ public class ArticleServiceImpl implements ArticleService {
                 .collect(Collectors.toList());
         try {
             UploadArticleResp upArticleResp = wxMediaService.uploadArticle(list, articles.getAccountid());
-            if (upArticleResp.getErrcode() == 0) {
-                logger.info("mediaId:%s wxMediaIdL%s", articles.getId(), upArticleResp.getMedia_id());
-                logger.info(String.format("mediaId:%s wxMediaId:%s", articles.getId(), upArticleResp.getMedia_id()));
+            if (upArticleResp.getErrcode() == 0
+                    || !StringUtils.isNullOrEmpty(upArticleResp.getMedia_id())) {
+                logger.info(String.format("mediaId:%s wxMediaId:%s", articles.getId(),
+                        upArticleResp.getMedia_id()));
                 Articles newArticle = new Articles();
                 newArticle.setId(articles.getId());
                 newArticle.setMediaid(upArticleResp.getMedia_id());

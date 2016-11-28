@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="25"/>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <setting name="mapUnderscoreToCamelCase" value="false"/>
+        <setting name="localCacheScope" value="SESSION"/>
+        <setting name="jdbcTypeForNull" value="OTHER"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+    </settings>
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialect" value="mysql"/>
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，会将RowBounds第一个参数offset当成pageNum页码使用 -->
+            <!-- 和startPage中的pageNum效果一样-->
+            <property name="offsetAsPageNum" value="true"/>
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+            <property name="rowBoundsWithCount" value="true"/>
+        </plugin>
+    </plugins>
+    <mappers>
+        <mapper resource="mybatis-mappers/AccessTokenMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/AccountMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/JsapiticketMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/QrCodeMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/WxMediaMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/UsersMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/MenuMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/ImageMessageMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/ArticlesMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/ArticleItemMapper.xml"></mapper>
+    </mappers>
+</configuration>
+

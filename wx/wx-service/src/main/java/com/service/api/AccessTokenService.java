@@ -10,8 +10,11 @@ import java.io.IOException;
 public interface AccessTokenService {
     /**
      * 刷新token
+     *
      * @param account
      * @return
      */
     TokenResp getAccessToken(int account) throws IOException;
+
+    String getAccessToken2(int accountId);
 }

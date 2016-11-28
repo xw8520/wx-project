@@ -19,5 +19,7 @@ public interface RedisCacheManager {
 
     byte[] get(byte[] key);
 
+    String get(String key);
+
     <T> T get(String key, Class<T> classType);
 }

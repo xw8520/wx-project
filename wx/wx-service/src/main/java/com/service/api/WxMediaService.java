@@ -15,7 +15,6 @@ public interface WxMediaService {
     /**
      * 上传临时素材
      *
-     * @param path
      * @return
      */
     AddTmpMediaResp addTmpMedia(AddMaterialReq req) throws Exception;
@@ -41,7 +40,8 @@ public interface WxMediaService {
 
     /**
      * 图文消息图片上传
-     *本接口所上传的图片不占用公众号的素材库中图片数量的5000个的限制。图片仅支持jpg/png格式，大小必须在1MB以下
+     * 本接口所上传的图片不占用公众号的素材库中图片数量的5000个的限制。图片仅支持jpg/png格式，大小必须在1MB以下
+     *
      * @param path
      * @param accountId
      * @return
@@ -49,7 +49,7 @@ public interface WxMediaService {
     String uploadImage(String path, int accountId) throws Exception;
 
     /**
-     * 上传图文消息(群发接口)
+     * 上传图文消息(群发接口) -缩略图id需要在临时素材接口上传
      *
      * @param list
      * @param accountId
@@ -59,7 +59,10 @@ public interface WxMediaService {
 
     /**
      * 上传永久素材
+     *
      * @return
      */
     AddMaterialResp addMaterial(AddMaterialReq req) throws Exception;
+
+    GetMaterialResp getMeterail(GetMaterialReq req);
 }

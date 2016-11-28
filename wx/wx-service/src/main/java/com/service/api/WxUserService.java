@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by Admin on 2016/2/23.
  */
-public interface WxMessageService {
+public interface WxUserService {
     /**
      * @param body
      * @return

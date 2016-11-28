@@ -7,8 +7,8 @@ import com.domain.wx.Account;
 import com.domain.wx.Jsapiticket;
 import com.domain.wx.QrCode;
 import com.service.api.AccessTokenService;
-import com.service.api.WxCustomMsgService;
-import com.service.api.WxMessageService;
+import com.service.api.WxMsgService;
+import com.service.api.WxUserService;
 import com.utils.*;
 import com.models.wx.token.JsapiticketResp;
 import com.models.wx.token.TokenResp;
@@ -33,7 +33,7 @@ import java.util.*;
  * Created by Admin on 2016/2/23.
  */
 @Service("wxMessageService")
-public class WxMessageServiceImpl implements WxMessageService {
+public class WxUserServiceImpl implements WxUserService {
 
     @Resource
     AccessTokenService accessTokenService;
@@ -44,7 +44,7 @@ public class WxMessageServiceImpl implements WxMessageService {
     @Resource
     JsapiticketMapper jsapiticketMapper;
     @Resource
-    WxCustomMsgService wxMsgReplyService;
+    WxMsgService wxMsgReplyService;
 
     public String reply(String body) {
 

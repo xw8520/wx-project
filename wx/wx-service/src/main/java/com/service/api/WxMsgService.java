@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Admin on 2016/3/11.
  * 客服接口
  */
-public interface WxCustomMsgService {
+public interface WxMsgService {
 
     /**
      * 发送文本消息

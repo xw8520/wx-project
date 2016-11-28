@@ -10,11 +10,11 @@
         <result column="createtime"></result>
         <result column="expiredtime"></result>
     </resultMap>
-    <select id="getTicketById" parameterType="int" resultType="Jsapiticket">
+    <select id="getTicketById" parameterType="int" resultType="com.domain.wx.Jsapiticket">
         SELECT  * from Jsapiticket where id=#{id}
     </select>
 
-    <select id="getTicketByAccount" parameterType="int" resultType="Jsapiticket">
+    <select id="getTicketByAccount" parameterType="int" resultType="com.domain.wx.Jsapiticket">
         SELECT  * from Jsapiticket where accountid=#{accountid} ORDER BY  id DESC limit 1
     </select>
 

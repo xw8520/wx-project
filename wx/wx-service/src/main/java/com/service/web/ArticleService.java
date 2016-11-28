@@ -18,8 +18,6 @@ public interface ArticleService {
 
     DataListResp getArticleList(int pageSize, int pageIndex, int domain, String args);
 
-    BaseResp sendToWx(int id);
-
     BaseResp deleteArticle(List<Integer> data, boolean deleteWx);
 
     BaseResp sendArticleToWx(Integer id);

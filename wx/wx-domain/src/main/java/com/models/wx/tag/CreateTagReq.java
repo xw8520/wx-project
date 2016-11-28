@@ -1,4 +1,4 @@
-package com.models.wx.user;
+package com.models.wx.tag;
 
 
 import javax.xml.bind.annotation.XmlRootElement;

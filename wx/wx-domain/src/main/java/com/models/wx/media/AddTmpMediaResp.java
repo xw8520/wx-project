@@ -8,6 +8,16 @@ import com.models.wx.WxBaseResp;
 public class AddTmpMediaResp extends WxBaseResp {
     private String media_id;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+
     public String getMedia_id() {
         return media_id;
     }

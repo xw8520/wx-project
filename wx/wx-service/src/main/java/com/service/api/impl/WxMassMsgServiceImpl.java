@@ -14,6 +14,8 @@ import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
 import com.utils.JsonUtils;
 import org.apache.http.protocol.HTTP;
+import org.apache.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,27 +26,18 @@ import java.io.IOException;
  */
 @Service("wxMassMsgService")
 public class WxMassMsgServiceImpl implements WxMassMsgService {
-
+    org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
     @Resource
     AccessTokenService accessTokenService;
 
-    private String getToken(int accountId) {
-        try {
-            TokenResp token = accessTokenService.getAccessToken(accountId);
-            return token.getAccess_token();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
     private WxMassMsgResp sendMsgByTagId(String msg, int accountId) {
         String url = WxUrlUtils.getInstance().getSendByTagId();
-        url = String.format(url, getToken(accountId));
+        url = String.format(url, accessTokenService.getAccessToken2(accountId));
         String strResp = HttpUtils.doPost(url, msg, AcceptTypeEnum.json);
         WxMassMsgResp resp = new WxMassMsgResp();
         try {
             resp = JsonUtils.Deserialize(strResp, WxMassMsgResp.class);
+            logger.info("WxMassMsg:" + resp);
         } catch (IOException e) {
             e.printStackTrace();
             resp.setErrmsg("系统出错");
@@ -55,7 +48,7 @@ public class WxMassMsgServiceImpl implements WxMassMsgService {
 
     private WxMassMsgResp sendMsgByOpenId(String msg, int accountId) {
         String url = WxUrlUtils.getInstance().getSendMassByOpenId();
-        url = String.format(url, getToken(accountId));
+        url = String.format(url, accessTokenService.getAccessToken2(accountId));
         String strResp = HttpUtils.doPost(url, msg, AcceptTypeEnum.json);
         WxMassMsgResp resp = new WxMassMsgResp();
         try {
@@ -70,7 +63,7 @@ public class WxMassMsgServiceImpl implements WxMassMsgService {
 
     private WxBaseResp previewMsg(String msg, int accountId) {
         String url = WxUrlUtils.getInstance().getPreview();
-        url = String.format(url, getToken(accountId));
+        url = String.format(url, accessTokenService.getAccessToken2(accountId));
         String strResp = HttpUtils.doPost(url, msg, AcceptTypeEnum.json);
         WxBaseResp resp = new WxBaseResp();
         try {
@@ -323,9 +316,8 @@ public class WxMassMsgServiceImpl implements WxMassMsgService {
         SendStatusResp resp = new SendStatusResp();
         try {
             String json = mapper.writeValueAsString(node);
-            String token = getToken(req.getAccountId());
             String url = WxUrlUtils.getInstance().getMassStatus();
-            url = String.format(url, token);
+            url = String.format(url, accessTokenService.getAccessToken2(req.getAccountId()));
             String str = HttpUtils.doPost(url, json, AcceptTypeEnum.json);
             resp = JsonUtils.Deserialize(str, SendStatusResp.class);
         } catch (Exception e) {
@@ -343,9 +335,9 @@ public class WxMassMsgServiceImpl implements WxMassMsgService {
         WxBaseResp resp = new WxBaseResp();
         try {
             String json = mapper.writeValueAsString(node);
-            String token = getToken(req.getAccountId());
+
             String url = WxUrlUtils.getInstance().deleteMass();
-            url = String.format(url, token);
+            url = String.format(url, accessTokenService.getAccessToken2(req.getAccountId()));
             String str = HttpUtils.doPost(url, json, AcceptTypeEnum.json);
             resp = JsonUtils.Deserialize(str, SendStatusResp.class);
         } catch (Exception e) {

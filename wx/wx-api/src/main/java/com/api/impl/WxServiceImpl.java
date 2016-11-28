@@ -5,12 +5,12 @@ import com.models.wx.message.CustomNewsMsg;
 import com.models.wx.message.CustomTextMsg;
 import com.models.wx.message.TextMsgReq;
 import com.models.wx.message.WxMassMsgResp;
-import com.models.wx.user.CreateTagReq;
+import com.models.wx.tag.CreateTagReq;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
 import com.service.api.WxMassMsgService;
-import com.service.api.WxMessageService;
-import com.service.api.WxCustomMsgService;
+import com.service.api.WxMsgService;
+import com.service.api.WxUserService;
 import com.service.api.WxTagService;
 
 import javax.annotation.Resource;
@@ -22,9 +22,9 @@ import java.security.NoSuchAlgorithmException;
 public class WxServiceImpl implements WxService {
 
     @Resource
-    WxMessageService wxMsgService;
+    WxUserService wxMsgService;
     @Resource
-    WxCustomMsgService wxSendMsgService;
+    WxMsgService wxSendMsgService;
     @Resource
     WxMassMsgService wxMassMsgService;
 
@@ -61,11 +61,6 @@ public class WxServiceImpl implements WxService {
     public String sendCustomNewsMsg(CustomNewsMsg data) {
         if (data == null) return "";
         return wxSendMsgService.sendCustomNewsMsg(data.getTo(), data.getList(), data.getAccountid());
-    }
-
-    @Override
-    public String createTag(CreateTagReq data) throws Exception {
-        return wxTagService.createTag(data.getName(), data.getAccountid());
     }
 
     @Override

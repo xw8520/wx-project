@@ -27,9 +27,8 @@
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="mapperLocations"
-                  value="classpath:mybatis-mappers/*Mapper.xml"/>
-        <property name="typeAliasesPackage" value="com.domain"/>
+        <property name="configLocation" value="classpath:wx-mybatis.xml"/>
+        <!--<property name="typeAliasesPackage" value="com.domain"/>-->
     </bean>
 
     <bean id="accountMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
@@ -53,29 +52,51 @@
         <property name="mapperInterface" value="com.data.WxMediaMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-    <!--<bean id="jedisPool" class="com.core.ShardedJedisPoolFactory">-->
-    <!--<property name="hostAndPorts" value="127.0.0.1:6379"></property>-->
-    <!--</bean>-->
-    <!-- 引用ehCache的配置 -->
-    <bean id="defaultCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-        <property name="configLocation" value="classpath:ehcache.xml"/>
-        <!--<property name="shared" value="true"/>-->
+    <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.UsersMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-    <!-- 定义ehCache的工厂，并设置所使用的Cache name -->
+    <bean id="menuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.MenuMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="imgMsgMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.ImageMessageMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="articlesMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.ArticlesMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="articleItemMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.ArticleItemMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="jedisPool" class="com.cache.ShardedJedisPoolFactory">
+        <property name="hostAndPorts" value="127.0.0.1:6379"></property>
+    </bean>
+    <bean id="redisCacheManager" class="com.cache.impl.RedisCacheManagerImpl"/>
 
-    <!--<bean id="wxservice" class="com.api.impl.WxServiceImpl"></bean>-->
+    <!--<bean id="Auth" class="com.api.impl.AuthContainerRequestFilter"></bean>-->
+
+    <!--<bean id="wxservice" class="com.api.impl.WxServiceImpl">-->
+        <!--&lt;!&ndash;<constructor-arg>&ndash;&gt;-->
+        <!--&lt;!&ndash;<bean id="configurable" class="javax.ws.rs.core.Configurable"></bean>&ndash;&gt;-->
+        <!--&lt;!&ndash;</constructor-arg>&ndash;&gt;-->
+    <!--</bean>-->
     <!--<jaxrs:server id="logisticsApiServiceContainer">-->
+
         <!--<jaxrs:serviceBeans>-->
             <!--<ref bean="wxservice"/>-->
         <!--</jaxrs:serviceBeans>-->
         <!--<jaxrs:providers>-->
             <!--<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"></bean>-->
+            <!--<ref bean="Auth"></ref>-->
         <!--</jaxrs:providers>-->
         <!--<jaxrs:extensionMappings>-->
             <!--<entry key="json" value="application/json"/>-->
             <!--<entry key="xml" value="application/xml"/>-->
         <!--</jaxrs:extensionMappings>-->
-
         <!--<jaxrs:languageMappings>-->
             <!--<entry key="cn" value="cn-ZH"/>-->
         <!--</jaxrs:languageMappings>-->

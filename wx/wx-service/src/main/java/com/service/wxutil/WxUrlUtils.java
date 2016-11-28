@@ -151,6 +151,7 @@ public class WxUrlUtils {
 
     /**
      * 删除群发
+     *
      * @return
      */
     public String deleteMass() {
@@ -182,5 +183,13 @@ public class WxUrlUtils {
      */
     public String getCreateTag() {
         return getValue("wx.createtag");
+    }
+
+    public String getMaterial() {
+        return getValue("wx.get_material");
+    }
+
+    public String getBatchtagging() {
+        return getValue("wx.attatchtag");
     }
 }

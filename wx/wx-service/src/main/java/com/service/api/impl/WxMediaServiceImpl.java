@@ -2,6 +2,9 @@ package com.service.api.impl;
 
 import com.data.WxMediaMapper;
 import com.domain.wx.WxMedia;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.models.web.BaseResp;
 import com.models.wx.media.*;
 import com.models.wx.token.TokenResp;
 import com.enums.WxMediaType;
@@ -55,32 +58,39 @@ public class WxMediaServiceImpl implements WxMediaService {
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
             throw new Exception("获取token 失败");
         }
-        url = String.format(url, token.getAccess_token(), mediaType.toString());
-
+        url = String.format(url, token.getAccess_token(),
+                WxMediaType.unknow.getTypeName(req.getType()));
+        logger.info("addTmpMedia:" + url);
         String str = HttpUtils.doPost(url, req.getPath(), new VirtualFlow.ArrayLinkedList<>());
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传素材失败");
         }
         System.out.println(str);
-        AddTmpMediaResp addTmpMediaResp = JsonUtils.Deserialize(str, AddTmpMediaResp.class);
-        if (addTmpMediaResp.getErrcode() != 0) {
+        AddTmpMediaResp addTmpMediaResp = new AddTmpMediaResp();
+        try {
+            addTmpMediaResp = JsonUtils.Deserialize(str, AddTmpMediaResp.class);
+            if (addTmpMediaResp.getErrcode() != 0) {
+                return addTmpMediaResp;
+            }
+            Calendar expire = Calendar.getInstance();
+            expire.add(Calendar.DATE, 3);
+            //添加临时素材记录
+            WxMedia media = new WxMedia();
+            media.setRemark(req.getRemark());
+            media.setCreatetime(new Date());
+            media.setExpiretime(expire.getTime());
+            media.setAccountid(req.getAccountId());
+            media.setPermanent(false);
+            media.setMediatype(mediaType.getValue());
+            media.setTitle(req.getTitle());
+            media.setDomain(req.getDomain());
+            media.setMediaid(addTmpMediaResp.getMedia_id());
+            wxMediaMapper.insert(media);
             return addTmpMediaResp;
+        } catch (Exception ex) {
+            logger.error("addTmpMedia", ex);
+            addTmpMediaResp.setErrmsg("系统出错");
         }
-        Calendar expire = Calendar.getInstance();
-        expire.add(Calendar.DATE, 3);
-        //添加临时素材记录
-        WxMedia media = new WxMedia();
-        media.setRemark(req.getRemark());
-        media.setCreatetime(new Date());
-        media.setExpiretime(expire.getTime());
-        media.setAccountid(req.getAccountId());
-        media.setPermanent(false);
-        media.setMediatype(mediaType.getValue());
-        media.setTitle(req.getTitle());
-        media.setDomain(req.getDomain());
-        media.setMediaid(addTmpMediaResp.getMedia_id());
-        wxMediaMapper.insert(media);
-
         return addTmpMediaResp;
     }
 
@@ -163,18 +173,16 @@ public class WxMediaServiceImpl implements WxMediaService {
     @Override
     public UploadArticleResp uploadArticle(List<WxArticleItem> list, int accountId) throws Exception {
         String url = WxUrlUtils.getInstance().getUploadNews();
-
         TokenResp token = accessTokenService.getAccessToken(accountId);
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
             throw new Exception("获取token 失败");
         }
         url = String.format(url, token.getAccess_token());
-        Map<String, List<WxArticleItem>> hash = new HashMap<>();
-        hash.put("articles", list);
-        String param = JsonUtils.Serialize(hash);
-        logger.info(param);
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.putPOJO("articles", list);
+        String param = mapper.writeValueAsString(node);
         String json = HttpUtils.doPost(url, param, AcceptTypeEnum.json);
-        logger.debug(json);
         UploadArticleResp resp = JsonUtils.Deserialize(json, UploadArticleResp.class);
         return resp;
     }
@@ -186,7 +194,9 @@ public class WxMediaServiceImpl implements WxMediaService {
         if (token == null || !StringUtils.isNullOrEmpty(token.getErrmsg())) {
             throw new Exception("获取token 失败");
         }
-        url = String.format(url, token.getAccess_token(), WxMediaType.unknow.getTypeName(req.getType()));
+        url = String.format(url, token.getAccess_token(),
+                WxMediaType.unknow.getTypeName(req.getType()));
+        logger.info(url);
         List<NameValuePair> param = new ArrayList<>();
         //在上传视频素材时需要POST另一个表单，id为description，
         // 包含素材的描述信息，内容格式为JSON
@@ -201,6 +211,7 @@ public class WxMediaServiceImpl implements WxMediaService {
         if (StringUtils.isNullOrEmpty(str)) {
             throw new Exception("上传永久素材失败");
         }
+        logger.info("str:" + str);
         AddMaterialResp hash = JsonUtils.Deserialize(str, AddMaterialResp.class);
         if (hash != null && hash.getErrcode() == 0) {
             String mediaId = hash.getMedia_id();
@@ -225,4 +236,24 @@ public class WxMediaServiceImpl implements WxMediaService {
 
         return hash;
     }
+
+    @Override
+    public GetMaterialResp getMeterail(GetMaterialReq req) {
+        String url = WxUrlUtils.getInstance().getMaterial();
+        try {
+            String token = accessTokenService.getAccessToken(req.getAccountId()).getAccess_token();
+
+            url = String.format(url, token);
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode node = mapper.createObjectNode();
+            node.put("media_id", req.getMediaId());
+            String param = mapper.writeValueAsString(node);
+            String str = HttpUtils.doPost(url, param, AcceptTypeEnum.json);
+            logger.info("getMeterail:" + str);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new GetMaterialResp();
+    }
+
 }

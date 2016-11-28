@@ -7,7 +7,7 @@ import com.models.wx.token.TokenResp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.service.api.AccessTokenService;
-import com.service.api.WxCustomMsgService;
+import com.service.api.WxMsgService;
 import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
 import com.service.wxutil.WxUrlUtils;
@@ -23,11 +23,11 @@ import java.util.List;
  * 客服接口
  */
 @Service("wxSendMsgService")
-public class WxCustomMsgServiceImpl implements WxCustomMsgService {
+public class WxMsgServiceImpl implements WxMsgService {
     @Resource
     AccessTokenService accessTokenService;
 
-    static Logger log = LoggerFactory.getLogger(WxCustomMsgServiceImpl.class);
+    static Logger log = LoggerFactory.getLogger(WxMsgServiceImpl.class);
 
     /**
      * 发送文本消息
