@@ -24,6 +24,8 @@
 <div class="panel panel-body main-content">
     <div class="main-title">
         <span>群发图片管理</span>
+        <a href="#" class="glyphicon glyphicon-new-window"
+           style="float: right;margin-right: 30px;" target="_blank"></a>
     </div>
     <div class="panel panel-search">
         <div class="form-inline form-group">

@@ -16,9 +16,13 @@
             <td>{{= account}}</td>
             <td>{{= remark}}</td>
         </tr>
+    
+
     </script>
     <script type="text/x-jquery-tmpl" id="tempSelc">
         <option value="{{= id}}">{{= name}}</option>
+
+    
 
     </script>
 </head>
@@ -26,6 +30,8 @@
 <div class="panel panel-body main-content">
     <div class="main-title">
         <span>群发消息管理</span>
+        <a href="#" class="glyphicon glyphicon-new-window"
+           style="float: right;margin-right: 30px;" target="_blank"></a>
     </div>
     <div class="panel panel-search">
         <div class="form-inline form-group">
@@ -81,7 +87,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="txtTitle">标题:</label>
                             <div class="col-sm-9">
-                                <input type="hidden" id="hidId" />
+                                <input type="hidden" id="hidId"/>
                                 <input type="text" id="txtTitle" class="form-control" maxlength="50"/>
                             </div>
                         </div>

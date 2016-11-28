@@ -29,6 +29,8 @@
 <div class="panel panel-body main-content">
     <div class="main-title">
         <span>消息项管理</span>
+        <a href="#" class="glyphicon glyphicon-new-window"
+           style="float: right;margin-right: 30px;" target="_blank"></a>
         <input id="hidAid" type="hidden" value="${aid}"/>
     </div>
     <div class="panel-op">

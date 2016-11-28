@@ -18,6 +18,8 @@
 <body>
 <div class="panel panel-body main-content">
     <div class="main-title">
+        <a href="#" class="glyphicon glyphicon-new-window"
+           style="float: right;margin-right: 30px;" target="_blank"></a>
     </div>
     <form class="form-horizontal" role="form">
         <input type="hidden" id="id" value="${data.id}"/>
