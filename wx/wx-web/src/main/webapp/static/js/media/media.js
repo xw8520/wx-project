@@ -56,6 +56,10 @@ $(function () {
             $.showToast('标题不能为空')
             return
         }
+        if (data.accountid == -1) {
+            $.showToast('公众号不能为空')
+            return
+        }
         if (data.filename == '' || data.filename == null) {
             $.showToast('请上传文件')
             return
@@ -70,6 +74,7 @@ $(function () {
                     $.showToast('保存成功');
                     $.hideModel();
                     pager.loadData();
+                    $.clearForm('#popModel');
                     return
                 }
                 $.showToast(resp.info);

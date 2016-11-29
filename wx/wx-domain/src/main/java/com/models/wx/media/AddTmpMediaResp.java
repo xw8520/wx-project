@@ -7,6 +7,15 @@ import com.models.wx.WxBaseResp;
  */
 public class AddTmpMediaResp extends WxBaseResp {
     private String media_id;
+    private int created_at;
+
+    public int getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(int created_at) {
+        this.created_at = created_at;
+    }
 
     public String getType() {
         return type;

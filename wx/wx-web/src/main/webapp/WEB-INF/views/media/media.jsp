@@ -41,12 +41,14 @@
             &nbsp;&nbsp;
             <label for="selPermanent">有效期：</label>
             <select id="selPermanent" class="form-control" style="width: 150px">
+                <option value="-1">全部</option>
                 <option value="0">临时</option>
                 <option value="1">永久</option>
             </select>
             &nbsp;&nbsp;
             <label for="selType">类型：</label>
             <select id="selType" class="form-control" style="width: 150px">
+                <option value="-1">全部</option>
                 <option value="0">图片</option>
                 <option value="1">语音</option>
                 <option value="2">视频</option>

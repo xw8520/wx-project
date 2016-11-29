@@ -21,7 +21,7 @@ $(function () {
             $.showToast('标题不能为空')
             return
         }
-        if (data.accountid == '') {
+        if (data.accountid == -1) {
             $.showToast('公众号不能为空')
             return
         }
@@ -35,6 +35,7 @@ $(function () {
                     $.showToast('保存成功');
                     $.hideModel();
                     pager.loadData();
+                    $.clearForm('#popModel');
                     return
                 }
                 $.showToast(resp.info);

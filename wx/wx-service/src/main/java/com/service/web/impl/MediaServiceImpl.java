@@ -51,13 +51,15 @@ public class MediaServiceImpl implements MediaService {
                     if (param.containsKey("name")) {
                         criteria.andTitleLike(param.get("name").toString());
                     }
-                    if (param.containsKey("type")) {
+                    if (param.containsKey("type")&&!param.get("type").equals("-1")) {
                         criteria.andMediatypeEqualTo(Byte.valueOf(param.get("type")));
                     }
-                    if (param.containsKey("account")) {
+                    if (param.containsKey("account")
+                            &&!param.get("account").equals("-1")) {
                         criteria.andAccountidEqualTo(Integer.valueOf(param.get("account")));
                     }
-                    if (param.containsKey("permanent")) {
+                    if (param.containsKey("permanent")
+                            &&!param.get("permanent").equals("-1")) {
                         criteria.andPermanentEqualTo(param.get("permanent").equals("1"));
                     }
                 }

@@ -61,7 +61,12 @@ public class MediaController {
     @RequestMapping(value = "getAccountSelect", method = RequestMethod.POST)
     public List<AccountSelectInfo> getAccountSelect(HttpServletRequest req) {
         UserInfo user = CookieUtil.GetCurrentUser(req);
-        return accountService.getAccountSelect(user.getDomain());
+        List list = accountService.getAccountSelect(user.getDomain());
+        AccountSelectInfo en = new AccountSelectInfo();
+        en.setId(-1);
+        en.setName("全部");
+        list.add(0, en);
+        return list;
     }
 
     @ResponseBody
