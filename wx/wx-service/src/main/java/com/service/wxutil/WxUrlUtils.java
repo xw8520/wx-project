@@ -185,6 +185,14 @@ public class WxUrlUtils {
         return getValue("wx.createtag");
     }
 
+    /**
+     * 编辑微信标签
+     * @return
+     */
+    public String updateTag() {
+        return getValue("wx.updatetag");
+    }
+
     public String getMaterial() {
         return getValue("wx.get_material");
     }

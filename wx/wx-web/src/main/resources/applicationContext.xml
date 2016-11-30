@@ -72,6 +72,10 @@
         <property name="mapperInterface" value="com.data.ArticleItemMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
+    <bean id="wxTagMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.data.WxTagMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
     <bean id="jedisPool" class="com.cache.ShardedJedisPoolFactory">
         <property name="hostAndPorts" value="127.0.0.1:6379"></property>
     </bean>

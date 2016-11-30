@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.models.wx.WxBaseResp;
 import com.models.wx.tag.BatchTaggingReq;
 import com.models.wx.tag.CreateTagResp;
+import com.models.wx.tag.UpdateTagReq;
 import com.models.wx.token.TokenResp;
 import com.service.api.AccessTokenService;
 import com.service.api.WxTagService;
@@ -47,6 +48,29 @@ public class WxTagServiceImpl implements WxTagService {
             logger.error("createTag", ex);
             resp.setErrmsg("系统出错");
         }
+        return resp;
+    }
+
+    @Override
+    public WxBaseResp updateTag(UpdateTagReq req) {
+        WxBaseResp resp = new WxBaseResp();
+        try {
+            String url = WxUrlUtils.getInstance().updateTag();
+            url = String.format(url, accessTokenService.getAccessToken2(req.getAccountId()));
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode node = mapper.createObjectNode();
+            ObjectNode tag = node.putObject("tag");
+            tag.put("id", req.getTagId());
+            tag.put("name", req.getName());
+            String param = mapper.writeValueAsString(node);
+            String str = HttpUtils.doPost(url, param, AcceptTypeEnum.json);
+            resp = mapper.readValue(str, WxBaseResp.class);
+        } catch (Exception ex) {
+            logger.error("updateTag", ex);
+            resp.setErrmsg("系统出错");
+            resp.setErrcode(500);
+        }
+
         return resp;
     }
 
