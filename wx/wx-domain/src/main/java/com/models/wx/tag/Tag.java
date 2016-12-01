@@ -8,6 +8,15 @@ import java.io.Serializable;
 public class Tag implements Serializable {
     private int id;
     private String name;
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public int getId() {
         return id;

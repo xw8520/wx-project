@@ -10,15 +10,15 @@ import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.tag.AddTagReq;
 import com.models.web.tag.DeleteTagReq;
+import com.models.web.tag.SyncWxTagReq;
 import com.models.web.tag.WxTagInfo;
 import com.models.wx.WxBaseResp;
-import com.models.wx.tag.CreateTagReq;
-import com.models.wx.tag.CreateTagResp;
-import com.models.wx.tag.UpdateTagReq;
+import com.models.wx.tag.*;
 import com.service.api.WxTagService;
 import com.service.web.AccountService;
 import com.service.web.TagService;
 import com.utils.JsonUtils;
+import com.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -62,7 +63,11 @@ public class TagServiceImpl implements TagService {
                 updateTagReq.setTagId(req.getTagId());
                 updateTagReq.setAccountId(req.getAccountId());
                 WxBaseResp wxBaseResp = wxTagService.updateTag(updateTagReq);
-                resp.setSuccess(wxBaseResp.getErrcode() == 0 && s);
+                boolean success = wxBaseResp.getErrcode() == 0 && s;
+                resp.setSuccess(success);
+                if (!success) {
+                    resp.setInfo("系统出错");
+                }
             } else {
                 CreateTagResp createTagResp = wxTagService.createTag(req.getName(),
                         req.getAccountId());
@@ -77,6 +82,9 @@ public class TagServiceImpl implements TagService {
                     tag.setDomain(req.getDomain());
                     boolean s = wxTagMapper.insert(tag) > 0;
                     resp.setSuccess(s);
+                    if (!s) {
+                        resp.setInfo("系统出错");
+                    }
                 } else {
                     resp.setInfo("添加标签出错");
                 }
@@ -129,7 +137,96 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public BaseResp deleteTag(DeleteTagReq req) {
-        return null;
+    public BaseResp deleteTag(Integer id) {
+        BaseResp resp = new BaseResp();
+        if (id == null) {
+            resp.setInfo("请选择标签");
+            return resp;
+        }
+        WxTag tag = wxTagMapper.selectByPrimaryKey(id);
+        if (tag == null) {
+            resp.setInfo("标签不存在");
+            return resp;
+        }
+
+        WxDeleteTagReq wxDelReq = new WxDeleteTagReq();
+        wxDelReq.setId(tag.getWxid());
+        wxDelReq.setAccountId(tag.getAccountid());
+        WxBaseResp re = wxTagService.deleteTag(wxDelReq);
+        if (re.getErrcode() == 0) {
+            try {
+                wxTagMapper.deleteByPrimaryKey(id);
+            } catch (Exception ex) {
+                logger.error("deleteTag", ex);
+            }
+            resp.setSuccess(true);
+            return resp;
+        }
+        resp.setInfo("删除失败");
+        return resp;
+    }
+
+    @Override
+    public BaseResp syncWxTag(SyncWxTagReq req) {
+        BaseResp resp = new BaseResp();
+        TagListResp re = wxTagService.getTagList(req.getAccountId());
+        if (re.getErrcode() != 0) {
+            resp.setInfo("同步失败");
+            return resp;
+        }
+
+        List<Tag> list = re.getTags();
+
+        try {
+            WxTagExample exp = new WxTagExample();
+            List<WxTag> wxTag = wxTagMapper.selectByExample(exp);
+            Predicate<Tag> addFilter = f -> !wxTag.contains(f.getId());
+            Predicate<WxTag> delFilter = f -> !list.contains(f.getWxid());
+            Predicate<WxTag> modFilter = f -> list.contains(f.getWxid());
+            List<Tag> add = list.stream().filter(addFilter).collect(Collectors.toList());
+            List<WxTag> delete = wxTag.stream().filter(delFilter).collect(Collectors.toList());
+            List<WxTag> modify = wxTag.stream().filter(modFilter).collect(Collectors.toList());
+
+            modify.forEach(f -> {
+                try {
+                    WxTagExample exp2 = new WxTagExample();
+                    WxTagExample.Criteria c = exp2.createCriteria();
+                    c.andIdEqualTo(f.getId());
+                    WxTag newTag = new WxTag();
+                    newTag.setId(f.getId());
+                    newTag.setName(f.getName());
+                    wxTagMapper.updateByExampleSelective(newTag, exp2);
+                } catch (Exception ex) {
+                    logger.error("sync.delete", ex);
+                }
+            });
+
+            delete.forEach(f -> {
+                try {
+                    wxTagMapper.deleteByPrimaryKey(f.getId());
+                } catch (Exception ex) {
+                    logger.error("sync.delete", ex);
+                }
+            });
+
+            add.forEach(f -> {
+                try {
+                    WxTag newTag = new WxTag();
+                    newTag.setDomain(req.getDomain());
+                    newTag.setAccountid(req.getAccountId());
+                    newTag.setWxid(f.getId());
+                    newTag.setName(f.getName());
+                    newTag.setCreatetime(new Date());
+                    wxTagMapper.insert(newTag);
+                } catch (Exception ex) {
+                    logger.error("sync.add", ex);
+                }
+            });
+            resp.setSuccess(true);
+        } catch (Exception ex) {
+            logger.error("syncWxTag", ex);
+            resp.setInfo("系统出错");
+        }
+        return resp;
     }
 }

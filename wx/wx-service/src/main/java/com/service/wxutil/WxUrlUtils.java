@@ -187,10 +187,21 @@ public class WxUrlUtils {
 
     /**
      * 编辑微信标签
+     *
      * @return
      */
     public String updateTag() {
         return getValue("wx.updatetag");
+    }
+
+    public String getTagList(String token) {
+        String url = getValue("wx.gettag");
+        return String.format(url, token);
+    }
+
+    public String deleteTag(String token) {
+        String url = getValue("wx.deletetag");
+        return String.format(url, token);
     }
 
     public String getMaterial() {

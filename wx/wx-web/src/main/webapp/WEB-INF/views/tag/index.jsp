@@ -42,6 +42,7 @@
         </div>
     </div>
     <div class="panel-op">
+        <a href="javascript:void(0)" onclick="sync()">同步</a>
         <a href="javascript:void(0)" onclick="add()">新增</a>
         <a href="javascript:void(0)" onclick="edit()">编辑</a>
         <a href="javascript:void(0)" onclick="del()">删除</a>

@@ -4,6 +4,8 @@ import com.model.PagerParam;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.tag.AddTagReq;
+import com.models.web.tag.DeleteTagReq;
+import com.models.web.tag.SyncWxTagReq;
 import com.models.web.tag.WxTagInfo;
 import com.service.web.TagService;
 import org.springframework.stereotype.Controller;
@@ -44,14 +46,20 @@ public class WxTagController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "getWxTag",method= RequestMethod.POST)
+    @RequestMapping(value = "getWxTag", method = RequestMethod.POST)
     public WxTagInfo getWxTag(@RequestParam("tagId") Integer tagId) {
         return tagService.getTag(tagId);
     }
 
     @ResponseBody
     @RequestMapping(value = "deleteTag", method = RequestMethod.POST)
-    public BaseResp deleteTag() {
-        return null;
+    public BaseResp deleteTag(@RequestParam("tagId") Integer tagId) {
+        return tagService.deleteTag(tagId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "syncTag", method = RequestMethod.POST)
+    public BaseResp syncTag(SyncWxTagReq req) {
+        return tagService.syncWxTag(req);
     }
 }

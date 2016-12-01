@@ -87,16 +87,18 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                 return accessToken.getToken();
             }
             Account account = accountMapper.getAccountById(accountid);
-            String url = WxUrlUtils.getInstance().getAccesstoken();
-            if (!StringUtils.isEmpty(url)) {
-                url = String.format(url, account.getAppid(), account.getSecret());
-                String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
-                TokenResp tokenResp = JsonUtils.Deserialize(json, TokenResp.class);
-                if (StringUtils.isEmpty(tokenResp.getErrcode())) {
-                    AccessToken tokenDto = getAccessTokenByDto(tokenResp, accountid);
-                    redisCacheManager.put(key, token, tokenResp.getExpires_in());
-                    accessTokenMapper.addAccessToken(tokenDto);
-                    return tokenResp.getAccess_token();
+            if (account != null) {
+                String url = WxUrlUtils.getInstance().getAccesstoken();
+                if (!StringUtils.isEmpty(url)) {
+                    url = String.format(url, account.getAppid(), account.getSecret());
+                    String json = HttpUtils.doGet(url, AcceptTypeEnum.json);
+                    TokenResp tokenResp = JsonUtils.Deserialize(json, TokenResp.class);
+                    if (StringUtils.isEmpty(tokenResp.getErrcode())) {
+                        AccessToken tokenDto = getAccessTokenByDto(tokenResp, accountid);
+                        redisCacheManager.put(key, tokenDto.getToken(), tokenResp.getExpires_in());
+                        accessTokenMapper.addAccessToken(tokenDto);
+                        return tokenResp.getAccess_token();
+                    }
                 }
             }
         } catch (Exception ex) {

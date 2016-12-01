@@ -3,9 +3,7 @@ package com.service.api.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.models.wx.WxBaseResp;
-import com.models.wx.tag.BatchTaggingReq;
-import com.models.wx.tag.CreateTagResp;
-import com.models.wx.tag.UpdateTagReq;
+import com.models.wx.tag.*;
 import com.models.wx.token.TokenResp;
 import com.service.api.AccessTokenService;
 import com.service.api.WxTagService;
@@ -71,6 +69,41 @@ public class WxTagServiceImpl implements WxTagService {
             resp.setErrcode(500);
         }
 
+        return resp;
+    }
+
+    @Override
+    public WxBaseResp deleteTag(WxDeleteTagReq req) {
+        WxBaseResp resp = new WxBaseResp();
+        try {
+            String url = WxUrlUtils.getInstance().deleteTag(accessTokenService.getAccessToken2(req.getAccountId()));
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectNode node = mapper.createObjectNode();
+            ObjectNode tag = node.putObject("tag");
+            tag.put("id", req.getId());
+            String param = mapper.writeValueAsString(node);
+            String re = HttpUtils.doPost(url, param, AcceptTypeEnum.json);
+            resp = mapper.readValue(re, WxBaseResp.class);
+            return resp;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            resp.setErrmsg("系统出错");
+        }
+        return resp;
+    }
+
+    @Override
+    public TagListResp getTagList(Integer accountId) {
+        TagListResp resp = new TagListResp();
+        try {
+            String url = WxUrlUtils.getInstance().getTagList(accessTokenService.getAccessToken2(accountId));
+            String re = HttpUtils.doPost(url, "", AcceptTypeEnum.json);
+            resp = JsonUtils.Deserialize(re, TagListResp.class);
+            return resp;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            resp.setErrmsg("系统出错");
+        }
         return resp;
     }
 

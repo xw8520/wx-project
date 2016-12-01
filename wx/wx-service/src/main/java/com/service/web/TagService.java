@@ -4,6 +4,7 @@ import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.tag.AddTagReq;
 import com.models.web.tag.DeleteTagReq;
+import com.models.web.tag.SyncWxTagReq;
 import com.models.web.tag.WxTagInfo;
 
 /**
@@ -16,5 +17,7 @@ public interface TagService {
 
     DataListResp getTagList(int pageSize, int pageIndex, int domain, String args);
 
-    BaseResp deleteTag(DeleteTagReq req);
+    BaseResp deleteTag(Integer id);
+
+    BaseResp syncWxTag(SyncWxTagReq req);
 }
