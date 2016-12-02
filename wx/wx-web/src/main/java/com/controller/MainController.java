@@ -1,7 +1,7 @@
 package com.controller;
 
 import com.models.web.MenuItem;
-import com.service.web.MenuService;
+import com.service.web.inter.MenuService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;

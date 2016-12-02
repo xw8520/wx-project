@@ -12,18 +12,12 @@
             <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
             <td>{{= id}}</td>
             <td>{{= title}}</td>
-             <td>{{= type}}</td>
             <td>{{= account}}</td>
             <td>{{= remark}}</td>
         </tr>
-    
-
     </script>
     <script type="text/x-jquery-tmpl" id="tempSelc">
         <option value="{{= id}}">{{= name}}</option>
-
-    
-
     </script>
 </head>
 <body>
@@ -61,7 +55,6 @@
             <th class="col-chk"></th>
             <th class="row-head">id</th>
             <th class="row-head">标题</th>
-            <th class="row-head">类型</th>
             <th class="row-head">公众号</th>
             <th class="row-head">备注</th>
         </tr>
@@ -95,12 +88,6 @@
                             <label class="col-sm-2 control-label" for="txtTitle">素材Id:</label>
                             <div class="col-sm-9">
                                 <input type="text" id="txtMediaId" readonly class="form-control" maxlength="200"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="txtTitle">类型:</label>
-                            <div class="col-sm-9">
-                                <input type="text" id="txtType" class="form-control" maxlength="50"/>
                             </div>
                         </div>
                         <div class="form-group">

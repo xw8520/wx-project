@@ -5,7 +5,7 @@ import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.SaveAccount;
 import com.models.web.UserInfo;
-import com.service.web.AccountService;
+import com.service.web.inter.AccountService;
 import com.utils.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +15,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Admin on 2016/4/8.

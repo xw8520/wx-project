@@ -3,7 +3,7 @@ package com.service.web.impl;
 import com.data.UsersMapper;
 import com.domain.web.Users;
 import com.models.web.LoginResp;
-import com.service.web.UsersService;
+import com.service.web.inter.UsersService;
 import com.utils.Md5;
 import com.utils.StringUtils;
 import org.springframework.stereotype.Service;

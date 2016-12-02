@@ -8,7 +8,7 @@ import com.enums.MenuType;
 import com.models.web.BaseResp;
 import com.models.web.MenuInfo;
 import com.models.web.MenuItem;
-import com.service.web.MenuService;
+import com.service.web.inter.MenuService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -4,7 +4,7 @@ package com.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.models.web.LoginResp;
 import com.models.web.UserInfo;
-import com.service.web.UsersService;
+import com.service.web.inter.UsersService;
 import com.utils.CookieUtil;
 import com.utils.JsonUtils;
 import org.slf4j.Logger;
@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * Created by Admin on 2016/2/17.

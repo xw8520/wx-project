@@ -1,4 +1,4 @@
-package com.service.api;
+package com.service.api.inter;
 
 import com.models.wx.user.UserInfoResp;
 

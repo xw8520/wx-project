@@ -10,7 +10,6 @@ public class AddArticleReq implements Serializable {
     private String title;
     private String mediaid;
     private String remark;
-    private int type;
     private int accountid;
     private int domain;
 
@@ -44,14 +43,6 @@ public class AddArticleReq implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public int getAccountid() {

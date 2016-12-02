@@ -5,13 +5,12 @@ import com.models.wx.message.CustomNewsMsg;
 import com.models.wx.message.CustomTextMsg;
 import com.models.wx.message.TextMsgReq;
 import com.models.wx.message.WxMassMsgResp;
-import com.models.wx.tag.CreateTagReq;
 import com.models.wx.user.QrCodeReq;
 import com.models.wx.user.UserInfoResp;
-import com.service.api.WxMassMsgService;
-import com.service.api.WxMsgService;
-import com.service.api.WxUserService;
-import com.service.api.WxTagService;
+import com.service.api.inter.WxMassMsgService;
+import com.service.api.inter.WxMsgService;
+import com.service.api.inter.WxUserService;
+import com.service.api.inter.WxTagService;
 
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;

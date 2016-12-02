@@ -451,13 +451,13 @@
 [DEBUG] [2016-03-24 20:48:14] 
  Creating instance of bean 'wxMediaService'
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxMediaServiceImpl]: ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxMediaServiceImpl.accessTokenService
+ Registered injected element on class [com.service.api.impl.WxMediaServiceImpl]: ResourceElement for com.service.api.inter.AccessTokenService com.service.api.impl.WxMediaServiceImpl.accessTokenService
 [DEBUG] [2016-03-24 20:48:14] 
  Registered injected element on class [com.service.api.impl.WxMediaServiceImpl]: ResourceElement for com.data.WxMediaMapper com.service.api.impl.WxMediaServiceImpl.wxMediaMapper
 [DEBUG] [2016-03-24 20:48:14] 
  Eagerly caching bean 'wxMediaService' to allow for resolving potential circular references
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMediaService': ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxMediaServiceImpl.accessTokenService
+ Processing injected element of bean 'wxMediaService': ResourceElement for com.service.api.inter.AccessTokenService com.service.api.impl.WxMediaServiceImpl.accessTokenService
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'accessTokenService'
 [DEBUG] [2016-03-24 20:48:14] 
@@ -471,7 +471,7 @@
 [DEBUG] [2016-03-24 20:48:14] 
  Creating instance of bean 'wxMessageService'
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxUserServiceImpl.accessTokenService
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.service.api.inter.AccessTokenService com.service.api.impl.WxUserServiceImpl.accessTokenService
 [DEBUG] [2016-03-24 20:48:14] 
  Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.data.QrCodeMapper com.service.api.impl.WxUserServiceImpl.qrCodeMapper
 [DEBUG] [2016-03-24 20:48:14] 
@@ -479,11 +479,11 @@
 [DEBUG] [2016-03-24 20:48:14] 
  Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.data.JsapiticketMapper com.service.api.impl.WxUserServiceImpl.jsapiticketMapper
 [DEBUG] [2016-03-24 20:48:14] 
- Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.service.api.WxMsgService com.service.api.impl.WxUserServiceImpl.wxMsgReplyService
+ Registered injected element on class [com.service.api.impl.WxUserServiceImpl]: ResourceElement for com.service.api.inter.WxMsgService com.service.api.impl.WxUserServiceImpl.wxMsgReplyService
 [DEBUG] [2016-03-24 20:48:14] 
  Eagerly caching bean 'wxMessageService' to allow for resolving potential circular references
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.AccessTokenService com.service.api.impl.WxUserServiceImpl.accessTokenService
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.inter.AccessTokenService com.service.api.impl.WxUserServiceImpl.accessTokenService
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'accessTokenService'
 [DEBUG] [2016-03-24 20:48:14] 
@@ -499,7 +499,7 @@
 [DEBUG] [2016-03-24 20:48:14] 
  Returning cached instance of singleton bean 'jsapiTicket'
 [DEBUG] [2016-03-24 20:48:14] 
- Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.WxMsgService com.service.api.impl.WxUserServiceImpl.wxMsgReplyService
+ Processing injected element of bean 'wxMessageService': ResourceElement for com.service.api.inter.WxMsgService com.service.api.impl.WxUserServiceImpl.wxMsgReplyService
 [DEBUG] [2016-03-24 20:48:14] 
  Creating shared instance of singleton bean 'wxMsgReplyService'
 [DEBUG] [2016-03-24 20:48:14] 

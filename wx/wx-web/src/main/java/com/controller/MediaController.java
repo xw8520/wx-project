@@ -3,7 +3,7 @@ package com.controller;
 import com.model.PagerParam;
 import com.models.web.*;
 import com.models.web.media.*;
-import com.service.web.*;
+import com.service.web.inter.*;
 import com.utils.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

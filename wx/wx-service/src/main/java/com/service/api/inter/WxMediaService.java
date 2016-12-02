@@ -1,4 +1,4 @@
-package com.service.api;
+package com.service.api.inter;
 
 import com.enums.WxMediaType;
 import com.models.wx.media.*;

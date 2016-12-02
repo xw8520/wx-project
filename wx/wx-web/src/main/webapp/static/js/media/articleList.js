@@ -14,7 +14,6 @@ $(function () {
             remark: $('#txtRemark').val(),
             accountid: $('#txtAccount').val(),
             domain: $.cookie("d"),
-            type: $('#txtType').val(),
             id: $('#hidId').val() == '' ? 0 : $('#hidId').val()
         };
         if (data.title == '') {
@@ -171,7 +170,6 @@ function articleDetail() {
             $('#txtRemark').val(resp.remark);
             $('#txtAccount').val(resp.accountId);
             $('#txtMediaId').val(resp.mediaid);
-            $('#txtType').val(resp.type);
             $('#hidId').val(resp.id);
             $('#txtAccount').attr('readonly', 'readonly');
         },

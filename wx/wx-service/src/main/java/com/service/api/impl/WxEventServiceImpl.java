@@ -1,7 +1,7 @@
 package com.service.api.impl;
 
 import com.service.wxutil.ReceiveMsg;
-import com.service.api.WxEventService;
+import com.service.api.inter.WxEventService;
 
 /**
  * Created by Admin on 2016/3/19.

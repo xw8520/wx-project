@@ -15,13 +15,12 @@ import com.models.web.media.AddArticleReq;
 import com.models.web.media.ArticleInfo;
 import com.models.wx.media.UploadArticleResp;
 import com.models.wx.media.WxArticleItem;
-import com.service.api.WxMediaService;
+import com.service.api.inter.WxMediaService;
 import com.service.api.impl.WxMediaServiceImpl;
-import com.service.web.AccountService;
-import com.service.web.ArticleService;
+import com.service.web.inter.AccountService;
+import com.service.web.inter.ArticleService;
 import com.utils.JsonUtils;
 import com.utils.StringUtils;
-import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +60,6 @@ public class ArticleServiceImpl implements ArticleService {
             resp.setSuccess(success);
             return resp;
         }
-        articles.setType(data.getType());
         articles.setDomain(data.getDomain());
         articles.setAccountid(data.getAccountid());
         articles.setCreatetime(new Date());
@@ -111,8 +109,7 @@ public class ArticleServiceImpl implements ArticleService {
     private ArticleInfo ArticleInfoMap(Articles item) {
         ArticleInfo newItem = new ArticleInfo(
                 item.getId(), item.getTitle(),
-                item.getMediaid(), item.getRemark(),
-                item.getType()
+                item.getMediaid(), item.getRemark()
         );
         newItem.setAccountId(item.getAccountid());
         AccountInfo info = accountService.getAccountInfo(item.getAccountid());

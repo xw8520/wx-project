@@ -10,7 +10,6 @@ public class ArticleInfo implements Serializable {
     private String title;
     private String mediaid;
     private String remark;
-    private int type;
     private int accountId;
 
     public int getAccountId() {
@@ -35,12 +34,11 @@ public class ArticleInfo implements Serializable {
 
     }
 
-    public ArticleInfo(int id, String title, String mediaid, String remark, int type) {
+    public ArticleInfo(int id, String title, String mediaid, String remark) {
         this.id = id;
         this.title = title;
         this.mediaid = mediaid;
         this.remark = remark;
-        this.type = type;
     }
 
     public int getId() {
@@ -73,13 +71,5 @@ public class ArticleInfo implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 }

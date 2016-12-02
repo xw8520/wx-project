@@ -1,4 +1,4 @@
-package com.service.web;
+package com.service.web.inter;
 
 import com.models.web.*;
 import com.models.web.media.AddMediaReq;

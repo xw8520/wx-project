@@ -7,12 +7,11 @@ import com.data.AccountMapper;
 import com.domain.wx.AccessToken;
 import com.domain.wx.Account;
 import com.models.wx.token.TokenResp;
-import com.service.api.AccessTokenService;
+import com.service.api.inter.AccessTokenService;
 import com.utils.AcceptTypeEnum;
 import com.utils.HttpUtils;
 import com.utils.JsonUtils;
 import com.service.wxutil.WxUrlUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

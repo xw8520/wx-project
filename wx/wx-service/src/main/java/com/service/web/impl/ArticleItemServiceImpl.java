@@ -12,7 +12,7 @@ import com.models.web.DataListResp;
 import com.models.web.media.AddArticleItemReq;
 import com.models.web.media.ArticleItemInfo;
 import com.models.web.media.DeleteArticleItemReq;
-import com.service.web.ArticleItemService;
+import com.service.web.inter.ArticleItemService;
 import com.utils.JsonUtils;
 import com.utils.StringUtils;
 import org.springframework.stereotype.Service;
