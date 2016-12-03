@@ -43,6 +43,7 @@
         <mapper resource="mybatis-mappers/ArticlesMapper.xml"></mapper>
         <mapper resource="mybatis-mappers/ArticleItemMapper.xml"></mapper>
         <mapper resource="mybatis-mappers/WxTagMapper.xml"></mapper>
+        <mapper resource="mybatis-mappers/MessageMapper.xml"></mapper>
     </mappers>
 </configuration>
 

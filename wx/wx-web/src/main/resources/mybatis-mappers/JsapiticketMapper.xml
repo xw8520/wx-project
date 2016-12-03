@@ -6,7 +6,7 @@
     <resultMap id="TicketResult" type="com.domain.wx.Jsapiticket">
         <result column="id"></result>
         <result column="ticket"/>
-        <result column="accountid"/>
+        <result column="accountId"/>
         <result column="createtime"></result>
         <result column="expiredtime"></result>
     </resultMap>
@@ -15,12 +15,12 @@
     </select>
 
     <select id="getTicketByAccount" parameterType="int" resultType="com.domain.wx.Jsapiticket">
-        SELECT  * from Jsapiticket where accountid=#{accountid} ORDER BY  id DESC limit 1
+        SELECT  * from Jsapiticket where accountId=#{accountId} ORDER BY  id DESC limit 1
     </select>
 
     <insert id="addTicket" parameterType="com.domain.wx.Jsapiticket" useGeneratedKeys="true" keyProperty="id">
-        insert into Jsapiticket(createtime,expiredtime,ticket,accountid) values(
-        #{createtime},#{expiredtime},#{ticket},#{accountid})
+        insert into Jsapiticket(createtime,expiredtime,ticket,accountId) values(
+        #{createtime},#{expiredtime},#{ticket},#{accountId})
     </insert>
 
 </mapper>

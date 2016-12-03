@@ -5,7 +5,7 @@
 <mapper namespace="com.data.AccessTokenMapper">
     <resultMap id="AccessTokenResult" type="com.domain.wx.AccessToken">
         <result column="id"></result>
-        <result column="accountid"></result>
+        <result column="accountId"></result>
         <result column="token"></result>
         <result column="createtime"></result>
         <result column="expiredtime"></result>
@@ -13,7 +13,7 @@
 
     <select id="getAccessTokenByAccount" resultType="com.domain.wx.AccessToken"
              parameterType="int">
-    SELECT  * from AccessToken WHERE accountid=#{accountid}
+    SELECT  * from AccessToken WHERE accountId=#{accountId}
     ORDER BY id desc limit 1
     </select>
     
@@ -25,7 +25,7 @@
     
     <insert id="addAccessToken" parameterType="com.domain.wx.AccessToken"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT into accesstoken(accountid,token,createtime,expiredtime)
-        VALUES (#{accountid},#{token},#{createtime},#{expiredtime})
+        INSERT into accesstoken(accountId,token,createtime,expiredtime)
+        VALUES (#{accountId},#{token},#{createtime},#{expiredtime})
     </insert>
 </mapper>

@@ -12,7 +12,7 @@
             <td><input class="chkId" val="{{= id}}" type="checkbox"></td>
             <td>{{= id}}</td>
             <td>{{= name}}</td>
-            <td>{{= wxTagId}}</td>
+            <td>{{= tagId}}</td>
             <td>{{= accountName}}</td>
             <td>{{= remark}}</td>
         </tr>

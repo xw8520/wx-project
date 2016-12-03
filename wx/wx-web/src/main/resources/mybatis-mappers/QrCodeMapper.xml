@@ -8,7 +8,7 @@
         <result column="param"></result>
         <result column="remark"/>
         <result column="ticket"/>
-        <result column="accountid"/>
+        <result column="accountId"/>
         <result column="createtime"></result>
         <result column="expiredtime"></result>
     </resultMap>
@@ -21,8 +21,8 @@
     </select>
 
     <insert id="addQrCode" parameterType="com.domain.wx.QrCode" useGeneratedKeys="true" keyProperty="id">
-        insert into QrCode(param,remark,createtime,expiredtime,ticket,accountid) values(
-        #{param},#{remark},#{createtime},#{expiredtime},#{ticket},#{accountid})
+        insert into QrCode(param,remark,createtime,expiredtime,ticket,accountId) values(
+        #{param},#{remark},#{createtime},#{expiredtime},#{ticket},#{accountId})
     </insert>
 
     <update id="updateQrCode" parameterType="com.domain.wx.QrCode">

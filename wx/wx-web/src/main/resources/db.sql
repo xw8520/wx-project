@@ -24,7 +24,7 @@ drop table if exists qrcode;
 create table AccessToken
 (
    id                   int not null auto_increment,
-   accountid            int not null,
+   accountId            int not null,
    token                national varchar(200) not null,
    createtime           datetime not null,
    expiredtime          datetime not null,
@@ -72,7 +72,7 @@ create table WxMedia
    title                national varchar(50) not null,
    remark               national varchar(200),
    mediatype            tinyint not null,
-   accountid            int not null,
+   accountId            int not null,
    islong               bool not null,
    mediaid              varchar(200),
    createtime           datetime not null,
@@ -86,7 +86,7 @@ create table WxMedia
 create table jsapiticket
 (
    id                   int not null auto_increment,
-   accountid            int not null,
+   accountId            int not null,
    ticket               national varchar(200) not null,
    createtime           datetime not null,
    expiredtime          datetime not null,
@@ -117,7 +117,7 @@ create table menu
 create table qrcode
 (
    id                   int not null auto_increment,
-   accountid            int not null,
+   accountId            int not null,
    param                national varchar(20) not null,
    remark               national varchar(100),
    createtime           datetime not null,
