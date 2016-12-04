@@ -8,9 +8,7 @@ import com.github.pagehelper.PageInfo;
 import com.models.web.AccountInfo;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
-import com.models.web.tag.AddTagReq;
-import com.models.web.tag.SyncWxTagReq;
-import com.models.web.tag.WxTagInfo;
+import com.models.web.tag.*;
 import com.models.wx.WxBaseResp;
 import com.models.wx.tag.*;
 import com.service.api.inter.WxTagService;
@@ -226,5 +224,18 @@ public class TagServiceImpl implements TagService {
             resp.setInfo("系统出错");
         }
         return resp;
+    }
+
+    @Override
+    public List<TagSelectItem> getTagSelect(TagSelectReq req) {
+        WxTagExample exp = new WxTagExample();
+        WxTagExample.Criteria c = exp.createCriteria();
+        c.andAccountidEqualTo(req.getAccountId());
+        c.andDomainEqualTo(req.getDomain());
+        List<WxTag> tmp = wxTagMapper.selectByExample(exp);
+        List<TagSelectItem> list = tmp.stream()
+                .map(f -> new TagSelectItem(f.getId(), f.getName()))
+                .collect(Collectors.toList());
+        return list;
     }
 }

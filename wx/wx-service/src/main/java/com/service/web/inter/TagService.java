@@ -2,10 +2,9 @@ package com.service.web.inter;
 
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
-import com.models.web.tag.AddTagReq;
-import com.models.web.tag.DeleteTagReq;
-import com.models.web.tag.SyncWxTagReq;
-import com.models.web.tag.WxTagInfo;
+import com.models.web.tag.*;
+
+import java.util.List;
 
 /**
  * Created by admin on 2016/11/30.
@@ -20,4 +19,6 @@ public interface TagService {
     BaseResp deleteTag(Integer id);
 
     BaseResp syncWxTag(SyncWxTagReq req);
+
+    List<TagSelectItem> getTagSelect(TagSelectReq req);
 }

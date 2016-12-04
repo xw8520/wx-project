@@ -19,6 +19,7 @@ import com.service.api.inter.WxMassMsgService;
 import com.service.web.inter.AccountService;
 import com.service.web.inter.MessageService;
 import com.utils.JsonUtils;
+import com.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,7 +50,7 @@ public class MessageServiceImpl implements MessageService {
         msg.setAccountid(req.getAccountId());
         msg.setMediaid(req.getMediaId());
         msg.setRemark(req.getRemark());
-        msg.setTagid(req.getWxTagId());
+        msg.setTagid(req.getTagId());
         msg.setTitle(req.getTitle());
         msg.setToall(req.getToall());
         msg.setType(req.getType());
@@ -62,7 +63,9 @@ public class MessageServiceImpl implements MessageService {
             resp.setSuccess(s);
             return resp;
         }
+        msg.setStateid((byte) MessageState.normal.getValue());
         msg.setDomain(req.getDomain());
+        msg.setDelwx(false);
         msg.setCreatetime(new Date());
         boolean s = messageMapper.insert(msg) > 0;
         resp.setSuccess(s);
@@ -82,6 +85,16 @@ public class MessageServiceImpl implements MessageService {
             }
             if (param.containsKey("title")) {
                 c.andTitleLike(String.format("%%s%", param.get("title")));
+            }
+            if (param.containsKey("type") &&
+                    !StringUtils.isNullOrEmpty(param.get("type"))
+                    && !"-1".equals(param.get("type"))) {
+                c.andTypeEqualTo(Short.valueOf(param.get("type")));
+            }
+            if (param.containsKey("state")
+                    && !StringUtils.isNullOrEmpty(param.get("state"))
+                    && !"-1".equals(param.get("state"))) {
+                c.andStateidEqualTo(Byte.valueOf(param.get("state")));
             }
             PageHelper.startPage(pageIndex, pageSize);
             List<Message> tmp = messageMapper.selectByExample(exp);
@@ -111,8 +124,9 @@ public class MessageServiceImpl implements MessageService {
         m.setMediaId(msg.getMediaid());
         m.setMessageId(msg.getMessageid());
         m.setTagId(msg.getTagid());
-        WxTag tag = wxTagMapper.selectByPrimaryKey(msg.getId());
-        m.setTypeName(tag != null ? tag.getName() : "");
+        WxTag tag = wxTagMapper.selectByPrimaryKey(msg.getTagid());
+        m.setTagId(tag != null ? tag.getId() : 0);
+        m.setTagName(tag != null ? tag.getName() : "");
         m.setStateId(msg.getStateid());
         m.setContent(msg.getContent());
         m.setStateName(MessageState.getName(msg.getStateid()));
@@ -160,7 +174,7 @@ public class MessageServiceImpl implements MessageService {
                 return resp;
             }
             switch (m.getType()) {
-                case 0:
+                case 1:
                     ArticleMsgReq artReq = new ArticleMsgReq();
                     artReq.setAccountId(m.getAccountid());
                     artReq.setMediaId(m.getMediaid());
@@ -171,7 +185,7 @@ public class MessageServiceImpl implements MessageService {
                     resp.setInfo(re.getErrmsg());
                     resp.setData(re.getMsg_id());
                     break;
-                case 1:
+                case 2:
                     TextMsgReq textReq = new TextMsgReq();
                     textReq.setAccountId(m.getAccountid());
                     textReq.setToAll(m.getToall());
@@ -182,21 +196,23 @@ public class MessageServiceImpl implements MessageService {
                     resp.setInfo(textRe.getErrmsg());
                     resp.setData(textRe.getMsg_id());
                     break;
-                case 2:
+                case 3:
                     ImageMsgReq imageReq = new ImageMsgReq();
                     imageReq.setAccountId(m.getAccountid());
                     imageReq.setToAll(m.getToall());
                     imageReq.setTagId(tag.getWxid());
+                    imageReq.setMediaId(m.getMediaid());
                     WxMassMsgResp imageRe = wxMassMsgService.sendImageMsgByTag(imageReq);
                     resp.setSuccess(imageRe.getErrcode() == 0);
                     resp.setInfo(imageRe.getErrmsg());
                     resp.setData(imageRe.getMsg_id());
                     break;
-                case 3:
+                case 4:
                     VoiceMsgReq voiceReq = new VoiceMsgReq();
                     voiceReq.setAccountId(m.getAccountid());
                     voiceReq.setToAll(m.getToall());
                     voiceReq.setTagId(tag.getWxid());
+                    voiceReq.setMediaId(m.getMediaid());
                     WxMassMsgResp voiceRe = wxMassMsgService.sendVoiceMsgByTag(voiceReq);
                     resp.setSuccess(voiceRe.getErrcode() == 0);
                     resp.setInfo(voiceRe.getErrmsg());
@@ -231,11 +247,15 @@ public class MessageServiceImpl implements MessageService {
                 return resp;
             }
             SendStatusReq sendReq = new SendStatusReq();
-            sendReq.setAccountId(req.getAccountId());
+            sendReq.setAccountId(m.getAccountid());
             sendReq.setMsgId(m.getMessageid());
             SendStatusResp re = wxMassMsgService.getSendStatus(sendReq);
             resp.setSuccess("SEND_SUCCESS".equals(re.getMsg_status()));
-            resp.setInfo(re.getMsg_status());
+            if(resp.getSuccess()){
+                resp.setInfo("同步成功");
+            }else{
+                resp.setInfo("同步失败");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             resp.setInfo("系统出错");

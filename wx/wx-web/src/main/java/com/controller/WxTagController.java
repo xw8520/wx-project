@@ -3,9 +3,7 @@ package com.controller;
 import com.model.PagerParam;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
-import com.models.web.tag.AddTagReq;
-import com.models.web.tag.SyncWxTagReq;
-import com.models.web.tag.WxTagInfo;
+import com.models.web.tag.*;
 import com.service.web.inter.TagService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by admin on 2016/11/30.
@@ -60,5 +59,11 @@ public class WxTagController {
     @RequestMapping(value = "syncTag", method = RequestMethod.POST)
     public BaseResp syncTag(SyncWxTagReq req) {
         return tagService.syncWxTag(req);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getTagSelect", method = RequestMethod.POST)
+    public List<TagSelectItem> getTagSelect(TagSelectReq req) {
+        return tagService.getTagSelect(req);
     }
 }

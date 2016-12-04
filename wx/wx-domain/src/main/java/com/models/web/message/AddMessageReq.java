@@ -11,7 +11,7 @@ public class AddMessageReq implements Serializable {
     private int domain;
     private String title;
     private String mediaId;
-    private int wxTagId;
+    private int tagId;
     private boolean toall;
     private String remark;
     private short type;
@@ -69,12 +69,12 @@ public class AddMessageReq implements Serializable {
         this.mediaId = mediaId;
     }
 
-    public int getWxTagId() {
-        return wxTagId;
+    public int getTagId() {
+        return tagId;
     }
 
-    public void setWxTagId(int wxTagId) {
-        this.wxTagId = wxTagId;
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 
     public boolean getToall() {

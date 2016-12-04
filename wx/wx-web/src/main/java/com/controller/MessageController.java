@@ -1,11 +1,14 @@
 package com.controller;
 
+import com.enums.MessageState;
+import com.enums.MessageType;
 import com.model.PagerParam;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.message.*;
 import com.models.wx.message.PreviewVoiceReq;
 import com.service.web.inter.MessageService;
+import com.utils.EnumUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/12/2.
@@ -35,6 +40,20 @@ public class MessageController {
         DataListResp resp = messageService.getMessageList(data.getPageSize(), data.getPageIndex(), data.getDomain(),
                 data.getArgs());
         return resp;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getMessageType", method = RequestMethod.POST)
+    public List<EnumUtils.KeyVal> getMessageType() {
+        List<EnumUtils.KeyVal> map = EnumUtils.getEnumMap(MessageType.class, true);
+        return map;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "getMessageState", method = RequestMethod.POST)
+    public List<EnumUtils.KeyVal> getMessageState() {
+        List<EnumUtils.KeyVal> map = EnumUtils.getEnumMap(MessageState.class, true);
+        return map;
     }
 
     @ResponseBody
