@@ -9,6 +9,15 @@ public class MessageRecordListReq implements Serializable {
     private int accountId;
     private int stateId;
     private int tagId;
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getTagId() {
         return tagId;

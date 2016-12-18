@@ -22,10 +22,10 @@
             <td>{{= title}}</td>
             <td>{{= typeName}}</td>
             <td>{{= accountName}}</td>
-            <td style="width:20px;">
+            <td style="width:260px;">
                 <a href="javascript:void(0)" onclick="edit({{= id}})">修改</a>&nbsp;
-                <a href="javascript:void(0)" onclick="sendByOpenId({{= id}})">OpenId发送</a>&nbsp;
-                <a href="javascript:void(0)" onclick="sendByTagId({{= id}})">标签发送</a>&nbsp;
+                <a href="javascript:void(0)" onclick="sendByOpenId({{= id}})">OpenId群发</a>&nbsp;
+                <a href="javascript:void(0)" onclick="sendByTagId({{= id}})">标签群发</a>&nbsp;
                 <a href="javascript:void(0)" onclick="del({{= id}})">删除</a>
             </td>
         </tr>
@@ -67,7 +67,7 @@
             <th class="row-head">标题</th>
             <th class="row-head">消息类型</th>
             <th class="row-head">所属账号</th>
-            <th class="row-head" style="width:120px!important;">操作</th>
+            <th class="row-head" style="width:220px!important;">操作</th>
         </tr>
         </thead>
         <tbody id="listBody">

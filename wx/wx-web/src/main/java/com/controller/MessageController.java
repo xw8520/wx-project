@@ -6,9 +6,13 @@ import com.model.PagerParam;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.message.*;
+import com.models.web.tag.TagSelectItem;
+import com.models.web.tag.TagSelectReq;
 import com.models.wx.message.PreviewVoiceReq;
 import com.service.web.inter.MessageRecordService;
 import com.service.web.inter.MessageService;
+import com.service.web.inter.TagService;
+import com.utils.CookieUtil;
 import com.utils.EnumUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +37,8 @@ public class MessageController {
     MessageService messageService;
     @Resource
     MessageRecordService messageRecordService;
+    @Resource
+    TagService tagService;
 
     @RequestMapping("index.html")
     public ModelAndView index() {
@@ -103,16 +110,27 @@ public class MessageController {
     }
 
     @RequestMapping("sendByOpenId.html")
-    public ModelAndView sendByOpenId(@RequestParam("mid") Integer mid) {
+    public ModelAndView sendByOpenId(@RequestParam("mid") Integer mid,
+                                     @RequestParam(value = "id", required = false, defaultValue = "0") Integer id) {
         ModelAndView view = new ModelAndView("/message/sendByOpenId");
-        view.addObject("mid", mid);
+        SendByOpenIdInfo sendByOpenIdInfo = messageRecordService.getSendByOpenIdInfo(id, mid);
+        view.addObject("sendByOpenIdInfo", sendByOpenIdInfo);
         return view;
     }
 
     @RequestMapping("sendByTagId.html")
-    public ModelAndView sendByTagId(@RequestParam("mid") Integer mid) {
+    public ModelAndView sendByTagId(@RequestParam("mid") Integer mid,
+                                    @RequestParam(value = "id", required = false, defaultValue = "0") Integer id,
+                                    HttpServletRequest req) {
         ModelAndView view = new ModelAndView("/message/sendByTagId");
-        view.addObject("mid", mid);
+        SendByTagIdInfo sendByTagIdInfo = messageRecordService.getSendByTagIdInfo(id, mid);
+        view.addObject("sendByTagIdInfo", sendByTagIdInfo);
+        TagSelectReq tsReq = new TagSelectReq();
+        tsReq.setAccountId(sendByTagIdInfo.getAccountId());
+        String d = CookieUtil.getCookieValue(req, "d");
+        tsReq.setDomain(Integer.parseInt(d));
+        List<TagSelectItem> tsSelect = tagService.getTagSelect(tsReq);
+        view.addObject("TagSelect", tsSelect);
         return view;
     }
 
@@ -123,7 +141,7 @@ public class MessageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "getMessageRecordList",method = RequestMethod.POST)
+    @RequestMapping(value = "getMessageRecordList", method = RequestMethod.POST)
     public DataListResp getMessageRecordList(PagerParam data) {
         DataListResp resp = messageRecordService.getMessageRecordList(
                 data.getPageSize(), data.getPageIndex(), data.getDomain(), data.getArgs()
@@ -132,20 +150,20 @@ public class MessageController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "getMessageRecordInfo",method = RequestMethod.POST)
-    public MessageRecordInfo getMessageRecordInfo(@RequestParam("id") Integer id){
+    @RequestMapping(value = "getMessageRecordInfo", method = RequestMethod.POST)
+    public MessageRecordInfo getMessageRecordInfo(@RequestParam("id") Integer id) {
         return messageRecordService.getMessageRecord(id);
     }
 
     @ResponseBody
-    @RequestMapping(value = "deleteMessageRecord",method = RequestMethod.POST)
-    public BaseResp deleteMessageRecord(DeleteMessageRecordReq req){
+    @RequestMapping(value = "deleteMessageRecord", method = RequestMethod.POST)
+    public BaseResp deleteMessageRecord(DeleteMessageRecordReq req) {
         return messageRecordService.deleteMessageRecord(req);
     }
 
     @ResponseBody
-    @RequestMapping(value = "addMessageRecord",method = RequestMethod.POST)
-    public BaseResp addMessageRecord(AddMessageRecordReq req){
+    @RequestMapping(value = "addMessageRecord", method = RequestMethod.POST)
+    public BaseResp addMessageRecord(AddMessageRecordReq req) {
         return messageRecordService.addMessageRecord(req);
     }
 }

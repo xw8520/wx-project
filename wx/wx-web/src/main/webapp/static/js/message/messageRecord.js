@@ -65,25 +65,31 @@ function getParam() {
     if ($('#txtTitle').val() != '') {
         param.title = $('#txtTitle').val();
     }
-    if ($('#selAccount').val() != null && $('#selAccount').val() != '') {
+    if ($('#selAccount').val() != null
+        && $('#selAccount').val() != '') {
         param.accountId = $('#selAccount').val();
+    }else{
+        param.accountId=-1;
     }
-    if ($('#selState').val() != '' && $('#selState').val() != '') {
+    if ($('#selState').val() != null
+        && $('#selState').val() != '') {
         param.stateId = $('#selState').val();
     } else {
-        param.stateId = -100;
+        param.stateId = -1;
     }
     if ($('#selTag').val() != null && $('#selTag').val() != '-1') {
         param.tagId = $('#selTag').val();
+    }else{
+        param.tagId=0;
     }
     return param;
 }
 
-function edit(id, sendTypeId) {
+function edit(id,mid, sendTypeId) {
     if (sendTypeId == 1) {
-        window.location.href = "sendByTagId.html?mid=" + id;
+        window.location.href = "sendByTagId.html?mid=" + mid+"&id="+id;
     } else {
-        window.location.href = "sendByOpenId.html?mid=" + id;
+        window.location.href = "sendByOpenId.html?mid=" + mid+"&id="+id;
     }
 }
 

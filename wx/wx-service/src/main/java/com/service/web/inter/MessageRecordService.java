@@ -23,6 +23,20 @@ public interface MessageRecordService {
     MessageRecordInfo getMessageRecord(int id);
 
     /**
+     * 标签群发
+     * @param id
+     * @param mid
+     * @return
+     */
+    SendByTagIdInfo getSendByTagIdInfo(int id,int mid);
+
+    /**
+     * openid群发
+     * @return
+     */
+    SendByOpenIdInfo getSendByOpenIdInfo(int id,int mid);
+
+    /**
      * 获取消息记录列表
      * @param pageSize
      * @param pageIndex

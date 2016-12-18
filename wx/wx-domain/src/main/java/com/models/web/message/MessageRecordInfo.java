@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class MessageRecordInfo implements Serializable {
     private int id;
     private int mid;
+    private String title;
     private String messageTitle;
     private int accountId;
     private String accountName;
@@ -19,6 +20,14 @@ public class MessageRecordInfo implements Serializable {
     private String stateName;
     private int sendTypeId;
     private String sendTypeName;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public int getSendTypeId() {
         return sendTypeId;

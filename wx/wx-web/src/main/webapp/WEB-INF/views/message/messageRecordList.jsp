@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>消息列表</title>
+    <title>消息记录</title>
     <jsp:include page="../shared/header.jsp"></jsp:include>
     <link rel="stylesheet" href="../../static/js/chosen/chosen.min.css"/>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
@@ -26,10 +26,10 @@
             <td>{{= tagName}}</td>
             <td>{{= stateName}}</td>
             <td style="width:280px;">
-                <a href="javascript:void(0)" onclick="edit({{= id}},{{sendTypeId}})">修改</a>&nbsp;
+                <a href="javascript:void(0)" onclick="edit({{= id}},{{= mid}},{{= sendTypeId}})">修改</a>&nbsp;
                 <a href="javascript:void(0)" onclick="preview({{= id}})">预览</a>&nbsp;
                 <a href="javascript:void(0)" onclick="send({{= id}})">发送</a>&nbsp;
-                <a href="javascript:void(0)" onclick="sync({{= id}},{{sendTypeId}},{{accountId}})">同步</a>&nbsp;
+                <a href="javascript:void(0)" onclick="sync({{= id}},{{= sendTypeId}},{{= accountId}})">同步</a>&nbsp;
                 <a href="javascript:void(0)" onclick="del({{= id}})">删除</a>
             </td>
         </tr>
@@ -41,7 +41,7 @@
 <body>
 <div class="panel panel-body main-content">
     <div class="main-title">
-        <span>消息列表</span>
+        <span>消息记录</span>
         <a href="#" class="glyphicon glyphicon-new-window"
            style="float: right;margin-right: 30px;" target="_blank"></a>
     </div>
@@ -65,9 +65,9 @@
             <button type="button" id="btnSearch" class="btn btn-default">查询</button>
         </div>
     </div>
-    <div class="panel-op">
-        <a href="javascript:void(0)" onclick="add()">新增</a>
-    </div>
+    <%--<div class="panel-op">--%>
+        <%--<a href="javascript:void(0)" onclick="add()">新增</a>--%>
+    <%--</div>--%>
     <table class="table table-bordered table-hover">
         <thead>
         <tr>

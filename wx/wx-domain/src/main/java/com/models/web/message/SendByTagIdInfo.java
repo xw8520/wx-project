@@ -5,15 +5,14 @@ import java.io.Serializable;
 /**
  * Created by admin on 2016/12/18.
  */
-public class AddMessageRecordReq implements Serializable {
+public class SendByTagIdInfo implements Serializable {
     private int id;
     private int mid;
-    private int domain;
     private int accountId;
-    private int tagId;
-    private String openId;
-    private String remark;
+    private String accountName;
     private String title;
+    private String remark;
+    private int tagId;
     private boolean toall;
 
     public boolean getToall() {
@@ -22,14 +21,6 @@ public class AddMessageRecordReq implements Serializable {
 
     public void setToall(boolean toall) {
         this.toall = toall;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public int getId() {
@@ -48,14 +39,6 @@ public class AddMessageRecordReq implements Serializable {
         this.mid = mid;
     }
 
-    public int getDomain() {
-        return domain;
-    }
-
-    public void setDomain(int domain) {
-        this.domain = domain;
-    }
-
     public int getAccountId() {
         return accountId;
     }
@@ -64,20 +47,20 @@ public class AddMessageRecordReq implements Serializable {
         this.accountId = accountId;
     }
 
-    public int getTagId() {
-        return tagId;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getRemark() {
@@ -86,5 +69,13 @@ public class AddMessageRecordReq implements Serializable {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public int getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(int tagId) {
+        this.tagId = tagId;
     }
 }

@@ -20,6 +20,7 @@ import com.service.web.inter.MessageRecordService;
 import com.service.web.inter.MessageService;
 import com.service.web.inter.TagService;
 import com.utils.JsonUtils;
+import com.utils.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,7 @@ public class MessageRecordServiceImpl implements MessageRecordService {
             record.setTagid(req.getTagId());
             record.setRemark(req.getRemark());
             record.setTitle(req.getTitle());
+            record.setToall(req.getToall());
             boolean s;
             if (record.getId() > 0) {
                 MessageRecordExample exp = new MessageRecordExample();
@@ -66,6 +68,7 @@ public class MessageRecordServiceImpl implements MessageRecordService {
                 s = messageRecordMapper.updateByExampleSelective(record, exp) > 0;
             } else {
                 record.setCreatetime(new Date());
+                record.setStateid((byte) MessageState.normal.getValue());
                 s = messageRecordMapper.insert(record) > 0;
             }
             resp.setSuccess(s);
@@ -84,8 +87,57 @@ public class MessageRecordServiceImpl implements MessageRecordService {
         return mapMessageRecordInfo(record);
     }
 
+    @Override
+    public SendByTagIdInfo getSendByTagIdInfo(int id, int mid) {
+        SendByTagIdInfo info = new SendByTagIdInfo();
+        info.setMid(mid);
+        MessageInfo msgInfo = messageService.getMessage(mid);
+        if (msgInfo != null) {
+            info.setAccountName(msgInfo.getAccountName());
+            info.setAccountId(msgInfo.getAccountId());
+        }
+        if (id != 0) {
+            info.setId(id);
+            MessageRecord record = messageRecordMapper.selectByPrimaryKey(id);
+            if (record != null) {
+                info.setTitle(record.getTitle());
+                info.setRemark(record.getRemark());
+                info.setTagId(record.getTagid());
+                info.setToall(record.getToall());
+            }
+            return info;
+        }
+
+        return info;
+    }
+
+    @Override
+    public SendByOpenIdInfo getSendByOpenIdInfo(int id, int mid) {
+        SendByOpenIdInfo info = new SendByOpenIdInfo();
+        info.setMid(mid);
+        MessageInfo msgInfo = messageService.getMessage(mid);
+        if (msgInfo != null) {
+            info.setAccountName(msgInfo.getAccountName());
+            info.setAccountId(msgInfo.getAccountId());
+        }
+        if (id != 0) {
+            info.setId(id);
+            MessageRecord record = messageRecordMapper.selectByPrimaryKey(id);
+            if (record != null) {
+                info.setTitle(record.getTitle());
+                info.setRemark(record.getRemark());
+                info.setOpenId(record.getOpenid());
+                info.setToall(record.getToall());
+            }
+            return info;
+        }
+
+        return info;
+    }
+
     private MessageRecordInfo mapMessageRecordInfo(MessageRecord record) {
         MessageRecordInfo info = new MessageRecordInfo();
+        info.setTitle(record.getTitle());
         info.setId(record.getId());
         info.setTagName(record.getTitle());
         info.setAccountId(info.getAccountId());
@@ -94,7 +146,7 @@ public class MessageRecordServiceImpl implements MessageRecordService {
         info.setOpenId(record.getOpenid());
         info.setStateId(record.getStateid());
         info.setSendTypeId(record.getTagid() != 0 ? 1 : 2);
-        info.setStateName(record.getTagid() != 0 ? "标签" : "OpenId");
+        info.setSendTypeName(record.getTagid() != 0 ? "标签" : "OpenId");
         MessageInfo msg = messageService.getMessage(record.getMid());
         if (msg != null) {
             info.setAccountName(msg.getAccountName());
@@ -126,10 +178,13 @@ public class MessageRecordServiceImpl implements MessageRecordService {
             if (req.getTagId() != 0) {
                 c.andTagidEqualTo(req.getTagId());
             }
+            if (!StringUtils.isNullOrEmpty(req.getTitle())) {
+                c.andTitleLike("%"+req.getTitle()+"%");
+            }
             Page<MessageRecord> page = PageHelper.startPage(pageIndex, pageSize);
             List<MessageRecord> tmp = messageRecordMapper.selectByExample(exp);
             resp.setTotal(page.getTotal());
-            List list = tmp.stream().map(f -> mapMessageRecordInfo(f)).collect(Collectors.toList());
+            List<MessageRecordInfo> list = tmp.stream().map(f -> mapMessageRecordInfo(f)).collect(Collectors.toList());
             resp.setList(list);
         } catch (IOException e) {
             logger.error(e);
