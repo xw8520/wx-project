@@ -50,9 +50,9 @@ public class MessageServiceImpl implements MessageService {
         msg.setAccountid(req.getAccountId());
         msg.setMediaid(req.getMediaId());
         msg.setRemark(req.getRemark());
-        msg.setTagid(req.getTagId());
+//        msg.setTagid(req.getTagId());
         msg.setTitle(req.getTitle());
-        msg.setToall(req.getToall());
+//        msg.setToall(req.getToall());
         msg.setType(req.getType());
         msg.setContent(req.getContent());
         if (req.getId() > 0) {
@@ -91,11 +91,6 @@ public class MessageServiceImpl implements MessageService {
                     && !"-1".equals(param.get("type"))) {
                 c.andTypeEqualTo(Short.valueOf(param.get("type")));
             }
-            if (param.containsKey("state")
-                    && !StringUtils.isNullOrEmpty(param.get("state"))
-                    && !"-1".equals(param.get("state"))) {
-                c.andStateidEqualTo(Byte.valueOf(param.get("state")));
-            }
             PageHelper.startPage(pageIndex, pageSize);
             List<Message> tmp = messageMapper.selectByExample(exp);
             PageInfo page = new PageInfo(tmp);
@@ -122,11 +117,6 @@ public class MessageServiceImpl implements MessageService {
         m.setType(msg.getType());
         m.setTypeName(MessageType.getName(msg.getType()));
         m.setMediaId(msg.getMediaid());
-        m.setMessageId(msg.getMessageid());
-        m.setTagId(msg.getTagid());
-        WxTag tag = wxTagMapper.selectByPrimaryKey(msg.getTagid());
-        m.setTagId(tag != null ? tag.getId() : 0);
-        m.setTagName(tag != null ? tag.getName() : "");
         m.setStateId(msg.getStateid());
         m.setContent(msg.getContent());
         m.setStateName(MessageState.getName(msg.getStateid()));
@@ -137,6 +127,11 @@ public class MessageServiceImpl implements MessageService {
     public MessageInfo getMessage(int id) {
         Message m = messageMapper.selectByPrimaryKey(id);
         return messageInfoMap(m);
+    }
+
+    @Override
+    public Message getMessageDb(int id) {
+        return messageMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -156,170 +151,6 @@ public class MessageServiceImpl implements MessageService {
         c.andIdEqualTo(req.getId());
         boolean s = messageMapper.updateByExampleSelective(newM, exp) > 0;
         resp.setSuccess(s);
-        return resp;
-    }
-
-    @Override
-    public BaseResp sendMessage(SendMessageReq req) {
-        BaseResp resp = new BaseResp();
-        try {
-            Message m = messageMapper.selectByPrimaryKey(req.getId());
-            if (m == null) {
-                resp.setInfo("消息不存在");
-                return resp;
-            }
-            WxTag tag = wxTagMapper.selectByPrimaryKey(m.getTagid());
-            if (tag == null) {
-                resp.setInfo("标签不存在");
-                return resp;
-            }
-            switch (m.getType()) {
-                case 1:
-                    ArticleMsgReq artReq = new ArticleMsgReq();
-                    artReq.setAccountId(m.getAccountid());
-                    artReq.setMediaId(m.getMediaid());
-                    artReq.setToAll(m.getToall());
-                    artReq.setTagId(tag.getWxid());
-                    WxMassMsgResp re = wxMassMsgService.sendArticleMsgByTag(artReq);
-                    resp.setSuccess(re.getErrcode() == 0);
-                    resp.setInfo(re.getErrmsg());
-                    resp.setData(re.getMsg_id());
-                    break;
-                case 2:
-                    TextMsgReq textReq = new TextMsgReq();
-                    textReq.setAccountId(m.getAccountid());
-                    textReq.setToAll(m.getToall());
-                    textReq.setTagId(tag.getWxid());
-                    textReq.setContent(m.getContent());
-                    WxMassMsgResp textRe = wxMassMsgService.sendTextMsgByTag(textReq);
-                    resp.setSuccess(textRe.getErrcode() == 0);
-                    resp.setInfo(textRe.getErrmsg());
-                    resp.setData(textRe.getMsg_id());
-                    break;
-                case 3:
-                    ImageMsgReq imageReq = new ImageMsgReq();
-                    imageReq.setAccountId(m.getAccountid());
-                    imageReq.setToAll(m.getToall());
-                    imageReq.setTagId(tag.getWxid());
-                    imageReq.setMediaId(m.getMediaid());
-                    WxMassMsgResp imageRe = wxMassMsgService.sendImageMsgByTag(imageReq);
-                    resp.setSuccess(imageRe.getErrcode() == 0);
-                    resp.setInfo(imageRe.getErrmsg());
-                    resp.setData(imageRe.getMsg_id());
-                    break;
-                case 4:
-                    VoiceMsgReq voiceReq = new VoiceMsgReq();
-                    voiceReq.setAccountId(m.getAccountid());
-                    voiceReq.setToAll(m.getToall());
-                    voiceReq.setTagId(tag.getWxid());
-                    voiceReq.setMediaId(m.getMediaid());
-                    WxMassMsgResp voiceRe = wxMassMsgService.sendVoiceMsgByTag(voiceReq);
-                    resp.setSuccess(voiceRe.getErrcode() == 0);
-                    resp.setInfo(voiceRe.getErrmsg());
-                    resp.setData(voiceRe.getMsg_id());
-                    break;
-            }
-            if (resp.getSuccess()) {
-                Message newM = new Message();
-                newM.setId(m.getId());
-                newM.setMessageid(resp.getData());
-                newM.setStateid((byte) MessageState.send.getValue());
-                MessageExample exp = new MessageExample();
-                MessageExample.Criteria c = exp.createCriteria();
-                c.andIdEqualTo(m.getId());
-                boolean s = messageMapper.updateByExampleSelective(newM, exp) > 0;
-                resp.setSuccess(s);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            resp.setInfo("系统出错");
-        }
-        return resp;
-    }
-
-    @Override
-    public BaseResp syncSendState(SyncSendStateReq req) {
-        BaseResp resp = new BaseResp();
-        try {
-            Message m = messageMapper.selectByPrimaryKey(req.getId());
-            if (m == null) {
-                resp.setInfo("消息不存在");
-                return resp;
-            }
-            SendStatusReq sendReq = new SendStatusReq();
-            sendReq.setAccountId(m.getAccountid());
-            sendReq.setMsgId(m.getMessageid());
-            SendStatusResp re = wxMassMsgService.getSendStatus(sendReq);
-            resp.setSuccess("SEND_SUCCESS".equals(re.getMsg_status()));
-            if(resp.getSuccess()){
-                resp.setInfo("同步成功");
-            }else{
-                resp.setInfo("同步失败");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            resp.setInfo("系统出错");
-        }
-        return resp;
-    }
-
-    @Override
-    public BaseResp previewMessage(PreviewMessageReq req) {
-        BaseResp resp = new BaseResp();
-        try {
-            Message m = messageMapper.selectByPrimaryKey(req.getId());
-            if (m == null) {
-                resp.setInfo("消息不存在");
-                return resp;
-            }
-            WxTag tag = wxTagMapper.selectByPrimaryKey(m.getTagid());
-            if (tag == null) {
-                resp.setInfo("标签不存在");
-                return resp;
-            }
-            WxBaseResp re = null;
-            switch (m.getType()) {
-                case 0:
-                    PreviewArticleReq artReq = new PreviewArticleReq();
-                    artReq.setAccountId(m.getAccountid());
-                    artReq.setMediaId(m.getMediaid());
-                    artReq.setOpenId(req.getOpenId());
-                    re = wxMassMsgService.previewArticleMsg(artReq);
-                    break;
-                case 1:
-                    PreviewTextReq textReq = new PreviewTextReq();
-                    textReq.setAccountId(m.getAccountid());
-                    textReq.setOpenId(req.getOpenId());
-                    textReq.setConent(m.getContent());
-                    re = wxMassMsgService.previewTextMsg(textReq);
-
-                    break;
-                case 2:
-                    PreviewImageReq imageReq = new PreviewImageReq();
-                    imageReq.setAccountId(m.getAccountid());
-                    imageReq.setMediaId(m.getMediaid());
-                    imageReq.setOpenId(req.getOpenId());
-                    re = wxMassMsgService.previewImageMsg(imageReq);
-                    break;
-                case 3:
-                    PreviewVoiceReq voiceReq = new PreviewVoiceReq();
-                    voiceReq.setAccountId(m.getAccountid());
-                    voiceReq.setMediaId(m.getMediaid());
-                    voiceReq.setOpenId(req.getOpenId());
-                    re = wxMassMsgService.previewVoiceMsg(voiceReq);
-                    break;
-            }
-            if (re == null) {
-                resp.setInfo("消息类型有误");
-                return resp;
-            }
-            resp.setSuccess(re.getErrcode() == 0);
-            resp.setInfo(re.getErrmsg());
-            resp.setData(re.getMsg_id());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            resp.setInfo("系统出错");
-        }
         return resp;
     }
 }

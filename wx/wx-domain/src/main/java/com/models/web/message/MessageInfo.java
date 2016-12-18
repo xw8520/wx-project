@@ -12,15 +12,12 @@ public class MessageInfo implements Serializable {
     private int domain;
     private String title;
     private String mediaId;
-    private int tagId;
-    private boolean toall;
     private String remark;
     private int type;
     private String typeName;
     private int stateId;
     private String stateName;
     private String messageId;
-    private String tagName;
     private String content;
 
     public String getContent() {
@@ -29,14 +26,6 @@ public class MessageInfo implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
     }
 
     public String getMessageId() {
@@ -101,22 +90,6 @@ public class MessageInfo implements Serializable {
 
     public void setMediaId(String mediaId) {
         this.mediaId = mediaId;
-    }
-
-    public int getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
-    }
-
-    public boolean isToall() {
-        return toall;
-    }
-
-    public void setToall(boolean toall) {
-        this.toall = toall;
     }
 
     public String getRemark() {

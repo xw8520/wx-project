@@ -8,6 +8,15 @@ import java.io.Serializable;
 public class PreviewMessageReq implements Serializable {
     private int id;
     private String openId;
+    private int mid;
+
+    public int getMid() {
+        return mid;
+    }
+
+    public void setMid(int mid) {
+        this.mid = mid;
+    }
 
     public String getOpenId() {
         return openId;

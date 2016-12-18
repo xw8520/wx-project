@@ -31,19 +31,5 @@
             <property name="rowBoundsWithCount" value="true"/>
         </plugin>
     </plugins>
-    <mappers>
-        <mapper resource="mybatis-mappers/AccessTokenMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/AccountMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/JsapiticketMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/QrCodeMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/WxMediaMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/UsersMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/MenuMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/ImageMessageMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/ArticlesMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/ArticleItemMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/WxTagMapper.xml"></mapper>
-        <mapper resource="mybatis-mappers/MessageMapper.xml"></mapper>
-    </mappers>
 </configuration>
 

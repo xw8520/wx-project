@@ -11,8 +11,6 @@ public class AddMessageReq implements Serializable {
     private int domain;
     private String title;
     private String mediaId;
-    private int tagId;
-    private boolean toall;
     private String remark;
     private short type;
     private String content;
@@ -23,10 +21,6 @@ public class AddMessageReq implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public boolean isToall() {
-        return toall;
     }
 
     public int getId() {
@@ -67,22 +61,6 @@ public class AddMessageReq implements Serializable {
 
     public void setMediaId(String mediaId) {
         this.mediaId = mediaId;
-    }
-
-    public int getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(int tagId) {
-        this.tagId = tagId;
-    }
-
-    public boolean getToall() {
-        return toall;
-    }
-
-    public void setToall(boolean toall) {
-        this.toall = toall;
     }
 
     public String getRemark() {

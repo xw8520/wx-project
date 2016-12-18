@@ -7,6 +7,24 @@ import java.io.Serializable;
  */
 public class SyncSendStateReq implements Serializable{
     private int id;
+    private String msgId;
+    private int accountId;
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getMsgId() {
+        return msgId;
+    }
+
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
+    }
 
     public int getId() {
         return id;

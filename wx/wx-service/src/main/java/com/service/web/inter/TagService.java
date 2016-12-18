@@ -1,5 +1,6 @@
 package com.service.web.inter;
 
+import com.domain.wx.WxTag;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.tag.*;
@@ -13,6 +14,8 @@ public interface TagService {
     BaseResp addTag(AddTagReq req);
 
     WxTagInfo getTag(int tagId);
+
+    WxTag getWxTag(int tagId);
 
     DataListResp getTagList(int pageSize, int pageIndex, int domain, String args);
 

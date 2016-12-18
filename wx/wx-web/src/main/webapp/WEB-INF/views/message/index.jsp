@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>群发消息</title>
+    <title>消息列表</title>
     <jsp:include page="../shared/header.jsp"></jsp:include>
     <link rel="stylesheet" href="../../static/js/chosen/chosen.min.css"/>
     <script type="text/javascript" src="../../static/js/pager.js"></script>
@@ -22,14 +22,10 @@
             <td>{{= title}}</td>
             <td>{{= typeName}}</td>
             <td>{{= accountName}}</td>
-            <td>{{= tagName}}</td>
-            <td>{{= stateName}}</td>
-            <td>{{= toall?"是":"否"}}</td>
-            <td>{{= remark}}</td>
-            <td style="width:180px;">
+            <td style="width:20px;">
                 <a href="javascript:void(0)" onclick="edit({{= id}})">修改</a>&nbsp;
-                <a href="javascript:void(0)" onclick="syncState({{= id}})">同步</a>&nbsp;
-                <a href="javascript:void(0)" onclick="send({{= id}})">发送</a>&nbsp;
+                <a href="javascript:void(0)" onclick="sendByOpenId({{= id}})">OpenId发送</a>&nbsp;
+                <a href="javascript:void(0)" onclick="sendByTagId({{= id}})">标签发送</a>&nbsp;
                 <a href="javascript:void(0)" onclick="del({{= id}})">删除</a>
             </td>
         </tr>
@@ -41,7 +37,7 @@
 <body>
 <div class="panel panel-body main-content">
     <div class="main-title">
-        <span>群发消息</span>
+        <span>消息列表</span>
         <a href="#" class="glyphicon glyphicon-new-window"
            style="float: right;margin-right: 30px;" target="_blank"></a>
     </div>
@@ -58,10 +54,6 @@
             <select id="selType" class="form-control" style="width: 150px">
             </select>
             &nbsp;&nbsp;
-            <label for="selState">状态：</label>
-            <select id="selState" class="form-control" style="width: 150px">
-            </select>
-            &nbsp;&nbsp;
             <button type="button" id="btnSearch" class="btn btn-default">查询</button>
         </div>
     </div>
@@ -75,10 +67,6 @@
             <th class="row-head">标题</th>
             <th class="row-head">消息类型</th>
             <th class="row-head">所属账号</th>
-            <th class="row-head">标签名</th>
-            <th class="row-head">状态</th>
-            <th class="row-head">全部</th>
-            <th class="row-head">备注</th>
             <th class="row-head" style="width:120px!important;">操作</th>
         </tr>
         </thead>
@@ -127,26 +115,10 @@
                                 <select id="accountId" class="form-control"></select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="tagId">标签</label>
-                            <div class="col-sm-9">
-                                <select type="text" id="tagId">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" id="toall">发送全部
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group" id="fContent">
                             <label class="col-sm-2 control-label" for="content">消息内容:</label>
                             <div class="col-sm-9">
-                                <textarea id="content" class="form-control" maxlength="200"></textarea>
+                                <textarea id="content" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>

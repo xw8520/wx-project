@@ -1,5 +1,6 @@
 package com.service.web.inter;
 
+import com.domain.wx.Message;
 import com.models.web.BaseResp;
 import com.models.web.DataListResp;
 import com.models.web.message.*;
@@ -14,11 +15,7 @@ public interface MessageService {
 
     MessageInfo getMessage(int id);
 
+    Message getMessageDb(int id);
+
     BaseResp deleteMessage(DelMessageReq req);
-
-    BaseResp sendMessage(SendMessageReq req);
-
-    BaseResp syncSendState(SyncSendStateReq req);
-
-    BaseResp previewMessage(PreviewMessageReq req);
 }

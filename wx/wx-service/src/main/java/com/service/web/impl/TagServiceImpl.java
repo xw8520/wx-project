@@ -98,6 +98,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public WxTag getWxTag(int tagId) {
+        WxTag tag = wxTagMapper.selectByPrimaryKey(tagId);
+        return tag;
+    }
+
+    @Override
     public DataListResp getTagList(int pageSize, int pageIndex, int domain, String args) {
         DataListResp resp = new DataListResp();
         try {

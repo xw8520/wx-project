@@ -15,12 +15,9 @@ $(function () {
             title: $('#title').val(),
             mediaId: $('#mediaId').val(),
             accountId: $('#accountId').val(),
-            tagId: $('#tagId').val(),
-            domain: $('#domain').val(),
-            toall: $('#toall').is(':checked'),
             type: $('#selType2').val(),
             content: $('#content').val(),
-            domain: $.cookie('d')
+            domain: $.cookie('d'),
         };
         if (data.mediaId == '') {
             $.showToast('素材id不能为空')
@@ -32,10 +29,6 @@ $(function () {
         }
         if (data.content == '' && data.type == 2) {
             $.showToast('消息内容不能为空')
-            return
-        }
-        if (data.accountId == -1) {
-            $.showToast('公众号不能为空')
             return
         }
         if (data.accountId == -1) {
@@ -70,7 +63,7 @@ function initSelect() {
         type: 'POST',
         dataType: 'json',
         success: function (resp) {
-            $('#tempSelc').tmpl(resp).appendTo('#txtAccount,#accountId');
+            $('#tempSelc').tmpl(resp).appendTo('#accountId,#selAccount');
         },
         error: function (resp) {
             $.showToast('系统出错')
@@ -87,49 +80,6 @@ function initSelect() {
             $.showToast('系统出错')
         }
     })
-    $.ajax({
-        url: '/message/getMessageState',
-        type: 'POST',
-        dataType: 'json',
-        success: function (resp) {
-            $('#tempSelc').tmpl(resp).appendTo('#selState');
-        },
-        error: function (resp) {
-            $.showToast('系统出错')
-        }
-    });
-    $('#accountId').change(function () {
-        $('#wxTagId').empty();
-        loadTag();
-    });
-    $("#tagId").chosen({
-        no_results_text: "没有找到",
-        width: '300px',
-        allow_single_de: true
-    })
-}
-
-function loadTag(callback) {
-    var data = {
-        accountId: $('#accountId').val(), domain: $.cookie('d')
-    };
-    $.ajax({
-        url: '/wxtag/getTagSelect',
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function (resp) {
-            $('#tempSelc').tmpl(resp).appendTo('#tagId');
-            $("#tagId").trigger("chosen:updated")
-            if (callback) {
-                callback();
-            }
-            $("#tagId").trigger("chosen:updated")
-        },
-        error: function (resp) {
-            $.showToast('系统出错')
-        }
-    })
 }
 
 function getParam() {
@@ -140,11 +90,11 @@ function getParam() {
     if ($('#selAccount').val() != null && $('#selAccount').val() != '') {
         param.accountId = $('#selAccount').val();
     }
-    if ($('#selType').val() != null && $('#selType').val() != '-1') {
-        param.type = $('#selType').val();
-    }
     if ($('#selState').val() != '' && $('#selState').val() != '') {
         param.state = $('#selState').val();
+    }
+    if ($('#selType').val() != null && $('#selType').val() != '-1') {
+        param.type = $('#selType').val();
     }
     return param;
 }
@@ -229,47 +179,12 @@ function delWx(id) {
             }
         })
     })
-
 }
 
-function send(id) {
-    $.ajax({
-        url: '/message/sendMessage',
-        type: 'POST',
-        data: {id: id},
-        dataType: 'json',
-        success: function (resp) {
-            if (resp.success) {
-                $.showToast('发送成功');
-                $.hideModel();
-                pager.loadData();
-                return
-            }
-            $.showToast(resp.info);
-        },
-        error: function (resp) {
-            $.showToast('系统出错')
-        }
-    })
+function sendByTagId(id){
+    window.location.href="sendByTagId.html?mid="+id;
 }
 
-function syncState(id){
-    $.ajax({
-        url: '/message/syncSendState',
-        type: 'POST',
-        data: {id: id},
-        dataType: 'json',
-        success: function (resp) {
-            if (resp.success) {
-                $.showToast('发送成功');
-                $.hideModel();
-                pager.loadData();
-                return
-            }
-            $.showToast(resp.info);
-        },
-        error: function (resp) {
-            $.showToast('系统出错')
-        }
-    })
+function sendByOpenId(id){
+    window.location.href="sendByOpenId.html?mid="+id;
 }

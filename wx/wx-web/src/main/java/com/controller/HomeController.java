@@ -41,7 +41,7 @@ public class HomeController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "home/login.action", method = RequestMethod.POST)
+    @RequestMapping(value = "home/login", method = RequestMethod.POST)
     public LoginResp login(@RequestParam("account") String account,
                            @RequestParam("password") String password,
                            HttpServletRequest req,

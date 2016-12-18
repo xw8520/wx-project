@@ -135,7 +135,7 @@ public class MenuServiceImpl implements MenuService {
 
     private List<MenuItem> getChildMenu(int pid) {
         MenuExample param = new MenuExample();
-        param.setOrderByClause("  ordernum desc");
+        param.setOrderByClause("  ordernum asc");
         param.createCriteria()
                 .andStatusGreaterThan(MenuStatus.刪除.getValue())
                 .andPidEqualTo(pid);

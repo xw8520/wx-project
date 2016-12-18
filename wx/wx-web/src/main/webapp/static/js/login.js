@@ -10,7 +10,7 @@ $(function(){
             return;
         }
         $.ajax({
-            url:'/home/login.action',
+            url:'/home/login',
             type:'POST',
             data:{account:account,password:password},
             dataType:'json',

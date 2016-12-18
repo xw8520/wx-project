@@ -30,7 +30,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="" tableName="ImageMessage" domainObjectName="ImageMessage" >
+        <table schema="" tableName="MessageRecord" domainObjectName="MessageRecord" >
         </table>
 
     </context>
