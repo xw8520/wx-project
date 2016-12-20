@@ -8,6 +8,32 @@ $(function () {
         pager.loadData();
     });
     initSelect();
+    $('#btnAdd').click(function(){
+        var mid=$('#hidMid').val();
+        var openId=$('#txtOpenId').val();
+        if(openId==''){
+            $.showToast('请输入OpenId')
+            return
+        }
+        $.ajax({
+            url: '/message/previewMessage',
+            type: 'POST',
+            data: {mid: mid,openId:openId},
+            dataType: 'json',
+            success: function (resp) {
+                if (resp.success) {
+                    $.showToast('发送成功');
+                    $.hideModel();
+                    pager.loadData();
+                    return
+                }
+                $.showToast(resp.info);
+            },
+            error: function (resp) {
+                $.showToast('系统出错')
+            }
+        })
+    });
 });
 
 function initSelect() {
@@ -96,7 +122,7 @@ function edit(id,mid, sendTypeId) {
 function del(id) {
     $.showConfirm('', '', function () {
         $.ajax({
-            url: '/media/deleteMedia',
+            url: '/message/deleteMessageRecord',
             type: 'POST',
             data: {id: id},
             dataType: 'json',
@@ -137,11 +163,20 @@ function send(id) {
     })
 }
 
-function sync(id, sendTypeId, accountId) {
+function preview(mid){
+    $.showModel();
+    $('#hidMid').val(mid)
+}
+
+function sync(id, accountId,msgId) {
+    if(msgId==''||msgId==undefined){
+        $.showToast('消息未发送')
+        return
+    }
     $.ajax({
         url: '/message/syncSendState',
         type: 'POST',
-        data: {id: id, accountId: accountId, sendTypeId: sendTypeId},
+        data: {id: id, accountId: accountId, msgId: msgId},
         dataType: 'json',
         success: function (resp) {
             if (resp.success) {

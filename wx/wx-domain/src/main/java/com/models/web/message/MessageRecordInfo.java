@@ -20,6 +20,15 @@ public class MessageRecordInfo implements Serializable {
     private String stateName;
     private int sendTypeId;
     private String sendTypeName;
+    private String msgId;
+
+    public String getMsgId() {
+        return msgId;
+    }
+
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
+    }
 
     public String getTitle() {
         return title;

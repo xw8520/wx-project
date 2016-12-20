@@ -26,10 +26,10 @@ public class ShardedJedisPoolFactory implements FactoryBean {
     @Override
     public Object getObject() throws Exception {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxIdle(10);
-        poolConfig.setMinIdle(0);
+        poolConfig.setMaxIdle(100);
+        poolConfig.setMinIdle(10);
         poolConfig.setMaxWaitMillis(3000);
-        poolConfig.setMaxTotal(20);
+        poolConfig.setMaxTotal(50);
 
         List<JedisShardInfo> list = new ArrayList<>();
         int port;

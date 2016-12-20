@@ -27,7 +27,7 @@
             <td>{{= stateName}}</td>
             <td style="width:280px;">
                 <a href="javascript:void(0)" onclick="edit({{= id}},{{= mid}},{{= sendTypeId}})">修改</a>&nbsp;
-                <a href="javascript:void(0)" onclick="preview({{= id}})">预览</a>&nbsp;
+                <a href="javascript:void(0)" onclick="preview({{= mid}},{{= accountId}},{{= msgId}})">预览</a>&nbsp;
                 <a href="javascript:void(0)" onclick="send({{= id}})">发送</a>&nbsp;
                 <a href="javascript:void(0)" onclick="sync({{= id}},{{= sendTypeId}},{{= accountId}})">同步</a>&nbsp;
                 <a href="javascript:void(0)" onclick="del({{= id}})">删除</a>
@@ -86,7 +86,41 @@
     </table>
     <jsp:include page="../shared/pager.jsp"></jsp:include>
 
-    <%--确认--%>
+    <!-- Modal -->
+    <div class="modal fade" id="popModel" tabindex="-1" role="dialog"
+         aria-labelledby="myTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myTitle">消息预览</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" id="formMedia">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="txtTitle">OpenId:</label>
+                            <div class="col-sm-9">
+                                <input type="hidden" id="hidMid"/>
+                                <input type="text" id="txtOpenId" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消
+                    </button>
+                    <button type="button" id="btnAdd"
+                            class="btn btn-primary">保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<%--确认--%>
     <div class="modal fade confirm" id="popConfirm" tabindex="-1" role="dialog"
          aria-labelledby="myTitle" aria-hidden="true">
         <div class="modal-dialog" style="width: 300px;">

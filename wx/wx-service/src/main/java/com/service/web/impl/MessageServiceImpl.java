@@ -91,6 +91,7 @@ public class MessageServiceImpl implements MessageService {
                     && !"-1".equals(param.get("type"))) {
                 c.andTypeEqualTo(Short.valueOf(param.get("type")));
             }
+            c.andStateidGreaterThan((byte)0);
             PageHelper.startPage(pageIndex, pageSize);
             List<Message> tmp = messageMapper.selectByExample(exp);
             PageInfo page = new PageInfo(tmp);
@@ -110,7 +111,7 @@ public class MessageServiceImpl implements MessageService {
         m.setId(msg.getId());
         m.setAccountId(msg.getAccountid());
         m.setTitle(msg.getTitle());
-        AccountInfo accountInfo = accountService.getAccountInfo(msg.getId());
+        AccountInfo accountInfo = accountService.getAccountInfo(msg.getAccountid());
         m.setAccountName(accountInfo.getName());
         m.setAccountId(accountInfo.getId());
         m.setDomain(msg.getDomain());

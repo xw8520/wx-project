@@ -139,7 +139,7 @@ function edit(id) {
 function del(id) {
     $.showConfirm('', '', function () {
         $.ajax({
-            url: '/media/deleteMedia',
+            url: '/message/deleteMessage',
             type: 'POST',
             data: {id: id},
             dataType: 'json',
