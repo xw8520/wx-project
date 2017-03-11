@@ -141,7 +141,7 @@ public class MessageRecordServiceImpl implements MessageRecordService {
         info.setTitle(record.getTitle());
         info.setId(record.getId());
         info.setTagName(record.getTitle());
-        info.setAccountId(info.getAccountId());
+        info.setAccountId(record.getAccountid());
         info.setDomain(record.getDomain());
         info.setMid(record.getMid());
         info.setOpenId(record.getOpenid());

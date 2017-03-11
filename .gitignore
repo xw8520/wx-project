@@ -18,6 +18,4 @@ hs_err_pid*
 *.iml
 out
 *target*
-
-
-/wapask-web/target
+*.log

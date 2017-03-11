@@ -14,6 +14,7 @@ import java.io.IOException;
 /**
  * Created by Admin on 2016/1/9.
  */
+@Service("redisCacheManager")
 public class RedisCacheManagerImpl implements RedisCacheManager {
 
     @Resource

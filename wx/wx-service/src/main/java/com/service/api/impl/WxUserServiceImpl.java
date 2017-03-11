@@ -3,9 +3,7 @@ package com.service.api.impl;
 import com.data.AccountMapper;
 import com.data.JsapiticketMapper;
 import com.data.QrCodeMapper;
-import com.domain.wx.Account;
-import com.domain.wx.Jsapiticket;
-import com.domain.wx.QrCode;
+import com.domain.wx.*;
 import com.service.api.inter.AccessTokenService;
 import com.service.api.inter.WxMsgService;
 import com.service.api.inter.WxUserService;
@@ -89,10 +87,17 @@ public class WxUserServiceImpl implements WxUserService {
 
     public String getQrCode(String param, int expireTime, int accountId) throws Exception {
         if (StringUtils.isEmpty(param)) return "";
-        QrCode code = qrCodeMapper.getCodeByParam(param);
+
+        QrCodeExample qrCodeExample = new QrCodeExample();
+        QrCodeExample.Criteria c = qrCodeExample.createCriteria();
+        c.andParamEqualTo(param);
+        List<QrCode> list = qrCodeMapper.selectByExample(qrCodeExample);
         String qrcodeUrl = WxUrlUtils.getInstance().getQrcode();
-        if (code != null && code.getExpiredtime().after(new Date())) {
-            return String.format(qrcodeUrl, code.getTicket());
+        if (list != null && list.size() > 0) {
+            QrCode code = list.get(0);
+            if (code.getExpiredtime().after(new Date())) {
+                return String.format(qrcodeUrl, code.getTicket());
+            }
         }
         String ticketUrl = WxUrlUtils.getInstance().getQrticket();
         TokenResp token = accessTokenService.getAccessToken(accountId);
@@ -215,12 +220,19 @@ public class WxUserServiceImpl implements WxUserService {
         if (!StringUtils.isEmpty(result.getErrcode())) {
             throw new Exception(result.getErrmsg());
         }
-        QrCode code = qrCodeMapper.getCodeByParam(String.valueOf(param));
+        QrCodeExample qrCodeExample = new QrCodeExample();
+        QrCodeExample.Criteria c = qrCodeExample.createCriteria();
+        c.andParamEqualTo(String.valueOf(param));
+        List<QrCode> list = qrCodeMapper.selectByExample(qrCodeExample);
+        QrCode code = null;
+        if (list != null && list.size() > 0) {
+            code = list.get(0);
+        }
         if (code != null && expireTime != 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.SECOND, result.getExpire_seconds());
             code.setExpiredtime(calendar.getTime());
-            qrCodeMapper.updateQrCode(code);
+            qrCodeMapper.insert(code);
         } else {
             code = new QrCode();
             code.setParam(String.valueOf(param));
@@ -230,7 +242,7 @@ public class WxUserServiceImpl implements WxUserService {
             code.setTicket(result.getTicket());
             code.setCreatetime(new Date());
             code.setAccountid(accountid);
-            qrCodeMapper.addQrCode(code);
+            qrCodeMapper.insert(code);
         }
 
         return result.getTicket();
@@ -252,7 +264,7 @@ public class WxUserServiceImpl implements WxUserService {
         code.setExpiredtime(calendar.getTime());
         code.setTicket(result.getTicket());
         code.setCreatetime(new Date());
-        qrCodeMapper.addQrCode(code);
+        qrCodeMapper.insert(code);
 
         return result.getTicket();
     }

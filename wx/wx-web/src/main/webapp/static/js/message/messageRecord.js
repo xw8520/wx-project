@@ -180,7 +180,7 @@ function sync(id, accountId,msgId) {
         dataType: 'json',
         success: function (resp) {
             if (resp.success) {
-                $.showToast('发送成功');
+                $.showToast('同步成功');
                 $.hideModel();
                 pager.loadData();
                 return

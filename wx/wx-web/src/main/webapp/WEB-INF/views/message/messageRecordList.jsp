@@ -27,9 +27,9 @@
             <td>{{= stateName}}</td>
             <td style="width:280px;">
                 <a href="javascript:void(0)" onclick="edit({{= id}},{{= mid}},{{= sendTypeId}})">修改</a>&nbsp;
-                <a href="javascript:void(0)" onclick="preview({{= mid}},{{= accountId}},{{= msgId}})">预览</a>&nbsp;
+                <a href="javascript:void(0)" onclick="preview({{= mid}})">预览</a>&nbsp;
                 <a href="javascript:void(0)" onclick="send({{= id}})">发送</a>&nbsp;
-                <a href="javascript:void(0)" onclick="sync({{= id}},{{= sendTypeId}},{{= accountId}})">同步</a>&nbsp;
+                <a href="javascript:void(0)" onclick="sync({{= id}},{{= accountId}},{{= msgId}})">同步</a>&nbsp;
                 <a href="javascript:void(0)" onclick="del({{= id}})">删除</a>
             </td>
         </tr>

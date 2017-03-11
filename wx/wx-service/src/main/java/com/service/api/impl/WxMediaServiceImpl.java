@@ -79,6 +79,7 @@ public class WxMediaServiceImpl implements WxMediaService {
             media.setExpiretime(expire.getTime());
             media.setAccountid(req.getAccountId());
             media.setPermanent(false);
+            media.setIslong(false);
             media.setMediatype(mediaType.getValue());
             media.setTitle(req.getTitle());
             media.setDomain(req.getDomain());
@@ -225,6 +226,7 @@ public class WxMediaServiceImpl implements WxMediaService {
             media.setPermanent(true);
             media.setMediatype((byte) req.getType());
             media.setTitle(req.getTitle());
+            media.setIslong(true);
             media.setDomain(req.getDomain());
             media.setMediaid(mediaId);
             media.setUrl(mediaUrl);

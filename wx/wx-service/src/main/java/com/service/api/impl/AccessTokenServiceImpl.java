@@ -5,6 +5,7 @@ import com.cache.RedisKeys;
 import com.data.AccessTokenMapper;
 import com.data.AccountMapper;
 import com.domain.wx.AccessToken;
+import com.domain.wx.AccessTokenExample;
 import com.domain.wx.Account;
 import com.models.wx.token.TokenResp;
 import com.service.api.inter.AccessTokenService;
@@ -47,7 +48,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             tokenResp.setAccess_token(token.getToken());
             return tokenResp;
         }
-        token = accessTokenMapper.getAccessTokenByAccount(accountid);
+        token = accessTokenMapper.selectByPrimaryKey(accountid);
         if (token != null && token.getExpiredtime().after(new Date())) {
             tokenResp = new TokenResp();
             tokenResp.setAccess_token(token.getToken());
@@ -64,7 +65,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             if (StringUtils.isEmpty(tokenResp.getErrcode())) {
                 token = getAccessTokenByDto(tokenResp, accountid);
                 redisCacheManager.put(key, token, tokenResp.getExpires_in());
-                accessTokenMapper.addAccessToken(token);
+                accessTokenMapper.insert(token);
                 return tokenResp;
             }
         }
@@ -79,7 +80,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
             if (!com.utils.StringUtils.isNullOrEmpty(token)) {
                 return token;
             }
-            AccessToken accessToken = accessTokenMapper.getAccessTokenByAccount(accountid);
+            AccessToken accessToken = accessTokenMapper.selectByPrimaryKey(accountid);
             if (accessToken != null && accessToken.getExpiredtime().after(new Date())) {
                 int time = (int) ((accessToken.getExpiredtime().getTime() - new Date().getTime()) / 1000);
                 redisCacheManager.put(key, accessToken.getToken(), time);
@@ -95,7 +96,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
                     if (StringUtils.isEmpty(tokenResp.getErrcode())) {
                         AccessToken tokenDto = getAccessTokenByDto(tokenResp, accountid);
                         redisCacheManager.put(key, tokenDto.getToken(), tokenResp.getExpires_in());
-                        accessTokenMapper.addAccessToken(tokenDto);
+                        accessTokenMapper.insert(tokenDto);
                         return tokenResp.getAccess_token();
                     }
                 }
@@ -113,8 +114,11 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     private AccessToken getAccessTokenByDto(TokenResp dto, int accountId) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, dto.getExpires_in());
-        AccessToken token = new AccessToken(accountId, dto.getAccess_token(),
-                calendar.getTime());
+        AccessToken token=new AccessToken();
+        token.setAccountid(accountId);
+        token.setCreatetime(new Date());
+        token.setToken(dto.getAccess_token());
+        token.setExpiredtime(calendar.getTime());
         return token;
     }
 }

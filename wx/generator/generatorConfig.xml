@@ -30,7 +30,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="" tableName="MessageRecord" domainObjectName="MessageRecord" >
+        <table schema="" tableName="qrcode" domainObjectName="QrCode" >
         </table>
 
     </context>
