@@ -1,4 +1,20 @@
 $(function () {
+
+    //收缩菜单
+    $('.gp').each(function(index,el){
+        var loc = $(this);
+        var val = loc.attr('val');
+        if (loc.hasClass('glyphicon-plus')) {
+            loc.removeClass('glyphicon-plus');
+            loc.addClass('glyphicon-minus');
+            $('tr[pid=' + val + ']').show();
+        } else {
+            loc.removeClass('glyphicon-minus');
+            loc.addClass('glyphicon-plus');
+            $('tr[pid=' + val + ']').hide();
+        }
+    });
+
     $('.gp').click(function () {
         var loc = $(this);
         var val = loc.attr('val');

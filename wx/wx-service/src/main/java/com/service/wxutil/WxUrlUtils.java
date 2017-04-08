@@ -211,4 +211,8 @@ public class WxUrlUtils {
     public String getBatchtagging() {
         return getValue("wx.attatchtag");
     }
+
+    public String getWxMenu() {
+        return getValue("wx.menu");
+    }
 }

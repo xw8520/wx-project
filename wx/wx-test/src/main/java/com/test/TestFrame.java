@@ -1,5 +1,8 @@
 package com.test;
 
+import com.models.web.wxmenu.AddWxMenuReq;
+import com.models.web.wxmenu.BaseMenu;
+import com.models.web.wxmenu.ComplexMenu;
 import com.models.wx.WxBaseResp;
 import com.models.wx.media.GetMaterialReq;
 import com.models.wx.media.UploadArticleResp;
@@ -32,9 +35,9 @@ public class TestFrame extends TestCase {
     WxMediaService wxMediaService;
 
     public void setUp() {
-        context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-        context.start();
+//        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//
+//        context.start();
     }
 
     @Test
@@ -103,5 +106,44 @@ public class TestFrame extends TestCase {
         req.setAccountId(1);
         req.setMediaId("E_mgs5bWixgMJBgYOLVwAb0fC_3rQ8nHgIxtuX9u-Q8");
         wxMediaService.getMeterail(req);
+    }
+
+    @Test
+    public void testJson() throws JsonProcessingException {
+        AddWxMenuReq req = new AddWxMenuReq();
+        req.setAccountId(1);
+        List<ComplexMenu> list = new ArrayList<>();
+        req.setButton(list);
+        ComplexMenu menu1 = new ComplexMenu();
+        ComplexMenu menu2 = new ComplexMenu();
+        ComplexMenu menu3 = new ComplexMenu();
+        list.add(menu1);
+        list.add(menu2);
+        list.add(menu3);
+
+        menu1.setName("菜单1");
+        menu1.setUrl("http://wapask.39.net");
+
+        menu2.setName("菜单2");
+        List<BaseMenu> menu2List = new ArrayList<>();
+        BaseMenu baseMenu = new BaseMenu();
+        baseMenu.setName("菜单2-1");
+        baseMenu.setUrl("http://www.baidu.com");
+        menu2List.add(baseMenu);
+        menu2.setSubMenu(menu2List);
+
+        menu3.setName("菜单3");
+        List<BaseMenu> menu3List = new ArrayList<>();
+        BaseMenu baseMenu31 = new BaseMenu();
+        baseMenu31.setName("菜单3-1");
+        baseMenu31.setUrl("http://www.baidu.com");
+        menu3List.add(baseMenu31);
+        BaseMenu baseMenu32 = new BaseMenu();
+        baseMenu32.setName("菜单3-1");
+        baseMenu32.setUrl("http://www.baidu.com");
+        menu3List.add(baseMenu32);
+        menu3.setSubMenu(menu3List);
+        String json = JsonUtils.Serialize(req);
+        System.out.println(json);
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <title>菜单管理</title>
     <jsp:include page="../shared/header.jsp"></jsp:include>
-    <script type="text/javascript" src="../../static/js/sys/menu.js"></script>
+    <script type="text/javascript" src="../../static/js/sys/menu.js?v=1"></script>
 </head>
 <body>
 <div class="panel panel-body main-content">

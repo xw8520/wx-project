@@ -68,7 +68,7 @@ public class HttpUtils {
         try {
             HttpClient client = HttpClients.createDefault();
             HttpPost httppost = new HttpPost(url);
-            httppost.setHeader("Accept", acceptType.getType());
+//            httppost.setHeader("Accept", acceptType.getType());
             HttpEntity param = new StringEntity(str, "utf-8");
             httppost.setEntity(param);
             CloseableHttpResponse response = (CloseableHttpResponse) client.execute(httppost);
