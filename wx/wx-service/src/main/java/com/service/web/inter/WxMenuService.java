@@ -1,8 +1,8 @@
 package com.service.web.inter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.models.web.BaseResp;
-import com.models.web.wxmenu.AddWxMenuReq;
+import com.models.web.wxmenu.ConditionalMenuReq;
+import com.models.web.wxmenu.WxMenuReq;
 
 import java.io.IOException;
 
@@ -11,5 +11,9 @@ import java.io.IOException;
  */
 public interface WxMenuService {
 
-    BaseResp addMenu(AddWxMenuReq req) throws IOException;
+    BaseResp addMenu(WxMenuReq req) throws IOException;
+
+    BaseResp getWxMenu(Integer accountId);
+
+    BaseResp addConditionalMenu(ConditionalMenuReq req);
 }

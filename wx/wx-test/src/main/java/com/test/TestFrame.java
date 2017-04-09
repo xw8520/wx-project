@@ -1,6 +1,6 @@
 package com.test;
 
-import com.models.web.wxmenu.AddWxMenuReq;
+import com.models.web.wxmenu.WxMenuReq;
 import com.models.web.wxmenu.BaseMenu;
 import com.models.web.wxmenu.ComplexMenu;
 import com.models.wx.WxBaseResp;
@@ -110,7 +110,7 @@ public class TestFrame extends TestCase {
 
     @Test
     public void testJson() throws JsonProcessingException {
-        AddWxMenuReq req = new AddWxMenuReq();
+        WxMenuReq req = new WxMenuReq();
         req.setAccountId(1);
         List<ComplexMenu> list = new ArrayList<>();
         req.setButton(list);

@@ -220,7 +220,7 @@ public class MessageRecordServiceImpl implements MessageRecordService {
             if (resp.getSuccess()) {
                 MessageRecord newM = new MessageRecord();
                 newM.setId(req.getId());
-                newM.setMsgid(resp.getData());
+                newM.setMsgid(resp.getData().toString());
                 newM.setStateid((byte) MessageState.send.getValue());
                 MessageRecordExample exp = new MessageRecordExample();
                 MessageRecordExample.Criteria c = exp.createCriteria();

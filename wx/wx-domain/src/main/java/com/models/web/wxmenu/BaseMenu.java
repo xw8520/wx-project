@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class BaseMenu implements Serializable {
     private String name;
     private String url;
+    private String type;
 
     public String getName() {
         return name;
@@ -23,5 +24,13 @@ public class BaseMenu implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

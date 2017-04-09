@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by wq on 2017/4/8.
  */
-public class AddWxMenuReq implements Serializable {
+public class WxMenuReq implements Serializable {
     private int accountId;
     private List<ComplexMenu> button;
 

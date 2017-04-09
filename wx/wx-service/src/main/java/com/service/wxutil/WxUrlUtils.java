@@ -212,7 +212,15 @@ public class WxUrlUtils {
         return getValue("wx.attatchtag");
     }
 
-    public String getWxMenu() {
-        return getValue("wx.menu");
+    public String getCreateWxMenu() {
+        return getValue("wx.createmenu");
+    }
+
+    public String getMenu() {
+        return getValue("wx.getmenu");
+    }
+
+    public String getAddconditional() {
+        return getValue("wx.addconditional");
     }
 }

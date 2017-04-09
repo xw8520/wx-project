@@ -17,4 +17,6 @@ public interface AccessTokenService {
     TokenResp getAccessToken(int account) throws IOException;
 
     String getAccessToken2(int accountId);
+
+    String getAddConditionalUrl(int accountId);
 }

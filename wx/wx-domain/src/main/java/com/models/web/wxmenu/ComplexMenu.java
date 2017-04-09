@@ -6,13 +6,24 @@ import java.util.List;
  * Created by wq on 2017/4/8.
  */
 public class ComplexMenu extends BaseMenu {
-    public List<BaseMenu> subMenu;
+    private String name;
+    public List<BaseMenu> sub_button;
 
-    public List<BaseMenu> getSubMenu() {
-        return subMenu;
+    @Override
+    public String getName() {
+        return name;
     }
 
-    public void setSubMenu(List<BaseMenu> subMenu) {
-        this.subMenu = subMenu;
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<BaseMenu> getSub_button() {
+        return sub_button;
+    }
+
+    public void setSub_button(List<BaseMenu> sub_button) {
+        this.sub_button = sub_button;
     }
 }

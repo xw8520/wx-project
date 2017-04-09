@@ -10,7 +10,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>wx-web</module>
-        <module>wx-api</module>
         <module>wx-service</module>
         <module>wx-data</module>
         <module>wx-domain</module>

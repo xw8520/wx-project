@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class BaseResp implements Serializable {
     private Boolean success;
-    private String data;
+    private Object data;
     private String info;
 
     public String getInfo() {
@@ -26,11 +26,11 @@ public class BaseResp implements Serializable {
         this.success = success;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

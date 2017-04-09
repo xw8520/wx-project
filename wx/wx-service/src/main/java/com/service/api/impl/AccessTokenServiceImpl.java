@@ -107,6 +107,13 @@ public class AccessTokenServiceImpl implements AccessTokenService {
         return "";
     }
 
+    @Override
+    public String getAddConditionalUrl(int accountId) {
+        String url = WxUrlUtils.getInstance().getAddconditional();
+        String token = getAccessToken2(accountId);
+        return String.format(url, token);
+    }
+
     /**
      * @param dto
      * @return
@@ -114,7 +121,7 @@ public class AccessTokenServiceImpl implements AccessTokenService {
     private AccessToken getAccessTokenByDto(TokenResp dto, int accountId) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, dto.getExpires_in());
-        AccessToken token=new AccessToken();
+        AccessToken token = new AccessToken();
         token.setAccountid(accountId);
         token.setCreatetime(new Date());
         token.setToken(dto.getAccess_token());
